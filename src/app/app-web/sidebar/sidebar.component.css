@@ -1,0 +1,142 @@
+.sidebar {
+    width: 17%; /* Ancho de la sidebar */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh; /* Altura de la sidebar */
+    background-color: #001D38; /* Fondo de la sidebar */
+    color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-header {
+    text-align: center;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 10px auto;
+    width: 80%; /* Ajusta el ancho según tus necesidades */
+    cursor: pointer;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu > li {
+    margin-bottom: 0px; /* Reducir la separación entre los botones */
+}
+
+.sidebar-menu a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border: 1px solid transparent; /* Añadir un borde transparente para el espaciado */
+    border-radius: 5px; /* Borde redondeado blanco */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Animación de transición */
+}
+
+.sidebar-menu a:hover {
+    background-color: #F28502; /* Color de fondo al pasar el mouse */
+    color: #FFFFF0; /* Color del texto al pasar el mouse */
+    border-color: #FFFFF0; /* Borde blanco al pasar el mouse */
+}
+
+.logout-button-container {
+    margin-top: auto; /* Empuja el botón hacia abajo */
+}
+
+.btn-outline-light {
+    color: #fff;
+    background-color: transparent;
+    border: 1px solid #fff;
+    border-radius: 5px; /* Borde redondeado blanco */
+    width: 100%; /* Hacer que el botón sea del ancho completo */
+    padding: 10px; /* Espaciado interno */
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Animación de transición */
+}
+
+.btn-outline-light:hover {
+    background-color: red; /* Color de fondo rojo al pasar el mouse */
+    color: #fff; /* Color del texto blanco al pasar el mouse */
+    border-color: red; /* Borde rojo al pasar el mouse */
+}
+
+.sub-menu {
+    display: none;
+    margin-top: 5px;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.sub-menu.open {
+    display: block;
+}
+
+/* Otros estilos del sidebar */
+
+.sub-menu a {
+    color: #bbb;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+.sub-menu a:hover {
+    color: #fff;
+}
+
+/* Añade estilos adicionales según sea necesario */
+
+.menu-item {
+    cursor: pointer;
+}
+
+.menu-item a {
+    margin-bottom: 5px;
+}
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px; /* Ajusta el valor según tus necesidades */
+}
+
+.toggle-icon i {
+    transition: transform 0.3s ease-in-out;
+    margin-left: 1rem; /* Ajusta el valor según tus necesidades */
+}
+
+.sub-menu {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 20px;
+}
+
+.sub-menu.open {
+    display: flex;
+    padding-left: 40px;
+}
+
+/* Estilo de iconos */
+
+.menu-title a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.menu-title a i {
+    margin-left: 0px; 
+    margin-right: 10px; 
+}

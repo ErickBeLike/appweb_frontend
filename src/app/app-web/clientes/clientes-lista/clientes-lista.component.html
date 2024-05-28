@@ -1,0 +1,42 @@
+<app-sidebar></app-sidebar>
+
+<section class="ochenta">
+  <div class="container mt-4">
+    <div class="mx-3">
+      <span class="h1">Clientes</span>
+      <div class="card-body mt-4">
+        <span class="h3">Gestionar</span>
+        <button class="btn btn-dark btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente</button>
+        <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
+
+        <table class="table table-hover mt-4">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre(s)</th>
+              <th>Apellido paterno</th>
+              <th>Apellido materno</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <td><strong>{{ cliente.idCliente }}</strong></td>
+              <td>{{ cliente.persona.nombre }}</td>
+              <td>{{ cliente.persona.apellidoPaterno }}</td>
+              <td>{{ cliente.persona.apellidoMaterno }}</td>
+              <td>{{ cliente.persona.telefono }}</td>
+              <td>{{ cliente.persona.correo }}</td>
+              <td>
+                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarCliente(cliente.idCliente)"></i>
+                <i (click)="eliminarCliente(cliente.idCliente)" class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>    
+</section>

@@ -1,0 +1,65 @@
+
+  .container.h-100 {
+    min-height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  
+  .login-container {
+    background-color: #d9d9d9;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%; /* Cambiar a un ancho relativo */
+    max-width: 400px; /* Establecer un ancho máximo */
+    margin-top: 30%; /* Ajustar la distancia desde la parte superior */
+  }
+  
+  .logo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+  
+  .login-container input {
+    background-color: #b0b0b0;
+    border: none;
+    border-bottom: 2px solid #000;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .login-container button {
+    background-color: #b0b0b0;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 2rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .login-container button:hover {
+    background-color: #F28502;
+    color: #FFFFF0;
+  }
+  
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .back-button i {
+    color: #000;
+  }
+  

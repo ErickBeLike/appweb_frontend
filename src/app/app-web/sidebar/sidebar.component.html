@@ -1,0 +1,61 @@
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <img src="assets/images/logo.svg" alt="Logo" class="logo" routerLink="/app-web/dashboard">
+    <h5>SUITES CENTER</h5>
+    <p>Panel Administrativo</p>
+  </div>
+  <ul class="sidebar-menu">
+    <!-- Clientes -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/clientes/clientes-lista"><i class="fa-solid fa-address-book"></i> Clientes</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Empleados -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/empleados/empleados-lista"><i class="fa-solid fa-address-card"></i> Empleados</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Habitaciones -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/habitaciones/habitaciones-lista"><i class="fa-solid fa-bed"></i> Habitaciones</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Productos -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/productos/productos-lista"><i class="fa-solid fa-tags"></i> Productos</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Reservaciones -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/reservaciones/reservaciones-lista"><i class="fa-solid fa-book"></i> Reservaciones</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Ventas -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/ventas/ventas-lista"><i class="fa-solid fa-cash-register"></i> Ventas</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+    <!-- Usuarios -->
+    <li class="menu-item">
+      <div class="menu-title">
+        <a routerLink="/app-web/usuarios/usuarios-lista"><i class="fa-solid fa-users"></i> Usuarios</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
+  </ul>
+  <div class="logout-button-container">
+    <button type="submit" class="btn btn-outline-light" routerLink="/app-web/login">Cerrar sesión</button>
+  </div>
+</nav>

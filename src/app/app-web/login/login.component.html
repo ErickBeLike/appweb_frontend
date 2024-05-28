@@ -1,0 +1,16 @@
+<div class="container h-100">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-md-6 login-container">
+      <img src="assets/images/logo.svg" alt="Logo" class="logo">
+      <form (ngSubmit)="onSubmit()">
+        <input type="text" placeholder="*Nombre de usuario" [(ngModel)]="nombreUsuario" name="nombreUsuario" required>
+        <input type="password" placeholder="*Contraseña" [(ngModel)]="contrasena" name="contrasena" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <p *ngIf="mensaje">{{ mensaje }}</p>
+    </div>
+  </div>
+</div>
+<a href="/landing-page/inicio" class="back-button">
+  <i class="fas fa-arrow-left"></i>
+</a>

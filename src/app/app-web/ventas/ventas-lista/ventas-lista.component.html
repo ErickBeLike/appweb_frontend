@@ -1,0 +1,47 @@
+<app-sidebar></app-sidebar>
+
+<section class="ochenta">
+    <div class="container mt-4">
+        <div class="mx-3">
+            <span class="h1">Ventas</span>
+            <div class="card-body mt-4">
+                <span class="h3">Gestionar</span>
+                <button class="btn btn-dark btn-lg float-end" routerLink="/app-web/ventas/ventas-registro">Agregar venta</button>
+                <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Generar Reporte</button>
+                <table class="table table-hover mt-4">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Empleado</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Fecha de venta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venta of ventas">
+                            <td>{{ venta.idVenta }}</td>
+                            <td>{{ venta.idEmpleado.persona.nombre }}</td>
+                            <td>
+                                <ul style="list-style: none; margin: 0; padding: 0;" *ngFor="let producto of getProductos(venta)">
+                                    <li><strong>Producto:</strong> {{ producto.nombre }}</li>
+                                    <li><strong>Precio unitario:</strong> $ {{ producto.precioUnitario }}</li>
+                                    <li><strong>Cantidad:</strong> {{ producto.cantidad }}</li>
+                                    <li><strong>SubTotal:</strong> $ {{ producto.subtotal }}</li>
+                                    <li>____________________________________</li>
+                                </ul>
+                            </td>
+                            <td>$ {{ venta.total }}</td>
+                            <td>{{ venta.fechaVenta }}</td>
+                            <td>
+                                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarVenta(venta.idVenta)"></i>
+                                <i class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;" (click)="eliminarVenta(venta.idVenta)"></i>
+                            </td>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+</section>

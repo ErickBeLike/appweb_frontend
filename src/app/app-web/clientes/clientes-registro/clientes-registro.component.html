@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center" id="form-title">{{ titulo }}</h2>
+            <form [formGroup]="formCliente" (ngSubmit)="agregarOEditar()">
+                <div class="form-group">
+                    <label for="clientName">Nombre del Cliente</label>
+                    <input type="text" class="form-control" id="clientName" formControlName="nombre" (input)="onInput($event)" required>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="clientLastName1">Apellido paterno</label>
+                        <input type="text" class="form-control" id="clientLastName1" formControlName="apellidoPaterno" (input)="onInputPa($event)" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="clientLastName2">Apellido materno</label>
+                        <input type="text" class="form-control" id="clientLastName2" formControlName="apellidoMaterno" (input)="onInputMa($event)">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="email">Correo</label>
+                        <input type="email" class="form-control" id="email" formControlName="correo" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone">Teléfono</label>
+                        <input type="text" class="form-control" id="phone" formControlName="telefono" (input)="inTelefonoInput($event)" required>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-danger" routerLink='/app-web/clientes/clientes-lista'>Cancelar</button>
+                <button type="submit" class="btn btn-success" [disabled]="formCliente.invalid">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
