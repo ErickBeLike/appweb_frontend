@@ -1,22 +1,20 @@
 <app-sidebar></app-sidebar>
 
-<section class="ochenta">
+<section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
             <span class="h1">Reservaciones</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
-                <button class="btn btn-dark btn-lg float-end" routerLink="/app-web/reservaciones/reservaciones-registro">Agregar reservación</button>
-                <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Generar Reporte</button>
+                <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/reservaciones/reservaciones-registro">Agregar reservación</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Cliente</th>
                             <th>Habitación</th>
-                            <th>Fecha de inicio</th>
-                            <th>fecha de salida</th>
-                            <th>Días</th>
+                            <th>Tiempo de reservación</th>
                             <th>Total</th>
                             <th>Acciones</th>
                         </tr>
@@ -32,13 +30,17 @@
                                     <li> <strong>Cupo:</strong> {{ reservacion.idHabitacion.cupo }}</li>
                                 </ul>    
                             </td>
-                            <td>{{ reservacion.fechaInicio }}</td>
-                            <td>{{ reservacion.fechaFinal }}</td>
-                            <td>{{ reservacion.dias }}</td>
+                            <td>
+                                <ul style="list-style: none; margin: 0; padding: 0;">
+                                    <li><strong>Entrada:</strong> {{ reservacion.fechaInicio }}</li>
+                                    <li><strong>Días: </strong> {{ reservacion.dias}}</li>
+                                    <li><strong>Salida: </strong> {{ reservacion.fechaFinal }}</li>
+                                </ul>
+                            </td>
                             <td>$ {{ reservacion.total }}</td>
                             <td>
-                                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarReservacion(reservacion.idReservacion)"></i>
-                                <i class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;" (click)="eliminar(reservacion.idReservacion)"></i>
+                                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarReservacion(reservacion.idReservacion)"></i>
+                                <i class="borrar fa-solid fa-trash" (click)="openDeleteModal(reservacion.idReservacion)"></i>
                             </td>                            
                         </tr>
                     </tbody>
@@ -47,3 +49,23 @@
         </div>
     </div>    
 </section>
+
+<!-- Modal para Confirmar Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar esta reservación?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarReservacion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

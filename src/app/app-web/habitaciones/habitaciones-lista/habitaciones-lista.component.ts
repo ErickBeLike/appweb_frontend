@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HabitacionesService } from '../../services/habitaciones/habitaciones.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-habitaciones-lista',
@@ -7,10 +9,15 @@ import { HabitacionesService } from '../../services/habitaciones/habitaciones.se
   styleUrls: ['./habitaciones-lista.component.css']
 })
 export class HabitacionesListaComponent implements OnInit {
-
   habitaciones: any[] = [];
+  habitacionAEliminar: number | null = null;
+  showDeleteModal: boolean = false;
 
-  constructor(private habitacionesService: HabitacionesService) {}
+  constructor(
+    private habitacionesService: HabitacionesService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerTodasLasHabitaciones();
@@ -24,22 +31,49 @@ export class HabitacionesListaComponent implements OnInit {
     });
   }
 
-  eliminar(idHabitacion: number) {
-    const confirmar = confirm(`¿Estás seguro de eliminar la habitación con ID ${idHabitacion}?`);
-    if (confirmar) {
-      this.habitacionesService.eliminarHabitacion(idHabitacion).subscribe(response => {
+  openDeleteModal(idHabitacion: number) {
+    this.habitacionAEliminar = idHabitacion;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.habitacionAEliminar = null;
+  }
+
+  confirmarEliminarHabitacion() {
+    if (this.habitacionAEliminar !== null) {
+      this.habitacionesService.eliminarHabitacion(this.habitacionAEliminar).subscribe(response => {
         this.obtenerTodasLasHabitaciones();
+        this.toastr.success('Habitación eliminada exitosamente', '', {
+          enableHtml: true,
+          toastClass: 'toast-eliminar'
+        });
+        this.closeDeleteModal();
       }, error => {
         console.error(error);
+        this.toastr.error('ERROR al eliminar la habitación', '', {
+          enableHtml: true,
+          toastClass: 'toast-error'
+        });
+        this.closeDeleteModal();
       });
     }
   }
 
-  editarHabitacion(id: number): void {
-    // Implementa la lógica para editar una habitación
+  editarHabitacion(idHabitacion: number): void {
+    this.router.navigate(['/app-web/habitaciones/habitaciones-registro', idHabitacion]);
   }
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
+  }
+
+  actualizarDisponibilidad(habitacion: any): void {
+    this.habitacionesService.actualizarHabitacion(habitacion.idHabitacion, habitacion).subscribe(response => {
+      console.log('Disponibilidad actualizada');
+    }, error => {
+      console.error(error);
+    });
   }
 }

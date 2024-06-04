@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmpleadosService } from '../../services/empleados/empleados.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-empleados-lista',
@@ -9,8 +10,14 @@ import { EmpleadosService } from '../../services/empleados/empleados.service';
 })
 export class EmpleadosListaComponent implements OnInit {
   empleados: any[] = [];
+  empleadoAEliminar: number | null = null;
+  showDeleteModal: boolean = false;
 
-  constructor(private empleadosService: EmpleadosService, private router: Router) {}
+  constructor(
+    private empleadosService: EmpleadosService, 
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosEmpleados();
@@ -27,22 +34,41 @@ export class EmpleadosListaComponent implements OnInit {
     );
   }
 
-  eliminarEmpleado(idEmpleado: number) {
-    const confirmar = confirm(`¿Estás seguro de eliminar el empleado con ID ${idEmpleado}?`);
-    if (confirmar) {
-      this.empleadosService.eliminarEmpleado(idEmpleado).subscribe(
+  openDeleteModal(idEmpleado: number) {
+    this.empleadoAEliminar = idEmpleado;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.empleadoAEliminar = null;
+  }
+
+  confirmarEliminarEmpleado() {
+    if (this.empleadoAEliminar !== null) {
+      this.empleadosService.eliminarEmpleado(this.empleadoAEliminar).subscribe(
         () => {
           this.obtenerTodosLosEmpleados();
+          this.toastr.success('Empleado eliminado exitosamente', '', {
+            enableHtml: true,
+            toastClass: 'toast-eliminar'
+          });
+          this.closeDeleteModal();
         },
         error => {
           console.error(error);
+          this.toastr.error('ERROR al eliminar al empleado', '', {
+            enableHtml: true,
+            toastClass: 'toast-error'
+          });
+          this.closeDeleteModal();
         }
       );
     }
   }
 
   editarEmpleado(idEmpleado: number) {
-    this.router.navigate(['/empleados/registro-empleados', idEmpleado]);
+    this.router.navigate(['/app-web/empleados/empleados-registro', idEmpleado]);
   }
 
   generarReporte() {

@@ -6,7 +6,7 @@ footer {
 
 /* Estilos para las imágenes del footer */
 footer img {
-  max-height: 50px;
+  width: 50%;
 }
 
 /* Estilos para los íconos del footer */

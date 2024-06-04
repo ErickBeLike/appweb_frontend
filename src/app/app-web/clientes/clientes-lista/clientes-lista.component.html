@@ -1,13 +1,13 @@
 <app-sidebar></app-sidebar>
 
-<section class="ochenta">
+<section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
       <span class="h1">Clientes</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-dark btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente</button>
-        <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
+        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente</button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
 
         <table class="table table-hover mt-4">
           <thead>
@@ -30,8 +30,8 @@
               <td>{{ cliente.persona.telefono }}</td>
               <td>{{ cliente.persona.correo }}</td>
               <td>
-                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarCliente(cliente.idCliente)"></i>
-                <i (click)="eliminarCliente(cliente.idCliente)" class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;"></i>
+                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarCliente(cliente.idCliente)"></i>
+                <i (click)="openDeleteModal(cliente.idCliente)" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
@@ -40,3 +40,23 @@
     </div>
   </div>    
 </section>
+
+<!-- Modal para Confirmar Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este cliente?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarCliente()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

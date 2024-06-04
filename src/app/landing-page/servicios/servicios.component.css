@@ -1,0 +1,331 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.hero {
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    background-color: #001D38; /* Fondo oscuro */
+    color: #FFFFF0; /* Texto claro */
+    padding: 40px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: skewX(-30deg);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenedor principal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307); /* Sombra sutil */
+    border-radius: 10px;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative; /* Añadido para que el ::after sea posicionado correctamente */
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 100px;
+    height: 4px;
+    background-color: #F28502; /* Color naranja */
+}
+
+.services,
+.rooms,
+.restaurant,
+.other-services {
+    margin: 40px 0;
+}
+
+.services-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hero a {
+    text-decoration: none;
+  }
+  
+
+.room h3 {
+    margin-top: 0;
+    color: #F28502; /* Agregado para mantener el color del título */
+}
+
+.room p {
+    margin-bottom: 0;
+}
+
+.carousel-inner img.fixed-size {
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.carousel-indicators button {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.rooms {
+    margin: 40px 0;
+}
+
+.rooms h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #001D38;
+    text-align: center;
+    position: relative;
+}
+
+.rooms h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    width: 100px;
+    height: 4px;
+    background-color: #F28502;
+}
+
+.rooms-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.room {
+    position: relative;
+    flex: 1 1 calc(50% - 20px);
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 300px;
+}
+
+.room:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.room .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFF0;
+    transition: background 0.3s;
+    height: 120px;
+}
+
+.room h3 {
+    margin-bottom: 10px;
+    color: #F28502;
+}
+
+.room p {
+    margin-bottom: 0;
+}
+
+/* Estilos adicionales para los carruseles */
+.carousel-inner {
+    border-radius: 10px; /* Agrega bordes redondeados al carrusel */
+    overflow: hidden; /* Oculta cualquier contenido que se salga del carrusel */
+}
+
+.carousel-item {
+    border-radius: 10px; /* Agrega bordes redondeados a cada ítem del carrusel */
+}
+
+.carousel-indicators {
+    bottom: 10px; /* Ajusta la posición vertical de los indicadores */
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /* Cambia el color de fondo de la leyenda del carrusel */
+}
+
+/* Estilos específicos para el carrusel de la sección de habitaciones */
+.carousel-inner,
+.recreational-area .carousel-inner {
+    max-height: 400px; /* Establece una altura máxima para los carruseles en estas secciones */
+}
+
+/* Estilos adicionales para las imágenes del carrusel */
+.carousel-inner img {
+    width: 100%; /* Hace que las imágenes del carrusel ocupen el ancho completo */
+    height: auto; /* Mantiene la proporción de aspecto de las imágenes */
+    border-radius: 10px; /* Agrega bordes redondeados a las imágenes */
+    transition: transform 0.5s ease; /* Agrega una transición suave al hacer zoom sobre las imágenes */
+}
+
+.carousel-inner img:hover {
+    transform: scale(1.05); /* Hace un ligero zoom al pasar el mouse sobre las imágenes */
+}
+
+.restaurant .overlay,
+.recreational-area .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFF0;
+    transition: background 0.3s;
+    height: 100px;
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+.restaurant h3 {
+    margin-bottom: 10px;
+    color: #F28502;
+}
+
+.restaurant p {
+    margin-bottom: 0;
+}
+
+.services-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.service {
+    background: #F28502; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1 1 calc(50% - 40px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative; /* Añadido para el pseudo-elemento */
+}
+
+.service::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.29); /* Fondo semi-transparente */
+    border-radius: 10px; /* Borde redondeado */
+    transition: opacity 0.3s; /* Transición de opacidad */
+    opacity: 0; /* Inicialmente transparente */
+}
+
+.service:hover::before {
+    opacity: 1; /* Al hacer hover, muestra el fondo semi-transparente */
+}
+
+.service:hover {
+    transform: translateY(-5px); /* Efecto de levantamiento */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content {
+    background-color: #fff; /* Cambia el color de fondo del modal */
+    border-radius: 10px; /* Agrega bordes redondeados al modal */
+}
+
+.modal-body {
+    display: flex; /* Usa flexbox para alinear los elementos en el cuerpo del modal */
+    flex-direction: column; /* Alinea los elementos en columna */
+    padding: 20px; /* Añade un espacio interno al cuerpo del modal */
+}
+
+.modal-body img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #000000; /* Agrega un borde sólido de 2px de ancho con color naranja */
+}
+
+
+
+
+.modal-body img {
+    max-width: 70%; /* Limita el ancho máximo de la imagen al tamaño del contenedor */
+    height: auto; /* Mantiene la proporción de aspecto de la imagen */
+    border-radius: 10px; /* Agrega bordes redondeados a la imagen */
+    margin-bottom: 15px; /* Añade un espacio inferior a la imagen */
+}
+
+.modal-body p {
+    margin-bottom: 10px; /* Ajusta el espacio entre párrafos */
+}
+
+.modal-footer {
+    justify-content: center; /* Centra los elementos del pie del modal */
+}
+
+.btn-secondary {
+    background-color: #F28502; /* Cambia el color de fondo del botón de cerrar */
+    border-color: #F28502; /* Cambia el color del borde del botón de cerrar */
+}
+
+.btn-secondary:hover {
+    background-color: #e1700c; /* Cambia el color de fondo al pasar el ratón sobre el botón de cerrar */
+    border-color: #e1700c; /* Cambia el color del borde al pasar el ratón sobre el botón de cerrar */
+}
+
+.modal-body .contact-link {
+    color: #F28502; /* Color naranja */
+    font-weight: bold; /* Negrita */
+    text-decoration: underline; /* Subrayado */
+    transition: color 0.3s; /* Transición de color para el hover */
+}
+
+.modal-body .contact-link:hover {
+    color: #c16700; /* Color naranja más oscuro al hacer hover */
+}
+

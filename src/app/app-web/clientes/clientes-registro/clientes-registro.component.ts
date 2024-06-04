@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClientesService } from '../../services/clientes/clientes.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-clientes-registro',
@@ -13,12 +14,17 @@ export class ClientesRegistroComponent {
     titulo = 'Agregar cliente';
     formCliente: FormGroup;
     id: any | null;
+    showSmallElements: { [key: string]: boolean } = {};
+
+
+    @ViewChild('smallElements') smallElements!: ElementRef[];
 
     constructor(
         private fb: FormBuilder,
         private clientesService: ClientesService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private toastr: ToastrService
     ) {
         this.formCliente = this.fb.group({
             nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]],
@@ -57,6 +63,11 @@ export class ClientesRegistroComponent {
         this.clientesService.agregarCliente(cliente).subscribe(
             response => {
                 this.router.navigate(['/app-web/clientes/clientes-lista']);
+                this.toastr.success('Cliente agregado exitosamente', '', {
+                    enableHtml: true,
+                    toastClass: 'toast-agregar'
+                });
+
             },
             error => {
                 console.error(error);
@@ -69,6 +80,10 @@ export class ClientesRegistroComponent {
         this.clientesService.actualizarCliente(id, cliente).subscribe(
             response => {
                 this.router.navigate(['/app-web/clientes/clientes-lista']);
+                this.toastr.success('Cliente editado exitosamente', '', {
+                    enableHtml: true,
+                    toastClass: 'toast-editar'
+                });
             },
             error => {
                 console.error(error);
@@ -113,4 +128,7 @@ export class ClientesRegistroComponent {
         this.formCliente.get('telefono')?.setValue(formattedValue, { emitEvent: false });
     }
 
+    toggleSmallElementsVisibility(smallId: string, show: boolean) {
+        this.showSmallElements[smallId] = show;
+    }
 }

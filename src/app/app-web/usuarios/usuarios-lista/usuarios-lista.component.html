@@ -1,13 +1,13 @@
 <app-sidebar></app-sidebar>
 
-<section class="ochenta">
+<section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
             <span class="h1">Usuarios</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
-                <button class="btn btn-dark btn-lg float-end" routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario</button>
-                <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Generar Reporte</button>
+                <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
@@ -23,11 +23,22 @@
                             <td>{{ usuario.idUsuario }}</td>
                             <td>{{ usuario.rol }}</td>
                             <td>{{ usuario.nombreUsuario }}</td>
-                            <td>{{ usuario.contrasenaUsuario }}</td>
                             <td>
-                                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarUsuario(usuario.idUsuario)"></i>
-                                <i class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;" (click)="eliminarUsuario(usuario.idUsuario)"></i>
-                            </td>                            
+                                <ng-container *ngIf="contrasenasVisiblesPorFila[usuario.idUsuario]; else asteriscos">{{ usuario.contrasenaUsuario }}</ng-container>
+                                <ng-template #asteriscos>{{ ocultarContrasena(usuario.contrasenaUsuario) }}</ng-template>
+                            </td>
+                            <td>
+                                <button class="ver btn btn-link btn-sm" (click)="alternarVisibilidadContrasenaFila(usuario.idUsuario)">
+                                    <ng-container *ngIf="!contrasenasVisiblesPorFila[usuario.idUsuario]">
+                                        <i class="fa-solid fa-eye-slash me-2"></i>
+                                    </ng-container>
+                                    <ng-container *ngIf="contrasenasVisiblesPorFila[usuario.idUsuario]">
+                                        <i class="ver fa-solid fa-eye me-2"></i>
+                                    </ng-container>
+                                </button>
+                                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarUsuario(usuario.idUsuario)"></i>
+                                <i class="borrar fa-solid fa-trash" (click)="openDeleteModal(usuario.idUsuario)"></i>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -35,3 +46,23 @@
         </div>
     </div>    
 </section>
+
+<!-- Modal para Confirmar Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este usuario?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarUsuario()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

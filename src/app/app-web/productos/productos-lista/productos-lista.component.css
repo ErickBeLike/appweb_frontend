@@ -4,5 +4,57 @@
     align-content: right;
     margin-left: 17%;
     margin-top: 20px;
-    position: fixed;
+}
+
+.container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
+    border-radius: 10px;
+}
+
+/* Estilos para botones personalizados */
+.btn-custom {
+  background-color: #F28502; /* Color de fondo */
+  border-color: #F28502; /* Color del borde */
+  color: #FFFFFF; /* Color del texto */
+}
+
+.btn-custom:hover {
+  background-color: #D76E00; /* Color de fondo al pasar el ratón */
+  border-color: #D76E00; /* Color del borde al pasar el ratón */
+  color: #FFFFFF; /* Color del texto al pasar el ratón */
+}
+
+.btn-outline-custom {
+  border-color: #F28502; /* Color del borde */
+  color: #F28502; /* Color del texto */
+}
+
+.btn-outline-custom:hover {
+  background-color: #F28502; /* Color de fondo al pasar el ratón */
+  border-color: #F28502; /* Color del borde al pasar el ratón */
+  color: #FFFFFF; /* Color del texto al pasar el ratón */
+}
+
+.editar {
+  color: #25a701; 
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.borrar {
+  color: #c00c0c; 
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.editar:hover,
+.borrar:hover {
+  transform: scale(1.20);
+}
+
+.modal-content {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
 }

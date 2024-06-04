@@ -1,10 +1,10 @@
 .sidebar {
-    width: 17%; /* Ancho de la sidebar */
+    width: 17%;
     position: fixed;
     left: 0;
     top: 0;
-    height: 100vh; /* Altura de la sidebar */
-    background-color: #001D38; /* Fondo de la sidebar */
+    height: 100vh;
+    background-color: #001D38;
     color: #fff;
     padding: 20px;
     overflow-y: auto;
@@ -20,8 +20,13 @@
 .logo {
     display: block;
     margin: 0 auto 10px auto;
-    width: 80%; /* Ajusta el ancho según tus necesidades */
+    width: 80%; 
     cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .sidebar-menu {
@@ -30,7 +35,7 @@
 }
 
 .sidebar-menu > li {
-    margin-bottom: 0px; /* Reducir la separación entre los botones */
+    margin-bottom: 0px;
 }
 
 .sidebar-menu a {
@@ -38,36 +43,37 @@
     text-decoration: none;
     display: block;
     padding: 10px;
-    border: 1px solid transparent; /* Añadir un borde transparente para el espaciado */
-    border-radius: 5px; /* Borde redondeado blanco */
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Animación de transición */
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .sidebar-menu a:hover {
-    background-color: #F28502; /* Color de fondo al pasar el mouse */
-    color: #FFFFF0; /* Color del texto al pasar el mouse */
-    border-color: #FFFFF0; /* Borde blanco al pasar el mouse */
+    background-color: #F28502; 
+    color: #FFFFF0;
+    transform: scale(1.05);
 }
 
 .logout-button-container {
-    margin-top: auto; /* Empuja el botón hacia abajo */
+    margin-top: auto; 
 }
 
 .btn-outline-light {
     color: #fff;
     background-color: transparent;
     border: 1px solid #fff;
-    border-radius: 5px; /* Borde redondeado blanco */
-    width: 100%; /* Hacer que el botón sea del ancho completo */
-    padding: 10px; /* Espaciado interno */
+    border-radius: 5px;
+    width: 100%; 
+    padding: 10px;
     text-align: center;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Animación de transición */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s; 
 }
 
 .btn-outline-light:hover {
-    background-color: red; /* Color de fondo rojo al pasar el mouse */
-    color: #fff; /* Color del texto blanco al pasar el mouse */
-    border-color: red; /* Borde rojo al pasar el mouse */
+    background-color: red;
+    color: #fff;
+    border-color: red;
+    transform: scale(1.05);
 }
 
 .sub-menu {
@@ -81,8 +87,6 @@
     display: block;
 }
 
-/* Otros estilos del sidebar */
-
 .sub-menu a {
     color: #bbb;
     text-decoration: none;
@@ -93,8 +97,6 @@
 .sub-menu a:hover {
     color: #fff;
 }
-
-/* Añade estilos adicionales según sea necesario */
 
 .menu-item {
     cursor: pointer;
@@ -107,13 +109,13 @@
 .menu-title {
     display: flex;
     align-items: center;
-    padding: 10px;
-    font-size: 18px; /* Ajusta el valor según tus necesidades */
+    padding: 5px;
+    font-size: 18px;
 }
 
 .toggle-icon i {
     transition: transform 0.3s ease-in-out;
-    margin-left: 1rem; /* Ajusta el valor según tus necesidades */
+    margin-left: 1rem;
 }
 
 .sub-menu {
@@ -127,8 +129,6 @@
     display: flex;
     padding-left: 40px;
 }
-
-/* Estilo de iconos */
 
 .menu-title a {
     display: flex;

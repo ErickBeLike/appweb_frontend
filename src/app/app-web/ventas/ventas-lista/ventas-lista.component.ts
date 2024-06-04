@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VentasService } from '../../services/ventas/ventas.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ventas-lista',
@@ -9,8 +11,14 @@ import { VentasService } from '../../services/ventas/ventas.service';
 export class VentasListaComponent implements OnInit {
 
   ventas: any[] = [];
+  ventaAEliminar: number | null = null;
+  showDeleteModal: boolean = false;
 
-  constructor(private ventasService: VentasService) {}
+  constructor(
+    private ventasService: VentasService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerTodasLasVentas();
@@ -24,38 +32,38 @@ export class VentasListaComponent implements OnInit {
     });
   }
 
-  getProductos(venta: any) {
-    const productos = [];
-    for (let idProducto in venta.cantidadesProducto) {
-      if (venta.cantidadesProducto.hasOwnProperty(idProducto)) {
-        const cantidad = venta.cantidadesProducto[idProducto];
-        const nombre = venta.nombresProductos[idProducto];
-        const precioUnitario = venta.preciosUnitarios[idProducto];
-        const subtotal = cantidad * precioUnitario;
-        productos.push({
-          nombre: nombre,
-          cantidad: cantidad,
-          precioUnitario: precioUnitario,
-          subtotal: subtotal
-        });
-      }
-    }
-    return productos;
+  openDeleteModal(idVenta: number) {
+    this.ventaAEliminar = idVenta;
+    this.showDeleteModal = true;
   }
 
-  eliminarVenta(idVenta: number) {
-    const confirmar = confirm(`¿Estás seguro de eliminar la venta con ID ${idVenta}?`);
-    if (confirmar) {
-      this.ventasService.eliminarVenta(idVenta).subscribe(response => {
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.ventaAEliminar = null;
+  }
+
+  confirmarEliminarVenta() {
+    if (this.ventaAEliminar !== null) {
+      this.ventasService.eliminarVenta(this.ventaAEliminar).subscribe(response => {
         this.obtenerTodasLasVentas();
+        this.toastr.success('Venta eliminada exitosamente', '', {
+          enableHtml: true,
+          toastClass: 'toast-eliminar' 
+      });
+      this.closeDeleteModal();
       }, error => {
         console.error(error);
+        this.toastr.success('ERROR al querer eliminar la venta', '', {
+          enableHtml: true,
+          toastClass: 'toast-error' 
+      });
+      this.closeDeleteModal();
       });
     }
   }
 
-  editarVenta(id: number): void {
-    // Implementa la lógica para editar una venta
+  editarVenta(idVenta: number): void {
+    this.router.navigate(['/app-web/ventas/ventas-registro', idVenta]);
   }
 
   generarReporte() {

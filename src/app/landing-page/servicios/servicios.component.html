@@ -1,7 +1,170 @@
 <app-nav-bar></app-nav-bar>
 
-<div class="container">
-    SERVICIOS sí jala
+<div class="container" data-aos="fade-up">
+    <section class="hero" data-aos="fade-up">
+        <h2>Servicios</h2>
+        <div class="services-list" >
+            <a href="\landing-page\servicios\#rooms" class="service">Habitaciones <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="\landing-page\servicios\#restaurant" class="service">Restaurante / cafetería <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="\landing-page\servicios\#recreational-area" class="service">Area recreativa <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="service">Servicio 4</a>
+            <a class="service">Servicio 5</a>
+            <a class="service">Servicio 6</a>
+            <a class="service">Servicio 7</a>
+            <a class="service">Servicio 8</a>
+        </div>
+    </section>
+
+    <section id="rooms"></section>
+
+    <section class="rooms"  data-aos="fade-up">
+        <h2>Habitaciones</h2>
+        <div class="rooms-list">
+            <div class="room" id="room1" data-aos="zoom-in" style="background-image: url('/assets/images/landing-page/habitacion_1.jpg');" data-bs-toggle="modal" data-bs-target="#roomModal1">
+                <div class="overlay">
+                    <h3>Habitación 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+            
+            <div class="room" id="room2" data-aos="zoom-in" data-aos-delay="100" style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');" data-bs-toggle="modal" data-bs-target="#roomModal2">
+                <div class="overlay">
+                    <h3>Habitación 2</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="restaurant"></section>
+
+    <section class="restaurant" id="restaurant" data-aos="fade-up">
+        <h2>Restaurante / cafetería</h2>
+        <div id="restaurantCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="\assets\images\landing-page\carusel_1.jpg" class="d-block w-100 fixed-size" alt="Imagen 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\carusel_2.jpg" class="d-block w-100 fixed-size" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\carusel_3.jpg" class="d-block w-100 fixed-size" alt="Imagen 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\carusel_4.jpg" class="d-block w-100 fixed-size" alt="Imagen 4">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="overlay">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div> 
+        </div>
+           
+    </section>
+
+    <section id="recreational-area"></section>
+
+    <section class="recreational-area" id="recreational-area" data-aos="fade-up">
+        <h2>Area recreativa</h2>
+        <div id="recreationalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="\assets\images\landing-page\recreational_1.jpg" class="d-block w-100 fixed-size" alt="Imagen 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\recreational_2.jpg" class="d-block w-100 fixed-size" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\recreational_3.jpg" class="d-block w-100 fixed-size" alt="Imagen 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="\assets\images\landing-page\recreational_4.jpg" class="d-block w-100 fixed-size" alt="Imagen 4">
+                </div>
+                <!-- Agrega más imágenes si es necesario -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#recreationalCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#recreationalCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="overlay">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>  
+        </div>
+    </section>
 </div>
+
+<!-- Modal Habitación 1 -->
+<div class="modal fade" id="roomModal1" tabindex="-1" aria-labelledby="roomModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomModal1Label">Habitación 1</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="/assets/images/landing-page/habitacion_1.jpg" class="img-fluid" alt="Habitación 1">
+                <p><strong>Descripción:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p><strong>Tamaño:</strong> 25 m²</p>
+                <p><strong>Cupo:</strong> 2 personas</p>
+                <p><strong>Precio:</strong> $100 por noche</p>
+                <p><strong>Extras:</strong> Wi-Fi gratuito, desayuno incluido</p>
+                <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Habitación 2 -->
+<div class="modal fade" id="roomModal2" tabindex="-1" aria-labelledby="roomModal2Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomModal2Label">Habitación 2</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                <p>Descripción: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Tamaño: 30 m²</p>
+                <p>Cupo: 4 personas</p>
+                <p>Precio: $150 por noche</p>
+                <p>Extras: Jacuzzi, minibar</p>
+                <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <app-footer></app-footer>

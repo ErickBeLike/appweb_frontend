@@ -1,86 +1,116 @@
-<div class="container">
+<div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center" id="form-title">{{ titulo }}</h2>
-            <form [formGroup]="formEmpleado" (ngSubmit)="agregarOEditar()">
-                <!-- Campos de Persona -->
-                <div class="form-group">
-                    <label for="employeeName">Nombre(s)</label>
-                    <input type="text" class="form-control" id="employeeName" formControlName="nombre" (input)="onInput($event)" required>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="employeeLastName1">Apellido Paterno</label>
-                        <input type="text" class="form-control" id="employeeLastName1" formControlName="apellidoPaterno" (input)="onInput($event)" required>
+        <div class="col-md-7">
+            <div class="form-container">
+                <h2 class="text-center form-title">{{ titulo }}</h2>
+                <form [formGroup]="formEmpleado" (ngSubmit)="agregarOEditar()">
+                    <div class="form-group">
+                        <label for="employeeName">Nombre(s)<span class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="employeeName" formControlName="nombre" (input)="onInput($event)" 
+                        (focus)="toggleSmallElementsVisibility('employeeNameHelp', true)" 
+                        (blur)="toggleSmallElementsVisibility('employeeNameHelp', false)" required>
+                        <small id="employeeNameHelp" class="form-text text-muted" [hidden]="!showSmallElements['employeeNameHelp']">No se aceptan números ni símbolos raros</small>
                     </div>
-                    <div class="col-md-6">
-                        <label for="employeeLastName2">Apellido Materno</label>
-                        <input type="text" class="form-control" id="employeeLastName2" formControlName="apellidoMaterno" (input)="onInput($event)">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="employeePhone">Teléfono</label>
-                        <input type="text" class="form-control" id="employeePhone" formControlName="telefono" (input)="inTelefonoInput($event)" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="employeeEmail">Correo</label>
-                        <input type="email" class="form-control" id="employeeEmail" formControlName="correo" required>
-                    </div>
-                </div>
-                <!-- Campos de Empleado -->
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="employeeRole">Cargo</label>
-                        <select class="form-control" id="employeeRole" formControlName="idCargo" required>
-                            <option value="" disabled selected>Seleccionar cargo...</option>
-                            <option *ngFor="let cargo of cargos" [value]="cargo.idCargo">{{ cargo.idCargo }} - {{ cargo.nombreCargo }}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="employeeSex">Sexo</label>
-                        <select class="form-control" id="employeeSex" formControlName="sexo" required>
-                            <option value="" disabled selected>Seleccionar sexo...</option>
-                            <option *ngFor="let sex of sexos" [value]="sex">{{ sex }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="employeeBirthDate">Fecha de nacimiento</label>
-                    <input type="date" class="form-control" id="employeeBirthDate" formControlName="fechaNacimiento" required>
-                </div>
-                <div class="form-group">
-                    <label for="direction">Dirección</label>
-                    <textarea class="form-control" id="direction" formControlName="direccionEmpleado" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Días Laborales</label>
-                    <div *ngFor="let dia of diasSemana">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="dia" (change)="onCheckboxChange($event)">
-                            <label class="form-check-label">{{ dia }}</label>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="employeeLastName1">Apellido Paterno<span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" id="employeeLastName1" formControlName="apellidoPaterno" (input)="onInputPa($event)" 
+                            (focus)="toggleSmallElementsVisibility('employeeLastName1Help', true)" 
+                            (blur)="toggleSmallElementsVisibility('employeeLastName1Help', false)" required>
+                            <small id="employeeLastName1Help" class="form-text text-muted" [hidden]="!showSmallElements['employeeLastName1Help']">No se aceptan números ni símbolos raros</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="employeeLastName2">Apellido Materno</label>
+                            <input type="text" class="form-control" id="employeeLastName2" formControlName="apellidoMaterno" (input)="onInputMa($event)" 
+                            (focus)="toggleSmallElementsVisibility('employeeLastName2Help', true)" 
+                            (blur)="toggleSmallElementsVisibility('employeeLastName2Help', false)">
+                            <small id="employeeLastName2Help" class="form-text text-muted" [hidden]="!showSmallElements['employeeLastName2Help']">No se aceptan números ni símbolos raros</small>
                         </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="startTimeHour">Hora</label>
-                        <select class="form-control" id="startTimeHour" formControlName="horarioEntradaHora" required>
-                            <option *ngFor="let hour of horas" [value]="hour">{{ hour }}</option>
-                        </select>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="employeeRole">Cargo<span class="text-danger"> *</span></label>
+                            <select class="form-control" id="employeeRole" formControlName="idCargo" required>
+                                <option value="" disabled selected>Seleccionar cargo...</option>
+                                <option *ngFor="let cargo of cargos" [value]="cargo.idCargo">{{ cargo.idCargo }} - {{ cargo.nombreCargo }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="employeeSex">Sexo<span class="text-danger"> *</span></label>
+                            <select class="form-control" id="employeeSex" formControlName="sexo" required>
+                                <option value="" disabled selected>Seleccionar sexo...</option>
+                                <option *ngFor="let s of sexos" [value]="s">{{ s }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="startTimeAMPM">AM/PM</label>
-                        <select class="form-control" id="startTimeAMPM" formControlName="horarioEntradaAMPM" required>
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
+                    <div class="form-group">
+                        <label for="employeeDate">Fecha de nacimiento<span class="text-danger"> *</span></label>
+                        <input type="date" class="form-control" id="employeeDate" formControlName="fechaNacimiento" required
+                        (focus)="toggleSmallElementsVisibility('employeeDate', true)" 
+                        (blur)="toggleSmallElementsVisibility('employeeDate', false)" required>
+                        <small id="employeeDate" class="form-text text-muted" [hidden]="!showSmallElements['employeeDate']">Rango de edad 18-60 años</small>
+                        
+                        
                     </div>
-                </div>                
-                
-                <button type="button" class="btn btn-danger" routerLink='/app-web/empleados/empleados-lista'>Cancelar</button>
-                <button type="submit" class="btn btn-success" [disabled]="formEmpleado.invalid">Guardar</button>
-            </form>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="employeeEmail">Correo<span class="text-danger"> *</span></label>
+                            <input type="email" class="form-control" id="employeeEmail" formControlName="correo" 
+                            (focus)="toggleSmallElementsVisibility('employeeEmailHelp', true)" 
+                            (blur)="toggleSmallElementsVisibility('employeeEmailHelp', false)" required>
+                            <small id="employeeEmailHelp" class="form-text text-muted" [hidden]="!showSmallElements['employeeEmailHelp']">Ejemplo: empleado&#64;dominio.com</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="employeePhone">Teléfono<span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" id="employeePhone" formControlName="telefono" 
+                            (input)="inTelefonoInput($event)" 
+                            (focus)="toggleSmallElementsVisibility('employeePhoneHelp', true)" 
+                            (blur)="toggleSmallElementsVisibility('employeePhoneHelp', false)" required>
+                            <small id="employeePhoneHelp" class="form-text text-muted" [hidden]="!showSmallElements['employeePhoneHelp']">Ejemplo: 111-111-1111</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direction">Dirección<span class="text-danger"> *</span></label>
+                        <textarea type="text" class="form-control" id="direction" formControlName="direccionEmpleado" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="workDays">Días laborales</label><br>
+                        <input type="checkbox" formControlName="LUNES"> Lunes<br>
+                        <input type="checkbox" formControlName="MARTES"> Martes<br>
+                        <input type="checkbox" formControlName="MIERCOLES"> Miércoles<br>
+                        <input type="checkbox" formControlName="JUEVES"> Jueves<br>
+                        <input type="checkbox" formControlName="VIERNES"> Viernes<br>
+                        <input type="checkbox" formControlName="SABADO"> Sábado<br>
+                        <input type="checkbox" formControlName="DOMINGO"> Domingo<br>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="horarioEntrada">Horario de Entrada<span class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" formControlName="horarioEntradaHora" placeholder="HH:MM" maxlength="5" (input)="formatearHorario($event)">
+                                <select class="form-control" formControlName="horarioEntradaAMPM">
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="horarioSalida">Horario de Salida<span class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" formControlName="horarioSalidaHora" placeholder="HH:MM" maxlength="5" (input)="formatearHorario($event)">
+                                <select class="form-control" formControlName="horarioSalidaAMPM">
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons-container">
+                        <button type="button" class="btn btn-danger" routerLink='/app-web/empleados/empleados-lista'>Cancelar</button>
+                        <button type="submit" class="btn btn-success" [disabled]="formEmpleado.invalid">Guardar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

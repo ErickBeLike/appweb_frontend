@@ -1,12 +1,49 @@
 .container {
     padding-top: 50px;
 }
+
+.form-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+.form-title {
+    color: #001D38;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
-.btn-danger, .btn-success {
-    margin-top: 20px;
+
+.buttons-container {
+    margin-top: 40px;
+    text-align: center;
 }
+
 .btn-danger {
+    background-color: #001D38;
+    border-color: #001D38;
     margin-right: 10px;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
+
+.btn-danger:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+    transform: scale(1.05);
+}
+
+.btn-success {
+    background-color: #001D38;
+    border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+    transform: scale(1.05);
+}
+

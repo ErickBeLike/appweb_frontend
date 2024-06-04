@@ -11,6 +11,7 @@ export class LoginComponent {
   nombreUsuario: string = '';
   contrasena: string = '';
   mensaje: string = '';
+  showPassword: boolean = false;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -26,5 +27,9 @@ export class LoginComponent {
           console.error('Error en el inicio de sesión', err);
         }
       });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

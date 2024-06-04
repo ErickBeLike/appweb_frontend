@@ -1,0 +1,51 @@
+.container {
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.form-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .btn-outline-secondary {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.buttons-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn-danger {
+    background-color: #001D38;
+    border-color: #001D38;
+    margin-right: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+}
+
+.btn-success {
+    background-color: #001D38;
+    border-color: #001D38;
+}
+
+.btn-success:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+}

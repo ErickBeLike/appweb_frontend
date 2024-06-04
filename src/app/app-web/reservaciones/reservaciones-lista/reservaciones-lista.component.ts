@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservacionesService } from '../../services/reservaciones/reservaciones.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reservaciones-lista',
@@ -8,10 +9,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./reservaciones-lista.component.css']
 })
 export class ReservacionesListaComponent implements OnInit {
-
   reservaciones: any[] = [];
+  reservacionAEliminar: number | null = null;
+  showDeleteModal: boolean = false;
 
-  constructor(private reservacionesService: ReservacionesService, private router: Router) {}
+  constructor(
+    private reservacionesService: ReservacionesService, 
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerTodasLasReservaciones();
@@ -25,19 +31,38 @@ export class ReservacionesListaComponent implements OnInit {
     });
   }
 
-  eliminar(idReservacion: number) {
-    const confirmar = confirm(`¿Estás seguro de eliminar la reservación con ID ${idReservacion}?`);
-    if (confirmar) {
-      this.reservacionesService.eliminarReservacion(idReservacion).subscribe(response => {
+  openDeleteModal(idReservacion: number) {
+    this.reservacionAEliminar = idReservacion;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.reservacionAEliminar = null;
+  }
+
+  confirmarEliminarReservacion() {
+    if (this.reservacionAEliminar !== null) {
+      this.reservacionesService.eliminarReservacion(this.reservacionAEliminar).subscribe(response => {
         this.obtenerTodasLasReservaciones();
+        this.toastr.success('Reservación eliminada exitosamente', '', {
+          enableHtml: true,
+          toastClass: 'toast-eliminar' 
+      });
+      this.closeDeleteModal();
       }, error => {
         console.error(error);
+        this.toastr.success('ERROR al querer eliminar la reservación', '', {
+          enableHtml: true,
+          toastClass: 'toast-error' 
+      });
+      this.closeDeleteModal();
       });
     }
   }
 
-  editarReservacion(id: number): void {
-    // Implementa la lógica para editar un producto
+  editarReservacion(idReservacion: number) {
+    this.router.navigate(['/app-web/reservaciones/reservaciones-registro', idReservacion]);
   }
 
   generarReporte() {

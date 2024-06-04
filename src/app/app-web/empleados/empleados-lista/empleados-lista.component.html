@@ -1,21 +1,19 @@
 <app-sidebar></app-sidebar>
 
-<section class="ochenta">
+<section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
       <span class="h1">Empleados</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-dark btn-lg float-end" routerLink='/app-web/empleados/empleados-registro'>Agregar empleado</button>
-        <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Generar Reporte</button>
+        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/empleados/empleados-registro'>Agregar empleado</button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
         <table class="table table-hover mt-4">
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre(s)</th>
-              <th>Apellido paterno</th>
-              <th>Apellido materno</th>
+              <th>Nombre completo</th>
               <th>Cargo</th>
               <th>Fecha de nacimiento</th>
               <th>Sexo</th>
@@ -23,15 +21,18 @@
               <th>Teléfono</th>
               <th>Dirección</th>
               <th>Días laborales</th>
+              <th>Horario</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let empleado of empleados">
               <td><strong>{{ empleado.idEmpleado }}</strong></td>
-              <td>{{ empleado.persona.nombre }}</td>
-              <td>{{ empleado.persona.apellidoPaterno }}</td>
-              <td>{{ empleado.persona.apellidoMaterno }}</td>
+              <td>
+                {{ empleado.persona.nombre }} 
+                {{ empleado.persona.apellidoPaterno }} 
+                {{ empleado.persona.apellidoMaterno }}
+              </td>
               <td>{{ empleado.idCargo.nombreCargo }}</td>
               <td>{{ empleado.fechaNacimiento }}</td>
               <td>{{ empleado.sexo }}</td>
@@ -42,12 +43,16 @@
                 <ul style="list-style: none; margin: 0; padding: 0;">
                     <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
                 </ul>
-            </td>
-            
-            
+              </td>
               <td>
-                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarEmpleado(empleado.idEmpleado)"></i>
-                <i (click)="eliminarEmpleado(empleado.idEmpleado)" class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;"></i>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                  <li><strong>Hora entrada:</strong> {{ empleado.horarioEntrada }}</li>
+                  <li><strong>Hora salida:</strong> {{ empleado.horarioSalida }}</li>
+                </ul>
+              </td>
+              <td>
+                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarEmpleado(empleado.idEmpleado)"></i>
+                <i (click)="openDeleteModal(empleado.idEmpleado)" class="borrar fa-solid fa-trash" ></i>
               </td>
             </tr>
           </tbody>
@@ -56,3 +61,22 @@
     </div>
   </div>    
 </section>
+
+<!-- Modal para Confirmar Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este empleado?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarEmpleado()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,11 @@ import { NavBarComponent } from './landing-page/nav-bar/nav-bar.component';
 import { FooterComponent } from './landing-page/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MapComponent } from './landing-page/map/map.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -56,6 +61,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ContactoComponent,
     NavBarComponent,
     FooterComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +69,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 5000
+    })
   ],
   providers: [
     provideClientHydration()

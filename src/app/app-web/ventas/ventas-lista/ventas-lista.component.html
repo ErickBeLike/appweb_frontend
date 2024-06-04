@@ -1,13 +1,13 @@
 <app-sidebar></app-sidebar>
 
-<section class="ochenta">
+<section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
             <span class="h1">Ventas</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
-                <button class="btn btn-dark btn-lg float-end" routerLink="/app-web/ventas/ventas-registro">Agregar venta</button>
-                <button class="btn btn-primary btn-lg float-end me-3" (click)="generarReporte()">Generar Reporte</button>
+                <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/ventas/ventas-registro">Agregar venta</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
@@ -24,19 +24,21 @@
                             <td>{{ venta.idVenta }}</td>
                             <td>{{ venta.idEmpleado.persona.nombre }}</td>
                             <td>
-                                <ul style="list-style: none; margin: 0; padding: 0;" *ngFor="let producto of getProductos(venta)">
-                                    <li><strong>Producto:</strong> {{ producto.nombre }}</li>
-                                    <li><strong>Precio unitario:</strong> $ {{ producto.precioUnitario }}</li>
-                                    <li><strong>Cantidad:</strong> {{ producto.cantidad }}</li>
-                                    <li><strong>SubTotal:</strong> $ {{ producto.subtotal }}</li>
-                                    <li>____________________________________</li>
+                                <ul style="list-style: none; margin: 0; padding: 0;">
+                                    <li *ngFor="let detalleVenta of venta.detallesVenta">
+                                        <strong>Producto:</strong> {{ detalleVenta.producto.nombreProducto }}<br>
+                                        <strong>Precio unitario:</strong> $ {{ detalleVenta.precioUnitario }}<br>
+                                        <strong>Cantidad:</strong> {{ detalleVenta.cantidad }}<br>
+                                        <strong>SubTotal:</strong> $ {{ detalleVenta.subtotal }}<br>
+                                        <hr>
+                                    </li>
                                 </ul>
                             </td>
                             <td>$ {{ venta.total }}</td>
                             <td>{{ venta.fechaVenta }}</td>
                             <td>
-                                <i class="fa-solid fa-pen-to-square me-3" style="color: #25a701; cursor: pointer;" (click)="editarVenta(venta.idVenta)"></i>
-                                <i class="fa-solid fa-trash" style="color: #c00c0c; cursor: pointer;" (click)="eliminarVenta(venta.idVenta)"></i>
+                                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarVenta(venta.idVenta)"></i>
+                                <i class="borrar fa-solid fa-trash" (click)="openDeleteModal(venta.idVenta)"></i>
                             </td>                            
                         </tr>
                     </tbody>
@@ -45,3 +47,23 @@
         </div>
     </div>    
 </section>
+
+<!-- Modal para Confirmar Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar esta venta?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarVenta()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
