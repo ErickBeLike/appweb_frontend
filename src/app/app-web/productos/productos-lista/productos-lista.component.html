@@ -8,6 +8,25 @@
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/productos/productos-registro'>Agregar producto</button>
                 <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+
+                <!-- Barra de búsqueda y filtro -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                    <input type="text" class="form-control me-2" placeholder="Buscar producto..." (input)="buscarProducto($event)">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i> Ordenar
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><button class="dropdown-item" (click)="ordenarProductos('idProducto', 'asc')">ID Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarProductos('idProducto', 'desc')">ID Descendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarProductos('nombreProducto', 'asc')">Nombre Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarProductos('nombreProducto', 'desc')">Nombre Descendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarProductos('precioProducto', 'asc')">Precio Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarProductos('precioProducto', 'desc')">Precio Descendente</button></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
@@ -18,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let producto of productos">
+                        <tr *ngFor="let producto of productosFiltrados">
                             <td><strong>{{ producto.idProducto }}</strong></td>
                             <td>{{ producto.nombreProducto }}</td>
                             <td>$ {{ producto.precioProducto }}</td>
@@ -31,24 +50,24 @@
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
 
 <!-- Modal para Confirmar Eliminación -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este producto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminarProducto()">Eliminar</button>
+            </div>
         </div>
-        <div class="modal-body">
-          ¿Estás seguro de que deseas eliminar este producto?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-          <button type="button" class="btn btn-danger" (click)="confirmarEliminarProducto()">Eliminar</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>

@@ -8,6 +8,29 @@
         <span class="h3">Gestionar</span>
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación</button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+
+        <!-- Barra de búsqueda y filtro -->
+        <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+          <input type="text" class="form-control me-2" placeholder="Buscar habitación..." (input)="buscarHabitacion($event)">
+          <div class="dropdown">
+            <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-filter"></i> Ordenar
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('idHabitacion', 'asc')">Predeterminado</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('habitacion', 'asc')">Nombre de habitación Ascendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('habitacion', 'desc')">Nombre de habitación Descendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('cupo', 'asc')">Cupo Ascendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('cupo', 'desc')">Cupo Descendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('precioDia', 'asc')">Precio Ascendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarHabitaciones('precioDia', 'desc')">Precio Descendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('DISPONIBLE')">Habitaciones Disponibles</button></li>
+              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('RESERVADA')">Habitaciones Reservadas</button></li>
+              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('OCUPADA')">Habitaciones Ocupadas</button></li>
+            </ul>
+          </div>
+        </div>
+
         <table class="table table-hover mt-4">
           <thead>
             <tr>
@@ -20,7 +43,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let habitacion of habitaciones">
+            <tr *ngFor="let habitacion of habitacionesFiltradas">
               <td><strong>{{ habitacion.idHabitacion }}</strong></td>
               <td>{{ habitacion.habitacion }}</td>
               <td>{{ habitacion.cupo }}</td>

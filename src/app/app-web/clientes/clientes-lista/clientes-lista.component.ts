@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClientesListaComponent implements OnInit {
   clientes: any[] = [];
+  clientesFiltrados: any[] = [];
   clienteAEliminar: number | null = null;
   showDeleteModal: boolean = false;
 
@@ -23,11 +24,39 @@ export class ClientesListaComponent implements OnInit {
     this.clientesService.obtenerTodosLosClientes().subscribe(
       (response: any[]) => {
         this.clientes = response;
+        this.clientesFiltrados = [...this.clientes];
       },
       error => {
         console.error(error);
       }
     );
+  }
+
+  buscarCliente(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase();
+    this.clientesFiltrados = this.clientes.filter(cliente => 
+      cliente.persona.nombre.toLowerCase().includes(valor) ||
+      cliente.persona.apellidoPaterno.toLowerCase().includes(valor) ||
+      cliente.persona.apellidoMaterno.toLowerCase().includes(valor) ||
+      cliente.persona.telefono.includes(valor) ||
+      cliente.persona.correo.toLowerCase().includes(valor)
+    );
+  }
+
+  ordenarClientes(campo: string, orden: string) {
+    const factor = orden === 'asc' ? 1 : -1;
+    this.clientesFiltrados.sort((a, b) => {
+      const aValue = this.obtenerValor(a, campo);
+      const bValue = this.obtenerValor(b, campo);
+
+      if (aValue < bValue) return -1 * factor;
+      if (aValue > bValue) return 1 * factor;
+      return 0;
+    });
+  }
+
+  obtenerValor(obj: any, campo: string) {
+    return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
   openDeleteModal(idCliente: number) {
@@ -54,7 +83,7 @@ export class ClientesListaComponent implements OnInit {
         error => {
           console.error(error);
           this.obtenerTodosLosClientes();
-          this.toastr.success('ERROR al querer eliminar al cliente', '', {
+          this.toastr.error('ERROR al querer eliminar al cliente', '', {
             enableHtml: true,
             toastClass: 'toast-error'
           });

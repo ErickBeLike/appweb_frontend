@@ -10,8 +10,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ReservacionesListaComponent implements OnInit {
   reservaciones: any[] = [];
+  reservacionesFiltradas: any[] = [];
   reservacionAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  filtro: string = '';
 
   constructor(
     private reservacionesService: ReservacionesService, 
@@ -26,6 +28,7 @@ export class ReservacionesListaComponent implements OnInit {
   obtenerTodasLasReservaciones() {
     this.reservacionesService.obtenerTodasLasReservaciones().subscribe(response => {
       this.reservaciones = response;
+      this.reservacionesFiltradas = [...this.reservaciones];
     }, error => {
       console.error(error);
     });
@@ -52,7 +55,7 @@ export class ReservacionesListaComponent implements OnInit {
       this.closeDeleteModal();
       }, error => {
         console.error(error);
-        this.toastr.success('ERROR al querer eliminar la reservación', '', {
+        this.toastr.error('ERROR al querer eliminar la reservación', '', {
           enableHtml: true,
           toastClass: 'toast-error' 
       });
@@ -67,5 +70,30 @@ export class ReservacionesListaComponent implements OnInit {
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
+  }
+
+  buscarReservacion(event: any) {
+    const valor = event.target.value.toLowerCase();
+    this.reservacionesFiltradas = this.reservaciones.filter((reservacion: any) => {
+      return (
+        reservacion.idReservacion.toString().includes(valor) ||
+        reservacion.fechaInicio.includes(valor) ||
+        reservacion.total.toString().includes(valor)
+      );
+    });
+  }
+
+  ordenarReservaciones(criterio: string, orden: string) {
+    this.reservacionesFiltradas.sort((a: any, b: any) => {
+      const primerValor = a[criterio];
+      const segundoValor = b[criterio];
+      if (primerValor < segundoValor) {
+        return orden === 'asc' ? -1 : 1;
+      } else if (primerValor > segundoValor) {
+        return orden === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
   }
 }

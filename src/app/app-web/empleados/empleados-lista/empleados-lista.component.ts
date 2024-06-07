@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EmpleadosListaComponent implements OnInit {
   empleados: any[] = [];
+  empleadosFiltrados: any[] = [];
   empleadoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
 
@@ -27,11 +28,39 @@ export class EmpleadosListaComponent implements OnInit {
     this.empleadosService.obtenerTodosLosEmpleados().subscribe(
       (response: any[]) => {
         this.empleados = response;
+        this.empleadosFiltrados = [...this.empleados];
       },
       error => {
         console.error(error);
       }
     );
+  }
+
+  buscarEmpleado(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase();
+    this.empleadosFiltrados = this.empleados.filter(empleado => 
+      empleado.persona.nombre.toLowerCase().includes(valor) ||
+      empleado.persona.apellidoPaterno.toLowerCase().includes(valor) ||
+      empleado.persona.apellidoMaterno.toLowerCase().includes(valor) ||
+      empleado.persona.telefono.includes(valor) ||
+      empleado.persona.correo.toLowerCase().includes(valor)
+    );
+  }
+
+  ordenarEmpleados(campo: string, orden: string) {
+    const factor = orden === 'asc' ? 1 : -1;
+    this.empleadosFiltrados.sort((a, b) => {
+      const aValue = this.obtenerValor(a, campo);
+      const bValue = this.obtenerValor(b, campo);
+
+      if (aValue < bValue) return -1 * factor;
+      if (aValue > bValue) return 1 * factor;
+      return 0;
+    });
+  }
+
+  obtenerValor(obj: any, campo: string) {
+    return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
   openDeleteModal(idEmpleado: number) {

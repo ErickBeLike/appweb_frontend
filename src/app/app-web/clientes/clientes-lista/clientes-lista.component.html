@@ -9,24 +9,36 @@
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente</button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
 
+        <!-- Barra de búsqueda y filtro -->
+        <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+          <input type="text" class="form-control me-2" placeholder="Buscar cliente..." (input)="buscarCliente($event)">
+          <div class="dropdown">
+            <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-filter"></i> Ordenar
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><button class="dropdown-item" (click)="ordenarClientes('idCliente', 'asc')">Predeterminado</button></li>
+              <li><button class="dropdown-item" (click)="ordenarClientes('persona.nombre', 'asc')">Nombre Ascendente</button></li>
+              <li><button class="dropdown-item" (click)="ordenarClientes('persona.nombre', 'desc')">Nombre Descendente</button></li>
+            </ul>
+          </div>
+        </div>
+
         <table class="table table-hover mt-4">
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nombre(s)</th>
-              <th>Apellido paterno</th>
-              <th>Apellido materno</th>
+              <th>Nombre completo</th>
               <th>Teléfono</th>
               <th>Correo</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let cliente of clientes">
+            <tr *ngFor="let cliente of clientesFiltrados">
               <td><strong>{{ cliente.idCliente }}</strong></td>
-              <td>{{ cliente.persona.nombre }}</td>
-              <td>{{ cliente.persona.apellidoPaterno }}</td>
-              <td>{{ cliente.persona.apellidoMaterno }}</td>
+              <td>{{ cliente.persona.nombre }} {{ cliente.persona.apellidoPaterno }} {{ cliente.persona.apellidoMaterno }}</td>
+
               <td>{{ cliente.persona.telefono }}</td>
               <td>{{ cliente.persona.correo }}</td>
               <td>

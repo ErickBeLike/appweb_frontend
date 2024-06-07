@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductosListaComponent implements OnInit {
   productos: any[] = [];
+  productosFiltrados: any[] = [];
   productoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
 
@@ -26,6 +27,7 @@ export class ProductosListaComponent implements OnInit {
   obtenerTodosLosProductos() {
     this.productosService.obtenerTodosLosProductos().subscribe(response => {
       this.productos = response;
+      this.productosFiltrados = [...this.productos];
     }, error => {
       console.error(error);
     });
@@ -47,16 +49,16 @@ export class ProductosListaComponent implements OnInit {
         this.obtenerTodosLosProductos();
         this.toastr.success('Producto eliminado exitosamente', '', {
           enableHtml: true,
-          toastClass: 'toast-eliminar' 
-      });
-      this.closeDeleteModal();
+          toastClass: 'toast-eliminar'
+        });
+        this.closeDeleteModal();
       }, error => {
         console.error(error);
         this.toastr.error('ERROR al querer eliminar el producto', '', {
           enableHtml: true,
-          toastClass: 'toast-error' 
-      });
-      this.closeDeleteModal();
+          toastClass: 'toast-error'
+        });
+        this.closeDeleteModal();
       });
     }
   }
@@ -67,5 +69,28 @@ export class ProductosListaComponent implements OnInit {
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
+  }
+
+  buscarProducto(event: any): void {
+    const valorBusqueda = event.target.value.toLowerCase();
+    this.productosFiltrados = this.productos.filter(producto => {
+      return (
+        producto.idProducto.toString().toLowerCase().includes(valorBusqueda) ||
+        producto.nombreProducto.toLowerCase().includes(valorBusqueda) ||
+        producto.precioProducto.toString().toLowerCase().includes(valorBusqueda)
+      );
+    });
+  }
+
+  ordenarProductos(campo: string, orden: 'asc' | 'desc'): void {
+    this.productosFiltrados.sort((a, b) => {
+      if (a[campo] < b[campo]) {
+        return orden === 'asc' ? -1 : 1;
+      }
+      if (a[campo] > b[campo]) {
+        return orden === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 }

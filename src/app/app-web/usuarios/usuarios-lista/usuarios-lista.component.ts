@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UsuariosListaComponent implements OnInit {
 
   usuarios: any[] = [];
+  usuariosFiltrados: any[] = [];
   contrasenasVisiblesPorFila: { [key: number]: boolean } = {};
   usuarioAEliminar: number | null = null;
   showDeleteModal: boolean = false;
@@ -28,9 +29,27 @@ export class UsuariosListaComponent implements OnInit {
   obtenerTodosLosUsuarios() {
     this.usuariosService.obtenerTodosLosUsuarios().subscribe(response => {
       this.usuarios = response;
+      this.usuariosFiltrados = [...this.usuarios];
     }, error => {
       console.error(error);
     });
+  }
+
+  buscarUsuario(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase();
+    this.usuariosFiltrados = this.usuarios.filter(usuario => {
+      return usuario.idUsuario.toString().toLowerCase().includes(valor) ||
+             usuario.nombreUsuario.toLowerCase().includes(valor) ||
+             usuario.rol.toLowerCase().includes(valor);
+    });
+  }
+
+  ordenarUsuarios(criterio: string, orden: string) {
+    if (orden === 'asc') {
+      this.usuariosFiltrados.sort((a, b) => (a[criterio] > b[criterio]) ? 1 : -1);
+    } else {
+      this.usuariosFiltrados.sort((a, b) => (a[criterio] < b[criterio]) ? 1 : -1);
+    }
   }
 
   eliminarUsuario(idUsuario: number) {

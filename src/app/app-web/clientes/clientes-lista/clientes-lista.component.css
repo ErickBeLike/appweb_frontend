@@ -48,3 +48,12 @@ transform: scale(1.05);
 .modal-content {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
 }
+
+/* Estilos para la barra de búsqueda y el ícono de filtro */
+.input-group {
+  max-width: 500px;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.5em;
+}

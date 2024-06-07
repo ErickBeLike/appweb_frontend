@@ -8,6 +8,25 @@
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/ventas/ventas-registro">Agregar venta</button>
                 <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+
+                <!-- Barra de búsqueda y filtro -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                    <input type="text" class="form-control me-2" placeholder="Buscar venta..." (input)="buscarVenta($event)">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i> Ordenar
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><button class="dropdown-item" (click)="ordenarVentas('idVenta', 'asc')">ID Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarVentas('idVenta', 'desc')">ID Descendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarVentas('total', 'asc')">Total Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarVentas('total', 'desc')">Total Descendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarVentas('fechaVenta', 'asc')">Fecha Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarVentas('fechaVenta', 'desc')">Fecha Descendente</button></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
@@ -20,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let venta of ventas">
+                        <tr *ngFor="let venta of ventasFiltradas">
                             <td>{{ venta.idVenta }}</td>
                             <td>{{ venta.idEmpleado.persona.nombre }}</td>
                             <td>

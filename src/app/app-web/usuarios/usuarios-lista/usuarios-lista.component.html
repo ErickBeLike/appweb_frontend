@@ -8,6 +8,23 @@
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario</button>
                 <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+
+                <!-- Barra de búsqueda y filtro -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                    <input type="text" class="form-control me-2" placeholder="Buscar usuario..." (input)="buscarUsuario($event)">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-filter"></i> Ordenar
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><button class="dropdown-item" (click)="ordenarUsuarios('idUsuario', 'asc')">ID Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarUsuarios('idUsuario', 'desc')">ID Descendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarUsuarios('nombreUsuario', 'asc')">Nombre Ascendente</button></li>
+                            <li><button class="dropdown-item" (click)="ordenarUsuarios('nombreUsuario', 'desc')">Nombre Descendente</button></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
@@ -19,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let usuario of usuarios">
+                        <tr *ngFor="let usuario of usuariosFiltrados">
                             <td>{{ usuario.idUsuario }}</td>
                             <td>{{ usuario.rol }}</td>
                             <td>{{ usuario.nombreUsuario }}</td>

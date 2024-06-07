@@ -11,8 +11,10 @@ import { ToastrService } from 'ngx-toastr';
 export class VentasListaComponent implements OnInit {
 
   ventas: any[] = [];
+  ventasFiltradas: any[] = [];
   ventaAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  filtro: string = '';
 
   constructor(
     private ventasService: VentasService,
@@ -27,6 +29,7 @@ export class VentasListaComponent implements OnInit {
   obtenerTodasLasVentas() {
     this.ventasService.obtenerTodasLasVentas().subscribe(response => {
       this.ventas = response;
+      this.ventasFiltradas = [...this.ventas];
     }, error => {
       console.error(error);
     });
@@ -53,7 +56,7 @@ export class VentasListaComponent implements OnInit {
       this.closeDeleteModal();
       }, error => {
         console.error(error);
-        this.toastr.success('ERROR al querer eliminar la venta', '', {
+        this.toastr.error('ERROR al querer eliminar la venta', '', {
           enableHtml: true,
           toastClass: 'toast-error' 
       });
@@ -68,5 +71,30 @@ export class VentasListaComponent implements OnInit {
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
+  }
+
+  buscarVenta(event: any) {
+    const valor = event.target.value.toLowerCase();
+    this.ventasFiltradas = this.ventas.filter((venta: any) => {
+      return (
+        venta.idVenta.toString().includes(valor) ||
+        venta.total.toString().includes(valor) ||
+        venta.fechaVenta.includes(valor)
+      );
+    });
+  }
+
+  ordenarVentas(criterio: string, orden: string) {
+    this.ventasFiltradas.sort((a: any, b: any) => {
+      const primerValor = a[criterio];
+      const segundoValor = b[criterio];
+      if (primerValor < segundoValor) {
+        return orden === 'asc' ? -1 : 1;
+      } else if (primerValor > segundoValor) {
+        return orden === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
   }
 }
