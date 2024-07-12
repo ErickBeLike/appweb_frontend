@@ -1,13 +1,29 @@
 .container {
     padding-top: 50px;
-    padding-bottom: 30px;
+    width: 82%;
+    align-items: right;
+    align-content: right;
+    margin-left: 17%;
+    margin-top: 20px;
+    padding-bottom: 50px;
 }
 
 .form-container {
+    position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
     border-radius: 15px;
     padding: 20px;
     background-color: #FFFFFF;
+}
+
+.close-button-container {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+}
+
+.form-title {
+    color: #001D38;
 }
 
 .form-group {
@@ -55,32 +71,49 @@
     background-color: #001D38;
     border-color: #001D38;
     margin-right: 10px;
-    margin-left: 15%;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-danger:hover {
     background-color: #F28502;
     border-color: #F28502;
+    transform: scale(1.05);
 }
 
 .btn-success {
     background-color: #001D38;
     border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-success:hover {
     background-color: #F28502;
     border-color: #F28502;
+    transform: scale(1.05);
 }
 
 .btn-primary {
     background-color: #001D38;
     border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-primary:hover {
     background-color: #F28502;
     border-color: #F28502;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #001D38;
+    border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+    transform: scale(1.05);
 }
 
 .modal-dialog-centered {
@@ -111,7 +144,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #F28502;
+    background: #001D38;
     border: none;
     color: #fff;
     border-radius: 10px;
@@ -125,7 +158,7 @@
 }
 
 .close-btn:hover {
-    background: #001D38;
+    background: #F28502;
 }
 
 .modal-body {
@@ -145,26 +178,6 @@
 .product-item span {
     flex-grow: 1;
     font-weight: bold;
-}
-
-.btn-primary {
-    background-color: #001D38;
-    border-color: #001D38;
-}
-
-.btn-primary:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
 }
 
 .modal-footer {

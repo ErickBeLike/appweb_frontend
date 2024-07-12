@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HabitacionesService } from '../../services/habitaciones/habitaciones.service';
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode';
 
 @Component({
   selector: 'app-habitaciones-lista',
@@ -13,6 +14,8 @@ export class HabitacionesListaComponent implements OnInit {
   habitacionesFiltradas: any[] = [];
   habitacionAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  ordenActual: string = 'idHabitacion';
+  orden: string = 'asc';
 
   constructor(
     private habitacionesService: HabitacionesService,
@@ -35,6 +38,37 @@ export class HabitacionesListaComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  buscarHabitacion(event: any) {
+    const searchTerm = unidecode(event.target.value).toLowerCase();
+    this.habitacionesFiltradas = this.habitaciones.filter(habitacion =>
+      unidecode(habitacion.habitacion.toLowerCase()).includes(searchTerm) ||
+      unidecode(habitacion.cupo.toString().toLowerCase()).includes(searchTerm) ||
+      unidecode(habitacion.precioPorNoche.toString().toLowerCase()).includes(searchTerm) ||
+      unidecode(habitacion.depositoInicialNoche.toString().toLowerCase()).includes(searchTerm) ||
+      unidecode(habitacion.disponibilidad.toLowerCase()).includes(searchTerm)
+    );
+  }
+
+  ordenarHabitaciones(campo: string) {
+    if (this.ordenActual === campo) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orden = 'asc';
+    }
+    this.ordenActual = campo;
+    this.habitacionesFiltradas.sort((a, b) => {
+      let campoA = a[campo];
+      let campoB = b[campo];
+      if (typeof campoA === 'string') {
+        campoA = campoA.toLowerCase();
+        campoB = campoB.toLowerCase();
+      }
+      if (campoA < campoB) return this.orden === 'asc' ? -1 : 1;
+      if (campoA > campoB) return this.orden === 'asc' ? 1 : -1;
+      return 0;
+    });
   }
 
   openDeleteModal(idHabitacion: number) {
@@ -95,56 +129,5 @@ export class HabitacionesListaComponent implements OnInit {
         });
       }
     );
-  }
-
-  buscarHabitacion(event: any): void {
-    const valorBusqueda = event.target.value.toLowerCase();
-    this.habitacionesFiltradas = this.habitaciones.filter(habitacion =>
-      habitacion.habitacion.toLowerCase().includes(valorBusqueda)
-    );
-  }
-
-  ordenarHabitaciones(campo: string, orden: string): void {
-    this.habitacionesFiltradas.sort((a, b) => {
-      if (orden === 'asc') {
-        return a[campo] > b[campo] ? 1 : -1;
-      } else {
-        return a[campo] < b[campo] ? 1 : -1;
-      }
-    });
-  }
-
-  ordenarDisponibilidad(tipo: string): void {
-    if (tipo === 'DISPONIBLE') {
-      this.habitacionesFiltradas.sort((a, b) => {
-        if (a.disponibilidad === 'DISPONIBLE' && b.disponibilidad !== 'DISPONIBLE') {
-          return -1;
-        } else if (a.disponibilidad !== 'DISPONIBLE' && b.disponibilidad === 'DISPONIBLE') {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else if (tipo === 'RESERVADA') {
-      this.habitacionesFiltradas.sort((a, b) => {
-        if (a.disponibilidad === 'RESERVADA' && b.disponibilidad !== 'RESERVADA') {
-          return -1;
-        } else if (a.disponibilidad !== 'RESERVADA' && b.disponibilidad === 'RESERVADA') {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    } else if (tipo === 'OCUPADA') {
-      this.habitacionesFiltradas.sort((a, b) => {
-        if (a.disponibilidad === 'OCUPADA' && b.disponibilidad !== 'OCUPADA') {
-          return -1;
-        } else if (a.disponibilidad !== 'OCUPADA' && b.disponibilidad === 'OCUPADA') {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    }
   }
 }

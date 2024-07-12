@@ -11,62 +11,85 @@
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-                    <input type="text" class="form-control me-2" placeholder="Buscar reservación..." (input)="buscarReservacion($event)">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-filter"></i> Ordenar
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('idReservacion', 'asc')">ID Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('idReservacion', 'desc')">ID Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('fechaInicio', 'asc')">Día de Entrada Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('fechaInicio', 'desc')">Día de Entrada Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('total', 'asc')">Total Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarReservaciones('total', 'desc')">Total Descendente</button></li>
-                        </ul>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar reservación..." (input)="buscarReservacion($event)">
                     </div>
                 </div>
 
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Habitación</th>
-                            <th>Tiempo de reservación</th>
-                            <th>Total</th>
+                            <th (click)="ordenarReservaciones('idReservacion')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idReservacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idReservacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idReservacion' && orden === 'desc'"></i>
+                                ID
+                            </th>
+                            <th (click)="ordenarReservaciones('idCliente.persona.nombre')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCliente.persona.nombre'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCliente.persona.nombre' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCliente.persona.nombre' && orden === 'desc'"></i>
+                                Cliente
+                            </th>
+                            <th (click)="ordenarReservaciones('idHabitacion.habitacion')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idHabitacion.habitacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idHabitacion.habitacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idHabitacion.habitacion' && orden === 'desc'"></i>
+                                Habitación
+                            </th>
+                            <th (click)="ordenarReservaciones('fechaInicio')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaInicio'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaInicio' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaInicio' && orden === 'desc'"></i>
+                                Tiempo de reservación
+                            </th>
+                            <th (click)="ordenarReservaciones('total')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'total'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'total' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'total' && orden === 'desc'"></i>
+                                Total
+                            </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let reservacion of reservacionesFiltradas">
                             <td>{{ reservacion.idReservacion }}</td>
-                            <td>{{ reservacion.idCliente.persona.nombre}}</td>
+                            <td>{{ reservacion.idCliente.persona.nombre }} {{ reservacion.idCliente.persona.apellidoPaterno }} {{ reservacion.idCliente.persona.apellidoMaterno }}</td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
-                                    <li> <strong>Habitación:</strong> {{ reservacion.idHabitacion.habitacion }} </li>
-                                    <li> <strong>Precio x Día:</strong> $ {{ reservacion.idHabitacion.precioDia }}</li>
-                                    <li> <strong>Cupo:</strong> {{ reservacion.idHabitacion.cupo }}</li>
-                                </ul>    
+                                    <li><strong>Habitación:</strong> {{ reservacion.idHabitacion.habitacion }}</li>
+                                    <li><strong>Cupo:</strong> {{ reservacion.idHabitacion.cupo }}</li>
+                                    <li><strong>Precio / Depósito</strong></li>
+                                    <li>Noche: $ {{ reservacion.idHabitacion.precioPorNoche }} - {{ reservacion.idHabitacion.depositoInicialNoche }}</li>
+                                    <li>Semana: $ {{ reservacion.idHabitacion.precioPorSemana }} - {{ reservacion.idHabitacion.depositoInicialSemana }}</li>
+                                    <li>Mes: $ {{ reservacion.idHabitacion.precioPorMes }} - {{ reservacion.idHabitacion.depositoInicialMes }}</li>
+                                </ul>
                             </td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
                                     <li><strong>Entrada:</strong> {{ reservacion.fechaInicio }}</li>
-                                    <li><strong>Días: </strong> {{ reservacion.dias}}</li>
-                                    <li><strong>Salida: </strong> {{ reservacion.fechaFinal }}</li>
+                                    <li><strong>Tiempo:</strong> {{ reservacion.tiempoReservacion }} {{ reservacion.tipoReservacion }}</li>
+                                    <li><strong>Salida:</strong> {{ reservacion.fechaFinal }}</li>
                                 </ul>
                             </td>
-                            <td>$ {{ reservacion.total }}</td>
+                            <td>
+                                <ul style="list-style: none; margin: 0; padding: 0;">
+                                    <li><strong>Depósito:</strong> $ {{ reservacion.depositoInicial }}</li>
+                                    <li><strong>Total:</strong> $ {{ reservacion.total }}</li>
+                                </ul>
+                            </td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarReservacion(reservacion.idReservacion)"></i>
                                 <i class="borrar fa-solid fa-trash" (click)="openDeleteModal(reservacion.idReservacion)"></i>
-                            </td>                            
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
 
 <!-- Modal para Confirmar Eliminación -->

@@ -1,8 +1,16 @@
+<app-sidebar></app-sidebar>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="form-container">
+                <div class="close-button-container">
+                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/clientes/clientes-lista'>
+                        X
+                    </button>
+                </div>
                 <h2 class="text-center form-title">{{ titulo }}</h2>
+                
                 <form [formGroup]="formCliente" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
                         <label for="clientName">Nombre del Cliente<span class="text-danger"> *</span></label>

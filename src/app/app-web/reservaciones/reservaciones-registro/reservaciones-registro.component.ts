@@ -18,6 +18,7 @@ export class ReservacionesRegistroComponent implements OnInit {
     id: any | null;
     clientes: any[] = [];
     habitaciones: any[] = [];
+    tipoReservacion: string[] = ['NOCHE', 'SEMANA', 'MES'];
 
     constructor(
         private fb: FormBuilder,
@@ -31,7 +32,8 @@ export class ReservacionesRegistroComponent implements OnInit {
         this.formReservacion = this.fb.group({
             idCliente: ['', [Validators.required]],
             fechaInicio: ['', [Validators.required]],
-            dias: ['', [Validators.required]],
+            tiempoReservacion: ['0', [Validators.required]],
+            tipoReservacion: ['', [Validators.required]],
             idHabitacion: ['', [Validators.required]],
         });
 
@@ -63,7 +65,8 @@ export class ReservacionesRegistroComponent implements OnInit {
                 this.formReservacion.patchValue({
                     idCliente: response.idCliente.idCliente,
                     fechaInicio: response.fechaInicio,
-                    dias: response.dias,
+                    tiempoReservacion: response.tiempoReservacion,
+                    tipoReservacion: response.tipoReservacion,
                     idHabitacion: response.idHabitacion.idHabitacion
                 });
 
@@ -126,7 +129,8 @@ export class ReservacionesRegistroComponent implements OnInit {
         return {
             idCliente: formModel.idCliente,
             fechaInicio: formModel.fechaInicio,
-            dias: formModel.dias,
+            tiempoReservacion: formModel.tiempoReservacion,
+            tipoReservacion: formModel.tipoReservacion,
             idHabitacion: formModel.idHabitacion
         };
     }

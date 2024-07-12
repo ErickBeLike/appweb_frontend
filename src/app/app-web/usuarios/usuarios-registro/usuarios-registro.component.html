@@ -1,7 +1,14 @@
+<app-sidebar></app-sidebar>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="form-container">
+                <div class="close-button-container">
+                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/usuarios/usuarios-lista'>
+                        X
+                    </button>
+                </div>
                 <h2 class="text-center">{{ titulo }}</h2>
                 <form [formGroup]="formUsuario" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">

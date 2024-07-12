@@ -16,27 +16,30 @@
 
 /* Estilos para botones personalizados */
 .btn-custom {
-  background-color: #F28502; /* Color de fondo */
-  border-color: #F28502; /* Color del borde */
-  color: #FFFFFF; /* Color del texto */
+  background-color: #F28502;
+  border-color: #F28502; 
+  color: #FFFFFF;
 }
 
 .btn-custom:hover {
-  background-color: #D76E00; /* Color de fondo al pasar el ratón */
-  border-color: #D76E00; /* Color del borde al pasar el ratón */
-  color: #FFFFFF; /* Color del texto al pasar el ratón */
+  background-color: #D76E00; 
+  border-color: #D76E00;
+  color: #FFFFFF; 
 }
 
+/* Estilos para botones personalizados */
 .btn-outline-custom {
-  border-color: #F28502; /* Color del borde */
-  color: #F28502; /* Color del texto */
-}
-
-.btn-outline-custom:hover {
-  background-color: #F28502; /* Color de fondo al pasar el ratón */
-  border-color: #F28502; /* Color del borde al pasar el ratón */
-  color: #FFFFFF; /* Color del texto al pasar el ratón */
-}
+  border-color: #F28502;
+  color: #F28502;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+  }
+  
+  .btn-outline-custom:hover {
+  background-color: #F28502;
+  border-color: #F28502;
+  color: #FFFFFF;
+  transform: scale(1.05);
+  }
 
 .editar {
   color: #25a701; 
@@ -59,11 +62,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
 }
 
-/* Estilos para la barra de búsqueda y el ícono de filtro */
-.input-group {
-  max-width: 500px;
+.coso {
+  color: #001D38;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.dropdown-toggle::after {
-  margin-left: 0.5em;
+.coso:hover {
+  color: #F28502;
+  transform: scale(1.05);
 }

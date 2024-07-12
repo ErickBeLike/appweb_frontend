@@ -11,35 +11,52 @@
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-          <input type="text" class="form-control me-2" placeholder="Buscar habitación..." (input)="buscarHabitacion($event)">
-          <div class="dropdown">
-            <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-filter"></i> Ordenar
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('idHabitacion', 'asc')">Predeterminado</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('habitacion', 'asc')">Nombre de habitación Ascendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('habitacion', 'desc')">Nombre de habitación Descendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('cupo', 'asc')">Cupo Ascendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('cupo', 'desc')">Cupo Descendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('precioDia', 'asc')">Precio Ascendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarHabitaciones('precioDia', 'desc')">Precio Descendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('DISPONIBLE')">Habitaciones Disponibles</button></li>
-              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('RESERVADA')">Habitaciones Reservadas</button></li>
-              <li><button class="dropdown-item" (click)="ordenarDisponibilidad('OCUPADA')">Habitaciones Ocupadas</button></li>
-            </ul>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" class="form-control" placeholder="Buscar habitación..." (input)="buscarHabitacion($event)">
           </div>
         </div>
 
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Habitación</th>
-              <th>Cupo</th>
-              <th>Precio por día</th>
-              <th>Disponibilidad</th>
-              <th></th>
+              <th (click)="ordenarHabitaciones('idHabitacion')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idHabitacion'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idHabitacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idHabitacion' && orden === 'desc'"></i>
+                Id
+              </th>
+              <th (click)="ordenarHabitaciones('habitacion')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'habitacion'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'habitacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'habitacion' && orden === 'desc'"></i>
+                Habitación
+              </th>
+              <th (click)="ordenarHabitaciones('cupo')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'cupo'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'cupo' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'cupo' && orden === 'desc'"></i>
+                Cupo
+              </th>
+              <th (click)="ordenarHabitaciones('precioPorNoche')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'precioPorNoche'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'precioPorNoche' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'precioPorNoche' && orden === 'desc'"></i>
+                Precio
+              </th>
+              <th (click)="ordenarHabitaciones('depositoInicialNoche')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'depositoInicialNoche'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'desc'"></i>
+                Depósito
+              </th>
+              <th (click)="ordenarHabitaciones('disponibilidad')" style="cursor: pointer">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'disponibilidad'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'disponibilidad' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'disponibilidad' && orden === 'desc'"></i>
+                Disponibilidad
+              </th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -47,16 +64,27 @@
               <td><strong>{{ habitacion.idHabitacion }}</strong></td>
               <td>{{ habitacion.habitacion }}</td>
               <td>{{ habitacion.cupo }}</td>
-              <td>$ {{ habitacion.precioDia }}</td>
+              <td>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                  <li><strong>Noche:</strong> $ {{ habitacion.precioPorNoche }}</li>
+                  <li><strong>Semana:</strong> $ {{ habitacion.precioPorSemana }}</li>
+                  <li><strong>Mes:</strong> $ {{ habitacion.precioPorMes }}</li>
+                </ul>
+              </td>
+              <td>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                  <li>$ {{ habitacion.depositoInicialNoche }}</li>
+                  <li>$ {{ habitacion.depositoInicialSemana }}</li>
+                  <li>$ {{ habitacion.depositoInicialMes }}</li>
+                </ul>
+              </td>
               <td style="position: relative;">
                 <span class="status-circle" [ngClass]="{
                   'green': habitacion.disponibilidad === 'DISPONIBLE',
-                  'yellow': habitacion.disponibilidad === 'RESERVADA',
                   'red': habitacion.disponibilidad === 'OCUPADA'
                 }"></span>
                 <select class="form-select custom-select" [(ngModel)]="habitacion.disponibilidad" (change)="actualizarDisponibilidad(habitacion)">
                   <option value="DISPONIBLE" [selected]="habitacion.disponibilidad === 'DISPONIBLE'">DISPONIBLE</option>
-                  <option value="RESERVADA" [selected]="habitacion.disponibilidad === 'RESERVADA'">RESERVADA</option>
                   <option value="OCUPADA" [selected]="habitacion.disponibilidad === 'OCUPADA'">OCUPADA</option>
                 </select>
               </td>

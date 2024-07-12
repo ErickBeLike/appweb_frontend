@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VentasService } from '../../services/ventas/ventas.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode';
 
 @Component({
   selector: 'app-ventas-lista',
@@ -15,6 +16,8 @@ export class VentasListaComponent implements OnInit {
   ventaAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   filtro: string = '';
+  ordenActual: string = 'idVenta'; 
+  orden: string = 'asc';
 
   constructor(
     private ventasService: VentasService,
@@ -33,6 +36,65 @@ export class VentasListaComponent implements OnInit {
     }, error => {
       console.error(error);
     });
+  }
+
+  buscarVenta(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda
+
+    if (valor === '') {
+      this.ventasFiltradas = [...this.ventas];
+    } else {
+      this.ventasFiltradas = this.ventas.filter(venta =>
+        this.contieneTextoNormalizado(venta.idVenta.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(venta.total.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(venta.fechaVenta.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(venta.idEmpleado.persona.nombre.toLowerCase(), valorNormalizado) ||
+        this.contieneProducto(venta.detallesVenta, valorNormalizado)
+      );
+    }
+  }
+
+  contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
+    const textoNormalizado = unidecode(texto); // Normaliza el texto de la tabla
+    return textoNormalizado.includes(valorNormalizado);
+  }
+
+  contieneProducto(detallesVenta: any[], valorNormalizado: string): boolean {
+    for (const detalleVenta of detallesVenta) {
+      if (this.contieneTextoNormalizado(detalleVenta.producto.nombreProducto.toLowerCase(), valorNormalizado)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  ordenarVentas(criterio: string, orden: string) {
+    if (this.ordenActual === criterio) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordenActual = criterio;
+      this.orden = 'asc';
+    }
+
+    const factor = this.orden === 'asc' ? 1 : -1;
+    this.ventasFiltradas.sort((a, b) => {
+      const aValue = this.obtenerValor(a, criterio);
+      const bValue = this.obtenerValor(b, criterio);
+
+      if (aValue < bValue) return -1 * factor;
+      if (aValue > bValue) return 1 * factor;
+      return 0;
+    });
+  }
+
+  obtenerValor(venta: any, criterio: string): any {
+    const keys = criterio.split('.');
+    let value = venta;
+    for (const key of keys) {
+      value = value[key];
+    }
+    return value;
   }
 
   openDeleteModal(idVenta: number) {
@@ -71,30 +133,5 @@ export class VentasListaComponent implements OnInit {
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
-  }
-
-  buscarVenta(event: any) {
-    const valor = event.target.value.toLowerCase();
-    this.ventasFiltradas = this.ventas.filter((venta: any) => {
-      return (
-        venta.idVenta.toString().includes(valor) ||
-        venta.total.toString().includes(valor) ||
-        venta.fechaVenta.includes(valor)
-      );
-    });
-  }
-
-  ordenarVentas(criterio: string, orden: string) {
-    this.ventasFiltradas.sort((a: any, b: any) => {
-      const primerValor = a[criterio];
-      const segundoValor = b[criterio];
-      if (primerValor < segundoValor) {
-        return orden === 'asc' ? -1 : 1;
-      } else if (primerValor > segundoValor) {
-        return orden === 'asc' ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
   }
 }

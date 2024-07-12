@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductosService } from '../../services/productos/productos.service';
+import { ProductosService } from '../../services/productos/productos.service'; // Asegúrate de tener el servicio correcto
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode';
 
 @Component({
   selector: 'app-productos-lista',
@@ -13,6 +14,8 @@ export class ProductosListaComponent implements OnInit {
   productosFiltrados: any[] = [];
   productoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  ordenActual: string = 'idProducto'; // Columna de orden predeterminada
+  orden: string = 'asc'; // Dirección de orden predeterminada
 
   constructor(
     private productosService: ProductosService,
@@ -25,12 +28,57 @@ export class ProductosListaComponent implements OnInit {
   }
 
   obtenerTodosLosProductos() {
-    this.productosService.obtenerTodosLosProductos().subscribe(response => {
-      this.productos = response;
+    this.productosService.obtenerTodosLosProductos().subscribe(
+      (response: any[]) => {
+        this.productos = response;
+        this.productosFiltrados = [...this.productos];
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  buscarProducto(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    const valorNormalizado = unidecode(valor);
+
+    if (valor === '') {
       this.productosFiltrados = [...this.productos];
-    }, error => {
-      console.error(error);
+    } else {
+      this.productosFiltrados = this.productos.filter(producto =>
+        this.contieneTextoNormalizado(producto.nombreProducto.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(producto.precioProducto.toString(), valorNormalizado)
+      );
+    }
+  }
+
+  contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
+    const textoNormalizado = unidecode(texto);
+    return textoNormalizado.includes(valorNormalizado);
+  }
+
+  ordenarProductos(campo: string) {
+    if (this.ordenActual === campo) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordenActual = campo;
+      this.orden = 'asc';
+    }
+
+    const factor = this.orden === 'asc' ? 1 : -1;
+    this.productosFiltrados.sort((a, b) => {
+      const aValue = this.obtenerValor(a, campo);
+      const bValue = this.obtenerValor(b, campo);
+
+      if (aValue < bValue) return -1 * factor;
+      if (aValue > bValue) return 1 * factor;
+      return 0;
     });
+  }
+
+  obtenerValor(obj: any, campo: string) {
+    return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
   openDeleteModal(idProducto: number) {
@@ -45,52 +93,32 @@ export class ProductosListaComponent implements OnInit {
 
   confirmarEliminarProducto() {
     if (this.productoAEliminar !== null) {
-      this.productosService.eliminarProducto(this.productoAEliminar).subscribe(response => {
-        this.obtenerTodosLosProductos();
-        this.toastr.success('Producto eliminado exitosamente', '', {
-          enableHtml: true,
-          toastClass: 'toast-eliminar'
-        });
-        this.closeDeleteModal();
-      }, error => {
-        console.error(error);
-        this.toastr.error('ERROR al querer eliminar el producto', '', {
-          enableHtml: true,
-          toastClass: 'toast-error'
-        });
-        this.closeDeleteModal();
-      });
+      this.productosService.eliminarProducto(this.productoAEliminar).subscribe(
+        () => {
+          this.obtenerTodosLosProductos();
+          this.toastr.success('Producto eliminado exitosamente', '', {
+            enableHtml: true,
+            toastClass: 'toast-eliminar'
+          });
+          this.closeDeleteModal();
+        },
+        error => {
+          console.error(error);
+          this.toastr.error('ERROR al querer eliminar el producto', '', {
+            enableHtml: true,
+            toastClass: 'toast-error'
+          });
+          this.closeDeleteModal();
+        }
+      );
     }
   }
 
-  editarProducto(idProducto: number): void {
+  editarProducto(idProducto: number) {
     this.router.navigate(['/app-web/productos/productos-registro', idProducto]);
   }
 
   generarReporte() {
-    // Implementa la lógica para generar un reporte en PDF
-  }
-
-  buscarProducto(event: any): void {
-    const valorBusqueda = event.target.value.toLowerCase();
-    this.productosFiltrados = this.productos.filter(producto => {
-      return (
-        producto.idProducto.toString().toLowerCase().includes(valorBusqueda) ||
-        producto.nombreProducto.toLowerCase().includes(valorBusqueda) ||
-        producto.precioProducto.toString().toLowerCase().includes(valorBusqueda)
-      );
-    });
-  }
-
-  ordenarProductos(campo: string, orden: 'asc' | 'desc'): void {
-    this.productosFiltrados.sort((a, b) => {
-      if (a[campo] < b[campo]) {
-        return orden === 'asc' ? -1 : 1;
-      }
-      if (a[campo] > b[campo]) {
-        return orden === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
+    // Lógica para generar reporte PDF (puedes utilizar la implementación que ya tienes) o una acción distinta
   }
 }

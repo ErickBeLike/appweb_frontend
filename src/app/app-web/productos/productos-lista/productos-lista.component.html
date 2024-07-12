@@ -11,29 +11,34 @@
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-                    <input type="text" class="form-control me-2" placeholder="Buscar producto..." (input)="buscarProducto($event)">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-filter"></i> Ordenar
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><button class="dropdown-item" (click)="ordenarProductos('idProducto', 'asc')">ID Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarProductos('idProducto', 'desc')">ID Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarProductos('nombreProducto', 'asc')">Nombre Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarProductos('nombreProducto', 'desc')">Nombre Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarProductos('precioProducto', 'asc')">Precio Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarProductos('precioProducto', 'desc')">Precio Descendente</button></li>
-                        </ul>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar producto..." (input)="buscarProducto($event)">
                     </div>
                 </div>
 
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th></th>
+                            <th (click)="ordenarProductos('idProducto')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idProducto'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idProducto' && orden === 'desc'"></i>
+                                Id
+                            </th>
+                            <th (click)="ordenarProductos('nombreProducto')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreProducto'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'nombreProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'nombreProducto' && orden === 'desc'"></i>
+                                Nombre
+                            </th>
+                            <th (click)="ordenarProductos('precioProducto')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'precioProducto'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'precioProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'precioProducto' && orden === 'desc'"></i>
+                                Precio
+                            </th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

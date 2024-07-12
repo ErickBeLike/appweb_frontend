@@ -1,7 +1,14 @@
+<app-sidebar></app-sidebar>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="form-container">
+                <div class="close-button-container">
+                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink="/app-web/ventas/ventas-lista">
+                        X
+                    </button>
+                </div>
                 <h2 class="text-center">{{ titulo }}</h2>
                 <form [formGroup]="formVenta" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
@@ -23,7 +30,7 @@
                                     <label for="quantity-{{i}}">Cantidad</label>
                                     <input id="quantity-{{i}}" type="number" min="1" [formControl]="getControl(i)" required class="form-control">
                                 </div>
-                                <button type="button" class="btn btn-danger ml-3" (click)="eliminarProducto(i)">Eliminar</button>
+                                <button type="button" class="btn btn-danger ml-3" style="margin-left: 15%;" (click)="eliminarProducto(i)">Eliminar</button>
                             </div>
                         </div>
                     </div>
@@ -45,7 +52,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="productModalLabel">Seleccionar productos</h5>
-                <button type="button" class="btn btn-secondary" aria-label="Close" (click)="closeModal()">
+                <button type="button" class="btn btn-secondary close-btn" aria-label="Close" (click)="closeModal()">
                     X
                 </button>
             </div>
@@ -61,4 +68,3 @@
         </div>
     </div>
 </div>
-

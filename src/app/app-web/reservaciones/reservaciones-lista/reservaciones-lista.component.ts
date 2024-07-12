@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReservacionesService } from '../../services/reservaciones/reservaciones.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode';
 
 @Component({
   selector: 'app-reservaciones-lista',
@@ -14,6 +15,8 @@ export class ReservacionesListaComponent implements OnInit {
   reservacionAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   filtro: string = '';
+  ordenActual: string = 'idReservacion'; 
+  orden: string = 'asc'; 
 
   constructor(
     private reservacionesService: ReservacionesService, 
@@ -32,6 +35,53 @@ export class ReservacionesListaComponent implements OnInit {
     }, error => {
       console.error(error);
     });
+  }
+
+  buscarReservacion(event: any): void {
+    const valor = event.target.value.toLowerCase().trim();
+    if (valor === '') {
+      this.reservacionesFiltradas = [...this.reservaciones];
+    } else {
+      this.reservacionesFiltradas = this.reservaciones.filter(
+        (reservacion) =>
+          unidecode(reservacion.idCliente.persona.nombre.toLowerCase()).includes(valor) ||
+          unidecode(reservacion.idCliente.persona.apellidoPaterno.toLowerCase()).includes(valor) ||
+          unidecode(reservacion.idCliente.persona.apellidoMaterno.toLowerCase()).includes(valor) ||
+          unidecode(reservacion.idHabitacion.habitacion.toLowerCase()).includes(valor)
+      );
+    }
+  }
+
+  ordenarReservaciones(columna: string): void {
+    if (columna === this.ordenActual) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordenActual = columna;
+      this.orden = 'asc';
+    }
+
+    this.reservacionesFiltradas.sort((a, b) => {
+      const aValue = this.extraerValor(a, columna);
+      const bValue = this.extraerValor(b, columna);
+
+      if (this.orden === 'asc') {
+        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+      } else {
+        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+      }
+    });
+  }
+
+  extraerValor(obj: any, path: string): any {
+    const keys = path.split('.');
+    let value = obj;
+    for (const key of keys) {
+      if (value[key] === undefined) {
+        return '';
+      }
+      value = value[key];
+    }
+    return value;
   }
 
   openDeleteModal(idReservacion: number) {
@@ -70,30 +120,5 @@ export class ReservacionesListaComponent implements OnInit {
 
   generarReporte() {
     // Implementa la lógica para generar un reporte en PDF
-  }
-
-  buscarReservacion(event: any) {
-    const valor = event.target.value.toLowerCase();
-    this.reservacionesFiltradas = this.reservaciones.filter((reservacion: any) => {
-      return (
-        reservacion.idReservacion.toString().includes(valor) ||
-        reservacion.fechaInicio.includes(valor) ||
-        reservacion.total.toString().includes(valor)
-      );
-    });
-  }
-
-  ordenarReservaciones(criterio: string, orden: string) {
-    this.reservacionesFiltradas.sort((a: any, b: any) => {
-      const primerValor = a[criterio];
-      const segundoValor = b[criterio];
-      if (primerValor < segundoValor) {
-        return orden === 'asc' ? -1 : 1;
-      } else if (primerValor > segundoValor) {
-        return orden === 'asc' ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
   }
 }

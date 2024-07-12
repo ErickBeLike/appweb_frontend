@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientesService } from '../../services/clientes/clientes.service';
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode'; // Importa la función unidecode
 
 @Component({
   selector: 'app-clientes-lista',
@@ -13,8 +14,14 @@ export class ClientesListaComponent implements OnInit {
   clientesFiltrados: any[] = [];
   clienteAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  ordenActual: string = 'idCliente'; // Columna de orden predeterminada
+  orden: string = 'asc'; // Dirección de orden predeterminada
 
-  constructor(private clientesService: ClientesService, private router: Router, private toastr: ToastrService) {}
+  constructor(
+    private clientesService: ClientesService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosClientes();
@@ -33,18 +40,36 @@ export class ClientesListaComponent implements OnInit {
   }
 
   buscarCliente(event: Event) {
-    const valor = (event.target as HTMLInputElement).value.toLowerCase();
-    this.clientesFiltrados = this.clientes.filter(cliente => 
-      cliente.persona.nombre.toLowerCase().includes(valor) ||
-      cliente.persona.apellidoPaterno.toLowerCase().includes(valor) ||
-      cliente.persona.apellidoMaterno.toLowerCase().includes(valor) ||
-      cliente.persona.telefono.includes(valor) ||
-      cliente.persona.correo.toLowerCase().includes(valor)
-    );
+    const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda
+
+    if (valor === '') {
+      this.clientesFiltrados = [...this.clientes];
+    } else {
+      this.clientesFiltrados = this.clientes.filter(cliente =>
+        this.contieneTextoNormalizado(cliente.persona.nombre.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(cliente.persona.apellidoPaterno.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(cliente.persona.apellidoMaterno.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(cliente.persona.telefono.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(cliente.persona.correo.toLowerCase(), valorNormalizado)
+      );
+    }
   }
 
-  ordenarClientes(campo: string, orden: string) {
-    const factor = orden === 'asc' ? 1 : -1;
+  contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
+    const textoNormalizado = unidecode(texto); // Normaliza el texto de la tabla
+    return textoNormalizado.includes(valorNormalizado);
+  }
+
+  ordenarClientes(campo: string) {
+    if (this.ordenActual === campo) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordenActual = campo;
+      this.orden = 'asc';
+    }
+
+    const factor = this.orden === 'asc' ? 1 : -1;
     this.clientesFiltrados.sort((a, b) => {
       const aValue = this.obtenerValor(a, campo);
       const bValue = this.obtenerValor(b, campo);
@@ -82,7 +107,6 @@ export class ClientesListaComponent implements OnInit {
         },
         error => {
           console.error(error);
-          this.obtenerTodosLosClientes();
           this.toastr.error('ERROR al querer eliminar al cliente', '', {
             enableHtml: true,
             toastClass: 'toast-error'

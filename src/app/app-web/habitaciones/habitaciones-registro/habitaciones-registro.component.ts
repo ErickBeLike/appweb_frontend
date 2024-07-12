@@ -27,8 +27,13 @@ export class HabitacionesRegistroComponent {
         this.formHabitacion = this.fb.group({
             habitacion: ['', Validators.required],
             cupo: ['', Validators.required],
-            precioDia: ['', Validators.required],
-            disponibilidad: ['', Validators.required]
+            precioPorNoche: ['0', Validators.required],
+            depositoInicialNoche: ['0', Validators.required],
+            precioPorSemana: ['0', Validators.required],
+            depositoInicialSemana: ['0', Validators.required],
+            precioPorMes: ['0', Validators.required],
+            depositoInicialMes: ['0', Validators.required],
+            disponibilidad: ['DISPONIBLE', Validators.required]
         });
 
         this.id = this.route.snapshot.paramMap.get('id');

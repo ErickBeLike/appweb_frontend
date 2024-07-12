@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmpleadosService } from '../../services/empleados/empleados.service';
 import { ToastrService } from 'ngx-toastr';
+import unidecode from 'unidecode'; // Nota: utiliza 'unidecode' en lugar de '{ unidecode }'
+
 
 @Component({
   selector: 'app-empleados-lista',
@@ -13,6 +15,8 @@ export class EmpleadosListaComponent implements OnInit {
   empleadosFiltrados: any[] = [];
   empleadoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
+  ordenActual: string = 'idEmpleado'; // Columna de orden predeterminada
+  orden: string = 'asc'; // Dirección de orden predeterminada
 
   constructor(
     private empleadosService: EmpleadosService, 
@@ -37,29 +41,54 @@ export class EmpleadosListaComponent implements OnInit {
   }
 
   buscarEmpleado(event: Event) {
-    const valor = (event.target as HTMLInputElement).value.toLowerCase();
-    this.empleadosFiltrados = this.empleados.filter(empleado => 
-      empleado.persona.nombre.toLowerCase().includes(valor) ||
-      empleado.persona.apellidoPaterno.toLowerCase().includes(valor) ||
-      empleado.persona.apellidoMaterno.toLowerCase().includes(valor) ||
-      empleado.persona.telefono.includes(valor) ||
-      empleado.persona.correo.toLowerCase().includes(valor)
-    );
+    const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda
+
+    if (valor === '') {
+      this.empleadosFiltrados = [...this.empleados];
+    } else {
+      this.empleadosFiltrados = this.empleados.filter(empleado => 
+        this.contieneTextoNormalizado(empleado.idEmpleado.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.persona.nombre.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.idCargo.nombreCargo.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.fechaNacimiento.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.sexo.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.persona.correo.toLowerCase(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.persona.telefono.toString(), valorNormalizado) ||
+        this.contieneTextoNormalizado(empleado.direccionEmpleado.toLowerCase(), valorNormalizado) ||
+        empleado.diasLaborales.some((dia: string) => this.contieneTextoNormalizado(dia.toLowerCase(), valorNormalizado))
+      );
+    }
   }
 
-  ordenarEmpleados(campo: string, orden: string) {
-    const factor = orden === 'asc' ? 1 : -1;
-    this.empleadosFiltrados.sort((a, b) => {
-      const aValue = this.obtenerValor(a, campo);
-      const bValue = this.obtenerValor(b, campo);
+  contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
+    const textoNormalizado = unidecode(texto); // Normaliza el texto de la tabla
+    return textoNormalizado.includes(valorNormalizado);
+  }
 
-      if (aValue < bValue) return -1 * factor;
-      if (aValue > bValue) return 1 * factor;
-      return 0;
+  ordenarEmpleados(columna: string) {
+    if (columna === this.ordenActual) {
+      this.orden = this.orden === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordenActual = columna;
+      this.orden = 'asc';
+    }
+
+    this.empleadosFiltrados.sort((a, b) => {
+      const valorA = this.obtenerValorParaOrden(a, columna);
+      const valorB = this.obtenerValorParaOrden(b, columna);
+
+      if (valorA > valorB) {
+        return this.orden === 'asc' ? 1 : -1;
+      } else if (valorA < valorB) {
+        return this.orden === 'asc' ? -1 : 1;
+      } else {
+        return 0;
+      }
     });
   }
 
-  obtenerValor(obj: any, campo: string) {
+  obtenerValorParaOrden(obj: any, campo: string) {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 

@@ -49,11 +49,13 @@ transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
 }
 
-/* Estilos para la barra de búsqueda y el ícono de filtro */
-.input-group {
-  max-width: 500px;
+.coso {
+  color: #001D38;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.dropdown-toggle::after {
-  margin-left: 0.5em;
+.coso:hover {
+  color: #F28502;
+  transform: scale(1.05);
 }

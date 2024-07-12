@@ -1,13 +1,29 @@
 .container {
     padding-top: 50px;
-    padding-bottom: 30px;
+    width: 82%;
+    align-items: right;
+    align-content: right;
+    margin-left: 17%;
+    margin-top: 20px;
+    padding-bottom: 50px;
 }
 
 .form-container {
+    position: relative; /* Añadir esta línea */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
     border-radius: 15px;
     padding: 20px;
     background-color: #FFFFFF;
+}
+
+.close-button-container {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+}
+
+.form-title {
+    color: #001D38;
 }
 
 .form-group {
@@ -33,19 +49,49 @@
     background-color: #001D38;
     border-color: #001D38;
     margin-right: 10px;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-danger:hover {
     background-color: #F28502;
     border-color: #F28502;
+    transform: scale(1.05);
 }
 
 .btn-success {
     background-color: #001D38;
     border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-success:hover {
     background-color: #F28502;
     border-color: #F28502;
+    transform: scale(1.05);
+}
+
+.btn-outline-secondary {
+    background-color: #ffffff;
+    color: #001D38;
+    border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.btn-outline-secondary:hover {
+    color: #FFFFFF;
+    background-color: #F28502;
+    border-color: #F28502;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #001D38;
+    border-color: #001D38;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #F28502;
+    border-color: #F28502;
+    transform: scale(1.05);
 }

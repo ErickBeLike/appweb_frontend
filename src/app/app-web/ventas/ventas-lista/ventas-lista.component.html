@@ -11,30 +11,40 @@
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-                    <input type="text" class="form-control me-2" placeholder="Buscar venta..." (input)="buscarVenta($event)">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-filter"></i> Ordenar
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><button class="dropdown-item" (click)="ordenarVentas('idVenta', 'asc')">ID Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarVentas('idVenta', 'desc')">ID Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarVentas('total', 'asc')">Total Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarVentas('total', 'desc')">Total Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarVentas('fechaVenta', 'asc')">Fecha Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarVentas('fechaVenta', 'desc')">Fecha Descendente</button></li>
-                        </ul>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar venta..." (input)="buscarVenta($event)">
                     </div>
                 </div>
 
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Empleado</th>
+                            <th (click)="ordenarVentas('idVenta', orden)" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idVenta'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idVenta' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idVenta' && orden === 'desc'"></i>
+                                ID
+                            </th>
+                            <th (click)="ordenarVentas('idEmpleado.persona.nombre', orden)" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idEmpleado.persona.nombre'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idEmpleado.persona.nombre' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idEmpleado.persona.nombre' && orden === 'desc'"></i>
+                                Empleado
+                            </th>
                             <th>Productos</th>
-                            <th>Total</th>
-                            <th>Fecha de venta</th>
+                            <th (click)="ordenarVentas('total', orden)" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'total'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'total' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'total' && orden === 'desc'"></i>
+                                Total
+                            </th>
+                            <th (click)="ordenarVentas('fechaVenta', orden)" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaVenta'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaVenta' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaVenta' && orden === 'desc'"></i>
+                                Fecha de venta
+                            </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -58,13 +68,13 @@
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarVenta(venta.idVenta)"></i>
                                 <i class="borrar fa-solid fa-trash" (click)="openDeleteModal(venta.idVenta)"></i>
-                            </td>                            
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
 
 <!-- Modal para Confirmar Eliminación -->

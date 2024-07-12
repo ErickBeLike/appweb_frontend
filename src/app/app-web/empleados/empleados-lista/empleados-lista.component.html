@@ -9,37 +9,67 @@
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/empleados/empleados-registro'>Agregar empleado</button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
-        <!-- Barra de búsqueda y filtro -->
-        <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-          <input type="text" class="form-control me-2" placeholder="Buscar empleado..." (input)="buscarEmpleado($event)">
-          <div class="dropdown">
-            <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-filter"></i> Ordenar
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><button class="dropdown-item" (click)="ordenarEmpleados('idEmpleado', 'asc')">Predeterminado</button></li>
-              <li><button class="dropdown-item" (click)="ordenarEmpleados('persona.nombre', 'asc')">Nombre Ascendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarEmpleados('persona.nombre', 'desc')">Nombre Descendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarEmpleados('fechaNacimiento', 'asc')">Fecha de Nacimiento Ascendente</button></li>
-              <li><button class="dropdown-item" (click)="ordenarEmpleados('fechaNacimiento', 'desc')">Fecha de Nacimiento Descendente</button></li>
-            </ul>
-          </div>
+        <!-- Barra de búsqueda -->
+        <div class="input-group mt-4 mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" class="form-control" placeholder="Buscar empleado..." (input)="buscarEmpleado($event)">
         </div>
 
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Nombre completo</th>
-              <th>Cargo</th>
-              <th>Fecha de nacimiento</th>
-              <th>Sexo</th>
-              <th>Correo</th>
-              <th>Teléfono</th>
-              <th>Dirección</th>
-              <th>Días laborales</th>
-              <th>Horario</th>
-              <th></th>
+              <th (click)="ordenarEmpleados('idEmpleado')" style="cursor: pointer">
+                ID
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idEmpleado'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idEmpleado' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idEmpleado' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('persona.nombre')" style="cursor: pointer">
+                Nombre completo
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.nombre'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.nombre' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.nombre' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('idCargo.nombreCargo')" style="cursor: pointer">
+                Cargo
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCargo.nombreCargo'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('fechaNacimiento')" style="cursor: pointer">
+                Fecha de nacimiento
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaNacimiento'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaNacimiento' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaNacimiento' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('sexo')" style="cursor: pointer">
+                Sexo
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'sexo'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'sexo' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'sexo' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('persona.correo')" style="cursor: pointer">
+                Correo
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.correo'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.correo' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.correo' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('persona.telefono')" style="cursor: pointer">
+                Teléfono
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.telefono'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.telefono' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
+              </th>
+              <th (click)="ordenarEmpleados('direccionEmpleado')" style="cursor: pointer">
+                Dirección
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'direccionEmpleado'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'direccionEmpleado' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'direccionEmpleado' && orden === 'desc'"></i>
+              </th>
+              <th>
+                Días laborales
+              </th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -54,13 +84,7 @@
               <td>{{ empleado.direccionEmpleado }}</td>
               <td>
                 <ul style="list-style: none; margin: 0; padding: 0;">
-                    <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
-                </ul>
-              </td>
-              <td>
-                <ul style="list-style: none; margin: 0; padding: 0;">
-                  <li><strong>Hora entrada:</strong> {{ empleado.horarioEntrada }}</li>
-                  <li><strong>Hora salida:</strong> {{ empleado.horarioSalida }}</li>
+                  <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
                 </ul>
               </td>
               <td>
@@ -77,19 +101,19 @@
 
 <!-- Modal para Confirmar Eliminación -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este empleado?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="confirmarEliminarEmpleado()">Eliminar</button>
-            </div>
-        </div>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar este empleado?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarEliminarEmpleado()">Eliminar</button>
+      </div>
     </div>
+  </div>
 </div>

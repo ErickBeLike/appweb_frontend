@@ -7,30 +7,37 @@
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario</button>
-                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-                    <input type="text" class="form-control me-2" placeholder="Buscar usuario..." (input)="buscarUsuario($event)">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-filter"></i> Ordenar
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><button class="dropdown-item" (click)="ordenarUsuarios('idUsuario', 'asc')">ID Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarUsuarios('idUsuario', 'desc')">ID Descendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarUsuarios('nombreUsuario', 'asc')">Nombre Ascendente</button></li>
-                            <li><button class="dropdown-item" (click)="ordenarUsuarios('nombreUsuario', 'desc')">Nombre Descendente</button></li>
-                        </ul>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar usuario..." (input)="buscarUsuario($event)">
                     </div>
                 </div>
 
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Rol</th>
-                            <th>Nombre</th>
+                            <th (click)="ordenarUsuarios('idUsuario')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idUsuario'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idUsuario' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idUsuario' && orden === 'desc'"></i>
+                                ID
+                            </th>
+                            <th (click)="ordenarUsuarios('rol')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'rol'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'rol' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'rol' && orden === 'desc'"></i>
+                                Rol
+                            </th>
+                            <th (click)="ordenarUsuarios('nombreUsuario')" style="cursor: pointer">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreUsuario'"></i>
+                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'nombreUsuario' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'nombreUsuario' && orden === 'desc'"></i>
+                                Nombre
+                            </th>
                             <th>Contraseña</th>
                             <th>Acciones</th>
                         </tr>
@@ -61,7 +68,7 @@
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
 
 <!-- Modal para Confirmar Eliminación -->
