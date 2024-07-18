@@ -17,6 +17,8 @@ import { VentasListaComponent } from './app-web/ventas/ventas-lista/ventas-lista
 import { VentasRegistroComponent } from './app-web/ventas/ventas-registro/ventas-registro.component';
 import { ReservacionesListaComponent } from './app-web/reservaciones/reservaciones-lista/reservaciones-lista.component';
 import { ReservacionesRegistroComponent } from './app-web/reservaciones/reservaciones-registro/reservaciones-registro.component';
+import { CargosListaComponent } from './app-web/cargos/cargos-lista/cargos-lista.component';
+import { CargosRegistroComponent } from './app-web/cargos/cargos-registro/cargos-registro.component';
 import { LoginComponent } from './app-web/login/login.component';
 import { DashboardComponent } from './app-web/dashboard/dashboard.component';
 import { SidebarComponent } from './app-web/sidebar/sidebar.component';
@@ -32,6 +34,7 @@ import { MapComponent } from './landing-page/map/map.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+
 
 
 
@@ -61,7 +64,9 @@ import { ToastrModule } from 'ngx-toastr';
     ContactoComponent,
     NavBarComponent,
     FooterComponent,
-    MapComponent
+    MapComponent,
+    CargosRegistroComponent,
+    CargosListaComponent
   ],
   imports: [
     BrowserModule,

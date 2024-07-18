@@ -18,6 +18,8 @@ import { VentasListaComponent } from './app-web/ventas/ventas-lista/ventas-lista
 import { VentasRegistroComponent } from './app-web/ventas/ventas-registro/ventas-registro.component';
 import { ReservacionesListaComponent } from './app-web/reservaciones/reservaciones-lista/reservaciones-lista.component';
 import { ReservacionesRegistroComponent } from './app-web/reservaciones/reservaciones-registro/reservaciones-registro.component';
+import { CargosListaComponent } from './app-web/cargos/cargos-lista/cargos-lista.component';
+import { CargosRegistroComponent } from './app-web/cargos/cargos-registro/cargos-registro.component';
 import { DashboardComponent } from './app-web/dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -82,6 +84,20 @@ const routes: Routes = [
   {
     path: 'app-web/empleados/empleados-registro/:id',
     component: EmpleadosRegistroComponent,
+  },
+
+  //Cargos
+  {
+    path: 'app-web/cargos/cargos-lista',
+    component: CargosListaComponent,
+  },
+  {
+    path: 'app-web/cargos/cargos-registro',
+    component: CargosRegistroComponent,
+  },
+  {
+    path: 'app-web/cargos/cargos-registro/:id',
+    component: CargosRegistroComponent,
   },
 
   //Usuarios

@@ -54,7 +54,8 @@ export class EmpleadosRegistroComponent implements OnInit {
             horarioEntradaAMPM: ['AM', [Validators.required]],
             horarioSalidaHora: ['', [Validators.required, Validators.pattern(/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/)]],
             horarioSalidaAMPM: ['PM', [Validators.required]]
-        });
+        }, { validators: atLeastOneDayValidator });
+        
 
         this.id = this.route.snapshot.paramMap.get('id');
     }
@@ -265,4 +266,11 @@ prepareSaveEmpleado() {
     toggleSmallElementsVisibility(elementId: string, show: boolean) {
         this.showSmallElements[elementId] = show;
       }
+      
+}
+
+function atLeastOneDayValidator(formGroup: FormGroup): { [key: string]: boolean } | null {
+    const days = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+    const atLeastOneSelected = days.some(day => formGroup.get(day)?.value);
+    return atLeastOneSelected ? null : { atLeastOneDayRequired: true };
 }

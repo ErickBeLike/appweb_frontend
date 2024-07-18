@@ -26,4 +26,12 @@ export class CargosService {
   agregarVariosCargos(cargos: any[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiUrl}/batch`, cargos);
   }
+
+  actualizarCargo(id: number, cargo: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, cargo);
+  }
+
+  eliminarCargo(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
 }

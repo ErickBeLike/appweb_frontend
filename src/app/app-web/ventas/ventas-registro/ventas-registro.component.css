@@ -70,7 +70,7 @@
 .btn-danger {
     background-color: #001D38;
     border-color: #001D38;
-    margin-right: 10px;
+    margin-right: 5px;
     transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
@@ -121,12 +121,14 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    margin-left: 41.5%;
 }
 
 .modal-content {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
     border-radius: 15px;
     position: relative;
+    
 }
 
 .modal-header {

@@ -6,13 +6,13 @@
             <div class="form-container">
                 <div class="close-button-container">
                     <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/empleados/empleados-lista'>
-                        X
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center form-title">{{ titulo }}</h2>
                 <form [formGroup]="formEmpleado" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
-                        <label for="employeeName">Nombre(s)<span class="text-danger"> *</span></label>
+                        <label for="employeeName"><i class="fa-solid fa-user"></i> Nombre(s)<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="employeeName" formControlName="nombre" (input)="onInput($event)" 
                         (focus)="toggleSmallElementsVisibility('employeeNameHelp', true)" 
                         (blur)="toggleSmallElementsVisibility('employeeNameHelp', false)" required>
@@ -20,14 +20,14 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="employeeLastName1">Apellido Paterno<span class="text-danger"> *</span></label>
+                            <label for="employeeLastName1"><i class="fa-solid fa-user"></i> Apellido Paterno<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" id="employeeLastName1" formControlName="apellidoPaterno" (input)="onInputPa($event)" 
                             (focus)="toggleSmallElementsVisibility('employeeLastName1Help', true)" 
                             (blur)="toggleSmallElementsVisibility('employeeLastName1Help', false)" required>
                             <small id="employeeLastName1Help" class="form-text text-muted" [hidden]="!showSmallElements['employeeLastName1Help']">No se aceptan números ni símbolos raros</small>
                         </div>
                         <div class="col-md-6">
-                            <label for="employeeLastName2">Apellido Materno</label>
+                            <label for="employeeLastName2"><i class="fa-solid fa-user"></i> Apellido Materno</label>
                             <input type="text" class="form-control" id="employeeLastName2" formControlName="apellidoMaterno" (input)="onInputMa($event)" 
                             (focus)="toggleSmallElementsVisibility('employeeLastName2Help', true)" 
                             (blur)="toggleSmallElementsVisibility('employeeLastName2Help', false)">
@@ -36,14 +36,14 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="employeeRole">Cargo<span class="text-danger"> *</span></label>
+                            <label for="employeeRole"><i class="fa-solid fa-toolbox"></i> Cargo<span class="text-danger"> *</span></label>
                             <select class="form-control" id="employeeRole" formControlName="idCargo" required>
                                 <option value="" disabled selected>Seleccionar cargo...</option>
                                 <option *ngFor="let cargo of cargos" [value]="cargo.idCargo">{{ cargo.idCargo }} - {{ cargo.nombreCargo }}</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="employeeSex">Sexo<span class="text-danger"> *</span></label>
+                            <label for="employeeSex"><i class="fa-solid fa-venus-mars"></i> Sexo<span class="text-danger"> *</span></label>
                             <select class="form-control" id="employeeSex" formControlName="sexo" required>
                                 <option value="" disabled selected>Seleccionar sexo...</option>
                                 <option *ngFor="let s of sexos" [value]="s">{{ s }}</option>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="employeeDate">Fecha de nacimiento<span class="text-danger"> *</span></label>
+                        <label for="employeeDate"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento<span class="text-danger"> *</span></label>
                         <input type="date" class="form-control" id="employeeDate" formControlName="fechaNacimiento" required
                         (focus)="toggleSmallElementsVisibility('employeeDate', true)" 
                         (blur)="toggleSmallElementsVisibility('employeeDate', false)" required>
@@ -59,14 +59,14 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="employeeEmail">Correo<span class="text-danger"> *</span></label>
+                            <label for="employeeEmail"><i class="fa-solid fa-envelope"></i> Correo<span class="text-danger"> *</span></label>
                             <input type="email" class="form-control" id="employeeEmail" formControlName="correo" 
                             (focus)="toggleSmallElementsVisibility('employeeEmailHelp', true)" 
                             (blur)="toggleSmallElementsVisibility('employeeEmailHelp', false)" required>
                             <small id="employeeEmailHelp" class="form-text text-muted" [hidden]="!showSmallElements['employeeEmailHelp']">Ejemplo: empleado&#64;dominio.com</small>
                         </div>
                         <div class="col-md-6">
-                            <label for="employeePhone">Teléfono<span class="text-danger"> *</span></label>
+                            <label for="employeePhone"><i class="fa-solid fa-phone"></i> Teléfono<span class="text-danger"> *</span></label>
                             <input type="text" class="form-control" id="employeePhone" formControlName="telefono" 
                             (input)="inTelefonoInput($event)" 
                             (focus)="toggleSmallElementsVisibility('employeePhoneHelp', true)" 
@@ -75,11 +75,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="direction">Dirección<span class="text-danger"> *</span></label>
+                        <label for="direction"><i class="fa-solid fa-location-dot"></i> Dirección<span class="text-danger"> *</span></label>
                         <textarea type="text" class="form-control" id="direction" formControlName="direccionEmpleado" rows="3" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="workDays">Días laborales</label><br>
+                    <div class="form-group" [formGroup]="formEmpleado">
+                        <label for="workDays"><i class="fa-solid fa-calendar-days"></i> Días laborales<span class="text-danger"> *</span></label><br>
                         <input class="form-check-input" type="checkbox" formControlName="LUNES"> Lunes<br>
                         <input class="form-check-input" type="checkbox" formControlName="MARTES"> Martes<br>
                         <input class="form-check-input" type="checkbox" formControlName="MIERCOLES"> Miércoles<br>
@@ -87,10 +87,14 @@
                         <input class="form-check-input" type="checkbox" formControlName="VIERNES"> Viernes<br>
                         <input class="form-check-input" type="checkbox" formControlName="SABADO"> Sábado<br>
                         <input class="form-check-input" type="checkbox" formControlName="DOMINGO"> Domingo<br>
+                        <small *ngIf="formEmpleado.errors?.['atLeastOneDayRequired']" class="text-danger">
+                            Debe seleccionar al menos un día laboral.
+                        </small>
+                        
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="horarioEntrada">Horario de Entrada<span class="text-danger"> *</span></label>
+                            <label for="horarioEntrada"><i class="fa-solid fa-clock"></i> Horario de Entrada<span class="text-danger"> *</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" formControlName="horarioEntradaHora" placeholder="HH:MM" maxlength="5" (input)="formatearHorario($event)">
                                 <select class="form-control" formControlName="horarioEntradaAMPM">
@@ -100,7 +104,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="horarioSalida">Horario de Salida<span class="text-danger"> *</span></label>
+                            <label for="horarioSalida"><i class="fa-solid fa-clock"></i> Horario de Salida<span class="text-danger"> *</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" formControlName="horarioSalidaHora" placeholder="HH:MM" maxlength="5" (input)="formatearHorario($event)">
                                 <select class="form-control" formControlName="horarioSalidaAMPM">
