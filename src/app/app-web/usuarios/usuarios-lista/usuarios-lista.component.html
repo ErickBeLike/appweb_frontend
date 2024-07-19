@@ -3,7 +3,7 @@
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
-            <span class="h1">Usuarios</span>
+            <span class="h1"><i class="fa-solid fa-users"></i> Usuarios</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario <i class="fa-solid fa-plus"></i></button>
@@ -44,7 +44,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let usuario of usuariosFiltrados">
-                            <td>{{ usuario.idUsuario }}</td>
+                            <td><strong>{{ usuario.idUsuario }}</strong></td>
                             <td>{{ usuario.rol }}</td>
                             <td>{{ usuario.nombreUsuario }}</td>
                             <td>

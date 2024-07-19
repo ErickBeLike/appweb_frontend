@@ -3,7 +3,7 @@
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
-            <span class="h1">Reservaciones</span>
+            <span class="h1"><i class="fa-solid fa-book"></i> Reservaciones</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/reservaciones/reservaciones-registro">Agregar reservación <i class="fa-solid fa-plus"></i></button>
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let reservacion of reservacionesFiltradas">
-                            <td>{{ reservacion.idReservacion }}</td>
+                            <td><strong>{{ reservacion.idReservacion }}</strong></td>
                             <td>{{ reservacion.idCliente.persona.nombre }} {{ reservacion.idCliente.persona.apellidoPaterno }} {{ reservacion.idCliente.persona.apellidoMaterno }}</td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">

@@ -3,7 +3,7 @@
 <section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
-      <span class="h1">Cargos</span>
+      <span class="h1"><i class="fa-solid fa-toolbox"></i> Cargos</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/cargos/cargos-registro'>Agregar cargo <i class="fa-solid fa-plus"></i></button>
@@ -24,7 +24,7 @@
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCargo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCargo' && orden === 'desc'"></i>
-                Id
+                ID
               </th>
               <th (click)="ordenarCargos('nombreCargo')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreCargo'"></i>

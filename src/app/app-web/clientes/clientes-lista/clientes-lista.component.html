@@ -3,7 +3,7 @@
 <section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
-      <span class="h1">Clientes</span>
+      <span class="h1"><i class="fa-solid fa-address-book"></i> Clientes</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente <i class="fa-solid fa-plus"></i></button>
@@ -25,7 +25,7 @@
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCliente'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCliente' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCliente' && orden === 'desc'"></i>
-                Id
+                ID
               </th>
               <th (click)="ordenarClientes('persona.nombre')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.nombre'"></i>

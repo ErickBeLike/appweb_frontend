@@ -3,7 +3,7 @@
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
-            <span class="h1">Ventas</span>
+            <span class="h1"><i class="fa-solid fa-cash-register"></i> Ventas</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
                 <button class="btn btn-outline-custom btn-lg float-end" routerLink="/app-web/ventas/ventas-registro">Agregar venta <i class="fa-solid fa-plus"></i></button>
@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let venta of ventasFiltradas">
-                            <td>{{ venta.idVenta }}</td>
+                            <td><strong>{{ venta.idVenta }}</strong></td>
                             <td>{{ venta.idEmpleado.persona.nombre }}</td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
