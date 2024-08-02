@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuariosService } from '../../services/usuarios/usuarios.service';
+import { AuthService } from '../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+
 @Component({
   selector: 'app-usuarios-lista',
   templateUrl: './usuarios-lista.component.html',
@@ -15,11 +16,11 @@ export class UsuariosListaComponent implements OnInit {
   contrasenasVisiblesPorFila: { [key: number]: boolean } = {};
   usuarioAEliminar: number | null = null;
   showDeleteModal: boolean = false;
-  ordenActual: string = 'idUsuario'; 
-  orden: string = 'asc'; 
+  ordenActual: string = 'idUsuario';
+  orden: string = 'asc';
 
   constructor(
-    private usuariosService: UsuariosService,
+    private authService: AuthService, // Usa el AuthService para las operaciones de usuario
     private router: Router,
     private toastr: ToastrService
   ) {}
@@ -29,7 +30,7 @@ export class UsuariosListaComponent implements OnInit {
   }
 
   obtenerTodosLosUsuarios() {
-    this.usuariosService.obtenerTodosLosUsuarios().subscribe(response => {
+    this.authService.obtenerTodosLosUsuarios().subscribe(response => {
       this.usuarios = response;
       this.usuariosFiltrados = [...this.usuarios];
     }, error => {
@@ -89,20 +90,20 @@ export class UsuariosListaComponent implements OnInit {
 
   confirmarEliminarUsuario() {
     if (this.usuarioAEliminar !== null) {
-      this.usuariosService.eliminarUsuario(this.usuarioAEliminar).subscribe(response => {
+      this.authService.eliminarUsuario(this.usuarioAEliminar).subscribe(response => {
         this.obtenerTodosLosUsuarios();
         this.toastr.success('Usuario eliminado exitosamente', '', {
           enableHtml: true,
-          toastClass: 'toast-eliminar' 
-      });
-      this.closeDeleteModal();
+          toastClass: 'toast-eliminar'
+        });
+        this.closeDeleteModal();
       }, error => {
         console.error(error);
-        this.toastr.success('ERROR al querer eliminar el usuario', '', {
+        this.toastr.error('ERROR al querer eliminar el usuario', '', {
           enableHtml: true,
-          toastClass: 'toast-error' 
-      });
-      this.closeDeleteModal();
+          toastClass: 'toast-error'
+        });
+        this.closeDeleteModal();
       });
     }
   }
@@ -116,7 +117,7 @@ export class UsuariosListaComponent implements OnInit {
   }
 
   ocultarContrasena(contrasena: string): string {
-    return contrasena.replace(/./g, '*');
+    return contrasena.replace(/./g, '•');
   }
 
   alternarVisibilidadContrasenas() {

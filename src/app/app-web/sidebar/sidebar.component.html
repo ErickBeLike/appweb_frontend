@@ -2,7 +2,7 @@
   <div class="sidebar-header">
     <img src="assets/images/logo-pro.png" alt="Logo" class="logo" routerLink="/app-web/dashboard">
     <h5>SUITES CENTER</h5>
-    <p>Panel Administrativo</p>
+    <p>Bienvenido! <strong>{{ nombreUsuario }}</strong></p>
   </div>
   <ul class="sidebar-menu">
     <!-- Clientes -->
@@ -13,7 +13,7 @@
       </div>
     </li>
     <!-- Empleados -->
-    <li class="menu-item">
+    <li class="menu-item" *ngIf="isAdmin">
       <div class="menu-title">
         <a routerLink="/app-web/empleados/empleados-lista"><i class="fa-solid fa-address-card"></i> Empleados</a>
         <span class="toggle-icon"></span>
@@ -48,14 +48,14 @@
       </div>
     </li>
     <!-- Usuarios -->
-    <li class="menu-item">
+    <li class="menu-item" *ngIf="isAdmin">
       <div class="menu-title">
         <a routerLink="/app-web/usuarios/usuarios-lista"><i class="fa-solid fa-users"></i> Usuarios</a>
         <span class="toggle-icon"></span>
       </div>
     </li>
     <!-- Cargos -->
-    <li class="menu-item">
+    <li class="menu-item" *ngIf="isAdmin">
       <div class="menu-title">
         <a routerLink="/app-web/cargos/cargos-lista"><i class="fa-solid fa-toolbox"></i> Cargos</a>
         <span class="toggle-icon"></span>
@@ -63,6 +63,6 @@
     </li>
   </ul>
   <div class="logout-button-container">
-    <button type="submit" class="btn btn-outline-light" routerLink="/app-web/login">Cerrar sesión <i class="fa-solid fa-door-open"></i></button>
+    <button type="submit" class="btn btn-outline-light" routerLink="/app-web/login" (click)="onLogOut()">Cerrar sesión <i class="fa-solid fa-door-open"></i></button>
   </div>
 </nav>

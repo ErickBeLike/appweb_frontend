@@ -1,48 +1,113 @@
-.container.h-100 {
-  min-height: 100%;
+/* Archivo: login.component.css */
+
+.login-section {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #FFFFF0;
+  background-image: url('/assets/images/landing-page/fondo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 7%;
+  height: 100vh;
+  padding: 20px;
 }
 
 .login-container {
-  background-color: #f4f4f4; /* Cambiar el color de fondo aquí */
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px #3f3f3f4a;
-  margin: 0 auto;
-  max-width: 350px; /* Cambiar el tamaño del contenedor */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
 }
 
-.logo.center-logo {
+.logo {
   display: block;
-  margin: 0 auto; /* Esto centra la imagen */
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.btn-secondary {
-  width: 100px;
-  margin-top: 20px;
+.form-group label {
   display: block;
-  margin: 0 auto;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Incluye el padding y border en el cálculo del ancho y alto */
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group .form-control {
+  flex: 1; /* Ocupa el espacio disponible */
+  border-radius: 5px 0 0 5px; /* Ajusta los bordes del campo de entrada */
+}
+
+.input-group .btn {
+  border-radius: 0 5px 5px 0; /* Ajusta los bordes del botón */
+  border-left: 1px solid #ccc; /* Agrega un borde entre el campo de entrada y el botón */
+  padding: 10px; /* Asegura que el botón tenga el mismo padding que el campo de entrada */
+  height: 100%; /* Hace que el botón tenga la misma altura que el campo de entrada */
+  box-sizing: border-box; /* Incluye el padding y border en el cálculo del ancho y alto */
+}
+
+.btn-outline-secondary {
+  border-color: #ddd;
+  color: #333;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #F28502;
+  border-color: #F28502;
+  color: #fff;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: #F28502;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
 
-.btn-secondary:hover  {
-  background-color: #F28502;
-  border-color: #F28502;
+.btn-primary:hover {
+  background-color: #d97102;
   transform: scale(1.05);
 }
 
-.logo {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
+.message {
+  color: #d9534f;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 3vh;
 }
 
 .back-button {
@@ -64,9 +129,4 @@
 
 .back-button i {
   color: #000;
-}
-
-.btn-outline-secondary:hover {
-  background-color: #F28502;
-  border-color: #F28502;
 }

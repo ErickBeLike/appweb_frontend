@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HabitacionesService } from '../../services/habitaciones/habitaciones.service';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+import { TokenService } from '../../services/authentication/token.service';
 
 @Component({
   selector: 'app-habitaciones-lista',
@@ -16,15 +17,22 @@ export class HabitacionesListaComponent implements OnInit {
   showDeleteModal: boolean = false;
   ordenActual: string = 'idHabitacion';
   orden: string = 'asc';
+  roles: string[] = [];
+
+  isLogged = false;
+  isAdmin = false;
 
   constructor(
     private habitacionesService: HabitacionesService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodasLasHabitaciones();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodasLasHabitaciones() {

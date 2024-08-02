@@ -19,9 +19,11 @@ import { ReservacionesListaComponent } from './app-web/reservaciones/reservacion
 import { ReservacionesRegistroComponent } from './app-web/reservaciones/reservaciones-registro/reservaciones-registro.component';
 import { CargosListaComponent } from './app-web/cargos/cargos-lista/cargos-lista.component';
 import { CargosRegistroComponent } from './app-web/cargos/cargos-registro/cargos-registro.component';
-import { LoginComponent } from './app-web/login/login.component';
+import { LoginComponent } from './app-web/login/login.component'; 
 import { DashboardComponent } from './app-web/dashboard/dashboard.component';
 import { SidebarComponent } from './app-web/sidebar/sidebar.component';
+
+import { CommonModule } from '@angular/common'; // Necesario para ngClass
 
 import { InicioComponent } from './landing-page/inicio/inicio.component';
 import { ServiciosComponent } from './landing-page/servicios/servicios.component';
@@ -34,6 +36,7 @@ import { MapComponent } from './landing-page/map/map.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { interceptorProvider } from './app-web/interceptors/prod-interceptor-service.service';
 
 
 
@@ -66,13 +69,14 @@ import { ToastrModule } from 'ngx-toastr';
     FooterComponent,
     MapComponent,
     CargosRegistroComponent,
-    CargosListaComponent
+    CargosListaComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -82,7 +86,8 @@ import { ToastrModule } from 'ngx-toastr';
     })
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    interceptorProvider
   ],
   bootstrap: [AppComponent]
 })

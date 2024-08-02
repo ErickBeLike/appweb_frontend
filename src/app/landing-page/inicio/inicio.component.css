@@ -1,10 +1,14 @@
-body {
-    font-family: Arial, sans-serif;
+.body {
     margin: 0;
     padding: 0;
     color: #333;
     background-color: #FFFFF0; /* Fondo general */
+    background-image: url('/assets/images/landing-page/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 
 .container {
     max-width: 1200px;
@@ -41,12 +45,23 @@ body {
 
 .hero-text {
     max-width: 600px;
+    margin-right: 40px;
 }
 
 .hero-text h1 {
     font-size: 3em;
     margin-bottom: 20px;
     color: #F28502; /* Color del título */
+}
+
+.hero-text p {
+    font-size: 1.1em;
+}
+
+.carousel-inner {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
 .carousel-item img {

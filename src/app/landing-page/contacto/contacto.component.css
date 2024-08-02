@@ -1,15 +1,18 @@
-body {
-    font-family: Arial, sans-serif;
+.body {
     margin: 0;
     padding: 0;
     color: #333;
-    background-color: #FFFFF0;
+    background-color: #FFFFF0; /* Fondo general */
+    background-image: url('/assets/images/landing-page/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .container {
     max-width: 1200px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     background-color: #fff; /* Fondo blanco para el contenedor principal */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307); /* Sombra sutil */
     border-radius: 10px;

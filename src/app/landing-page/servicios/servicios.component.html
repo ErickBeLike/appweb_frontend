@@ -1,170 +1,566 @@
+<section class="body">
 <app-nav-bar></app-nav-bar>
+    <div class="container" data-aos="fade-up">
+        <section class="hero" data-aos="fade-up">
+            <h2>Servicios</h2>
+            <div class="services-list">
+                <a class="service">Habitaciones climatizadas</a>
+                <a class="service">Restaurante / cafetería</a>
+                <a class="service">Area recreativa</a>
+                <a class="service">Circuito cerrado las 24 horas del día</a>
+                <a class="service">Estacionamiento </a>
+                <a class="service">Internet inalámbrico</a>
+                <a class="service">Televisores de plasma</a>
+                <a class="service">Servicio de lavandería y tintorería</a>
+            </div>
+        </section>
 
-<div class="container" data-aos="fade-up">
-    <section class="hero" data-aos="fade-up">
-        <h2>Servicios</h2>
-        <div class="services-list" >
-            <a href="\landing-page\servicios\#rooms" class="service">Habitaciones <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="\landing-page\servicios\#restaurant" class="service">Restaurante / cafetería <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="\landing-page\servicios\#recreational-area" class="service">Area recreativa <i class="fa-solid fa-arrow-right"></i></a>
-            <a class="service">Servicio 4</a>
-            <a class="service">Servicio 5</a>
-            <a class="service">Servicio 6</a>
-            <a class="service">Servicio 7</a>
-            <a class="service">Servicio 8</a>
-        </div>
-    </section>
+        <section class="rooms-carousel" data-aos="fade-up">
+            <h2>Habitaciones</h2>
+            <div id="roomsCarousel" class="hero carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_1.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal1"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación sencilla (sin clima)</h3>
+                                <p>
+                                    Disfruta de una estancia cómoda y económica en nuestra habitación sencilla.
+                                    Perfecta para quienes buscan un lugar acogedor para descansar en Córdoba,
+                                    Veracruz. Ideal para viajes cortos y escapadas rápidas.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong><span class="text-secondary"> * renta exclusiva por
+                                        día</span></p>
+                                <p>Día $220</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal1">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal2"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación sencilla (con clima)</h3>
+                                <p>
+                                    Relájate en nuestra habitación sencilla con aire acondicionado. Disfruta de
+                                    una estancia confortable en cualquier época del año. Perfecta para descansar
+                                    después de un día de actividades.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong></p>
+                                <p>Día $290</p>
+                                <p>Semanal $1600</p>
+                                <p>Mensual $2850</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal2">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-    <section id="rooms"></section>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal3"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación sencilla (con cocina)</h3>
+                                <p>
+                                    Ideal para estancias prolongadas, nuestra habitación con cocina te ofrece
+                                    comodidad y conveniencia. Siente la calidez de un hogar mientras preparas
+                                    tus comidas favoritas.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong></p>
+                                <p>Día $350</p>
+                                <p>Semanal $1900</p>
+                                <p>Mensual $3950</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal3">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-    <section class="rooms"  data-aos="fade-up">
-        <h2>Habitaciones</h2>
-        <div class="rooms-list">
-            <div class="room" id="room1" data-aos="zoom-in" style="background-image: url('/assets/images/landing-page/habitacion_1.jpg');" data-bs-toggle="modal" data-bs-target="#roomModal1">
+                    <!-- Slide 4 -->
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal4"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación mediana</h3>
+                                <p>
+                                    Perfecta para pequeños grupos o familias, esta habitación mediana ofrece
+                                    espacio adicional y todas las comodidades necesarias para una estancia
+                                    relajante.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong></p>
+                                <p>Día $400</p>
+                                <p>Semanal $2100</p>
+                                <p>Mensual $4390</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal4">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal5"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación grande</h3>
+                                <p>
+                                    Nuestra habitación grande es ideal para quienes necesitan más espacio.
+                                    Disfruta de una estancia cómoda con todas las facilidades necesarias
+                                    para una experiencia memorable.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong></p>
+                                <p>Día $450</p>
+                                <p>Semanal $2200</p>
+                                <p>Mensual $4850</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal5">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 -->
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <div class="carousel-image"
+                                style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');"
+                                data-bs-toggle="modal" data-bs-target="#roomModal6"></div>
+                            <div class="carousel-text">
+                                <h3>Habitación extra grande</h3>
+                                <p>
+                                    Para quienes buscan el máximo espacio y comodidad, nuestra habitación
+                                    extra grande es perfecta para grupos grandes o familias. Disfruta de
+                                    una estancia amplia y confortable, ideal para viajes cortos o de paso.
+                                </p>
+                                <br>
+                                <p><strong>Costos:</strong><span class="text-secondary"> * renta exclusiva por
+                                        día</span></p>
+                                <p>Día $550</p>
+                                <br>
+                                <a class="contact-link" data-bs-toggle="modal" data-bs-target="#roomModal6">Más
+                                    información.
+                                    <i class="fa-solid fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Agrega más slides aquí -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#roomsCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#roomsCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="4"
+                        aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="5"
+                        aria-label="Slide 6"></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="restaurant" data-aos="fade-up">
+            <h2>Restaurante / cafetería</h2>
+            <div id="restaurantCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="\assets\images\landing-page\carusel_1.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\carusel_2.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\carusel_3.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\carusel_4.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 4">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#restaurantCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#restaurantCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
+                </div>
                 <div class="overlay">
-                    <h3>Habitación 1</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>
+                        Disfruta de deliciosas comidas y bebidas en un ambiente acogedor.
+                        Nuestra cafetería es el lugar perfecto para relajarte y disfrutar de una buena comida.
+                    </p>
                 </div>
             </div>
-            
-            <div class="room" id="room2" data-aos="zoom-in" data-aos-delay="100" style="background-image: url('/assets/images/landing-page/habitacion_2.jpg');" data-bs-toggle="modal" data-bs-target="#roomModal2">
+
+        </section>
+
+        <section class="recreational-area" data-aos="fade-up">
+            <h2>Area recreativa</h2>
+            <div id="recreationalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="\assets\images\landing-page\recreational_1.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\recreational_2.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\recreational_3.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="\assets\images\landing-page\recreational_4.jpg" class="d-block w-100 fixed-size"
+                            alt="Imagen 4">
+                    </div>
+                    <!-- Agrega más imágenes si es necesario -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#recreationalCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#recreationalCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
+                </div>
                 <div class="overlay">
-                    <h3>Habitación 2</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>
+                        Disfruta de nuestro espacio versátil: relájate en el área recreativa o realiza tus
+                        reuniones en la cómoda área de juntas, diseñada para tu confort y productividad.
+                    </p>
                 </div>
             </div>
-            
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <section id="restaurant"></section>
-
-    <section class="restaurant" id="restaurant" data-aos="fade-up">
-        <h2>Restaurante / cafetería</h2>
-        <div id="restaurantCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="\assets\images\landing-page\carusel_1.jpg" class="d-block w-100 fixed-size" alt="Imagen 1">
+    <!-- Modal Habitación 1 -->
+    <div class="modal fade" id="roomModal1" tabindex="-1" aria-labelledby="roomModal1Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal1Label">Habitación sencilla (sin clima)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\carusel_2.jpg" class="d-block w-100 fixed-size" alt="Imagen 2">
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_1.jpg" class="img-fluid" alt="Habitación 1">
+                    <p><strong>Descripción:</strong>
+                        Disfruta de una estancia cómoda y económica en nuestra habitación sencilla.
+                        Perfecta para quienes buscan un lugar acogedor para descansar, esta habitación
+                        cuenta con una cama matrimonial, agua caliente, TV por cable y un ventilador
+                        para mantenerte fresco. Ideal para viajes cortos y escapadas rápidas.
+                    </p>
+                    <p><strong>Cupo:</strong> 2 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>1 Cama matrimonial</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>1 Ventilador</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="text-secondary"> * renta exclusiva por día</span>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $220 - Depósito $220</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
                 </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\carusel_3.jpg" class="d-block w-100 fixed-size" alt="Imagen 3">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\carusel_4.jpg" class="d-block w-100 fixed-size" alt="Imagen 4">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#restaurantCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            </div>
-            <div class="overlay">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div> 
-        </div>
-           
-    </section>
-
-    <section id="recreational-area"></section>
-
-    <section class="recreational-area" id="recreational-area" data-aos="fade-up">
-        <h2>Area recreativa</h2>
-        <div id="recreationalCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="\assets\images\landing-page\recreational_1.jpg" class="d-block w-100 fixed-size" alt="Imagen 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\recreational_2.jpg" class="d-block w-100 fixed-size" alt="Imagen 2">
-                </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\recreational_3.jpg" class="d-block w-100 fixed-size" alt="Imagen 3">
-                </div>
-                <div class="carousel-item">
-                    <img src="\assets\images\landing-page\recreational_4.jpg" class="d-block w-100 fixed-size" alt="Imagen 4">
-                </div>
-                <!-- Agrega más imágenes si es necesario -->
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#recreationalCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#recreationalCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#recreationalCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            </div>
-            <div class="overlay">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>  
-        </div>
-    </section>
-</div>
-
-<!-- Modal Habitación 1 -->
-<div class="modal fade" id="roomModal1" tabindex="-1" aria-labelledby="roomModal1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="roomModal1Label">Habitación 1</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/assets/images/landing-page/habitacion_1.jpg" class="img-fluid" alt="Habitación 1">
-                <p><strong>Descripción:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p><strong>Tamaño:</strong> 25 m²</p>
-                <p><strong>Cupo:</strong> 2 personas</p>
-                <p><strong>Precio:</strong> $100 por noche</p>
-                <p><strong>Extras:</strong> Wi-Fi gratuito, desayuno incluido</p>
-                <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal Habitación 2 -->
-<div class="modal fade" id="roomModal2" tabindex="-1" aria-labelledby="roomModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="roomModal2Label">Habitación 2</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
-                <p>Descripción: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Tamaño: 30 m²</p>
-                <p>Cupo: 4 personas</p>
-                <p>Precio: $150 por noche</p>
-                <p>Extras: Jacuzzi, minibar</p>
-                <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+    <!-- Modal Habitación 2 -->
+    <div class="modal fade" id="roomModal2" tabindex="-1" aria-labelledby="roomModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal2Label">Habitación sencilla (con clima)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                    <p><strong>Descripción:</strong>
+                        Disfruta del confort en nuestra habitación sencilla con aire acondicionado.
+                        Relájate en una cama matrimonial mientras disfrutas de la TV por cable y el
+                        agua caliente. Perfecta para descansar después de un día de actividades en
+                        Córdoba, Veracruz. Mantente fresco y cómodo en cualquier época del año.
+                    </p>
+                    <p><strong>Cupo:</strong> 2 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>1 Cama matrimonial</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>Clima (aire acondicionado)</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $290 - Depósito $290</li>
+                        <li>Semanal $1600 - Depósito $1000</li>
+                        <li>Mensual $2850 - Depósito $2000</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Modal Habitación 3 -->
+    <div class="modal fade" id="roomModal3" tabindex="-1" aria-labelledby="roomModal3Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal2Label">Habitación sencilla (con cocina)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                    <p><strong>Descripción:</strong>
+                        Nuestra habitación sencilla con cocina es ideal para estancias prolongadas.
+                        Equipado con una cama matrimonial, aire acondicionado y TV por cable, además
+                        de una cocina integral con frigobar y estufa de mesa. Siente la comodidad de
+                        un hogar lejos de casa mientras preparas tus comidas favoritas.
+                    </p>
+                    <p><strong>Cupo:</strong> 2 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>1 Cama matrimonial</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>Climea (aire acondicionado)</li>
+                        <li>Cocina tipo integral (frigobar y una estufa de mesa)</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $350 - Depósito $350</li>
+                        <li>Semanal $1900 - Depósito $1000</li>
+                        <li>Mensual $3950 - Depósito $3000</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal Habitación 4 -->
+    <div class="modal fade" id="roomModal4" tabindex="-1" aria-labelledby="roomModal4Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal2Label">Habitación mediana</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                    <p><strong>Descripción</strong>
+                        Perfecta para pequeños grupos o familias, esta habitación mediana ofrece una
+                        cama matrimonial y una cama individual, aire acondicionado y TV por cable.
+                        Disfruta del espacio adicional y las comodidades necesarias para una estancia
+                        confortable y relajante.
+                    </p>
+                    <p><strong>Cupo:</strong> 3 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>1 Cama matrimonial</li>
+                        <li>1 Cama individual</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>Clima (aire acondicionado)</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $400 - Depósito $400</li>
+                        <li>Semanal $2100 - Depósito $1500</li>
+                        <li>Mensual $4390 - Depósito $3500</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Habitación 5 -->
+    <div class="modal fade" id="roomModal5" tabindex="-1" aria-labelledby="roomModal5Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal2Label">Habitación 5</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                    <p><strong>Descripción:</strong>
+                        Nuestra habitación grande es ideal para quienes necesitan más espacio.
+                        Con dos camas matrimoniales, aire acondicionado, TV por cable y una cocina
+                        completa, tendrás todo lo que necesitas para una estancia cómoda.
+                        Perfecta para familias o grupos que valoran el espacio y la conveniencia.
+                    </p>
+                    <p><strong>Cupo:</strong> 4 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>2 Camas matrimoniales</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>Clima (aire acondicionado)</li>
+                        <li>Cocina</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $450 - Depósito $450</li>
+                        <li>Semanal $2200 - Depósito $1500</li>
+                        <li>Mensual $4850 - Depósito $4000</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Habitación 6 -->
+    <div class="modal fade" id="roomModal6" tabindex="-1" aria-labelledby="roomModal6Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModal2Label">Habitación 6</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/images/landing-page/habitacion_2.jpg" class="img-fluid" alt="Habitación 2">
+                    <p><strong>Descripción:</strong>
+                        Para aquellos que buscan el máximo espacio y comodidad, nuestra habitación
+                        extra grande cuenta con dos camas matrimoniales y una cama individual.
+                        Con aire acondicionado y TV por cable, es perfecta para grupos grandes o familias
+                        que necesitan más espacio para relajarse y disfrutar en viajes cortos o de paso.
+                    </p>
+                    <p><strong>Cupo:</strong> 5 Personas</p>
+                    <p><strong>Incluye:</strong></p>
+                    <ul>
+                        <li>2 Camas matrimoniales</li>
+                        <li>1 Cama individual</li>
+                        <li>Agua caliente</li>
+                        <li>TV por cable</li>
+                        <li>Clima (aire acondicionado)</li>
+                    </ul>
+                    <p>
+                        <strong>Precios y </strong><span class="tooltip-container"><u><strong>Depósitos:</strong></u>
+                            <span class="text-secondary"> * renta exclusiva por día</span>
+                            <span class="tooltip-text">El depósito se reembolsa al finalizar la estancia si no hay
+                                daños.</span></span>
+                    </p>
+                    <ul>
+                        <li>Día $550 - Depósito $550</li>
+                    </ul>
+                    <p>¿Te interesa? <a href="\landing-page\contacto" class="contact-link">¡Contáctanos!</a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <app-footer></app-footer>
+</section>

@@ -1,102 +1,111 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UsuariosService } from '../../services/usuarios/usuarios.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../services/authentication/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { NuevoUsuario } from '../../models/nuevo-usuario';
 
 @Component({
-  selector: 'app-usuarios-registro',
+  selector: 'app-registro',
   templateUrl: './usuarios-registro.component.html',
-  styleUrls: ['./usuarios-registro.component.css']
+  styleUrls: ['./usuarios-registro.component.css'],
 })
 export class UsuariosRegistroComponent implements OnInit {
 
     titulo = 'Agregar usuario';
-    formUsuario: FormGroup;
-    id: any | null;
-    passwordVisible: boolean = false;
-    roles: string[] = ['USER', 'ADMIN'];
+    esEditar: boolean = false;
+    id: any | null = null;
+
+    showPassword: boolean = false;
     showSmallElements: { [key: string]: boolean } = {};
+    esAdmin: boolean = false;
+    nombreUsuario: string = '';
+    contrasena: string = '';
+    errMsj: string = '';
 
     constructor(
-        private fb: FormBuilder,
-        private usuariosService: UsuariosService,
+        private authService: AuthService,
         private router: Router,
-        private route: ActivatedRoute,
-        private toastr: ToastrService
-    ) {
-        this.formUsuario = this.fb.group({
-            rol: ['', [Validators.required]],
-            nombreUsuario: ['', [Validators.required]],
-            contrasenaUsuario: ['', [Validators.required, Validators.minLength(8)]],
-        });
+        private toastr: ToastrService,
+        private route: ActivatedRoute
+    ) {}
 
+    ngOnInit() {
         this.id = this.route.snapshot.paramMap.get('id');
-    }
-
-    ngOnInit(): void {
-        this.esEditar();
-    }
-
-    esEditar() {
-        if (this.id !== null) {
+        this.esEditar = this.id !== null;
+        if (this.esEditar) {
             this.titulo = 'Editar usuario';
-            this.usuariosService.buscarUsuarioId(this.id).subscribe(response => {
-                this.formUsuario.patchValue(response);
-            });
+            this.cargarUsuario(this.id); // Cargar datos del usuario
         }
     }
 
-    agregarOEditar(): void {
-        if (this.id === null) {
-            this.agregar();
+    onRegister(): void {
+        const roles = this.esAdmin ? ['admin'] : ['user'];
+        const nuevoUsuario = new NuevoUsuario(this.nombreUsuario, this.contrasena, roles);
+
+        if (this.esEditar) {
+            this.editar(this.id, nuevoUsuario);
         } else {
-            this.editar(this.id);
+            this.agregar(nuevoUsuario);
         }
     }
 
-    agregar(): void {
-        const usuario = this.formUsuario.value;
-        this.usuariosService.agregarUsuario(usuario).subscribe(
-            response => {
-                this.router.navigate(['/app-web/usuarios/usuarios-lista']);
+    agregar(nuevoUsuario: NuevoUsuario): void {
+        this.authService.nuevo(nuevoUsuario).subscribe(
+            data => {
                 this.toastr.success('Usuario agregado exitosamente', '', {
                     enableHtml: true,
-                    toastClass: 'toast-agregar' 
+                    toastClass: 'toast-agregar',
                 });
+                this.router.navigate(['/app-web/usuarios/usuarios-lista']);
             },
-            error => {
-                console.error(error);
-                this.toastr.success('ERROR al querer agregar el usuario', '', {
+            err => {
+                this.errMsj = err.error.mensaje;
+                this.toastr.error('ERROR al querer agregar al usuario', '', {
                     enableHtml: true,
-                    toastClass: 'toast-error' 
+                    toastClass: 'toast-error',
                 });
             }
         );
     }
 
-    editar(id: any): void {
-        const usuario = this.formUsuario.value;
-        this.usuariosService.actualizarUsuario(id, usuario).subscribe(
-            response => {
-                this.router.navigate(['/app-web/usuarios/usuarios-lista']);
+    editar(id: any, nuevoUsuario: NuevoUsuario): void {
+        this.authService.actualizarUsuario(id, nuevoUsuario).subscribe(
+            data => {
                 this.toastr.success('Usuario editado exitosamente', '', {
                     enableHtml: true,
-                    toastClass: 'toast-editar' 
+                    toastClass: 'toast-editar',
                 });
+                this.router.navigate(['/app-web/usuarios/usuarios-lista']);
             },
-            error => {
-                console.error(error);
-                this.toastr.success('ERROR al querer editar el usuario', '', {
+            err => {
+                this.errMsj = err.error.mensaje;
+                this.toastr.error('ERROR al querer editar al usuario', '', {
                     enableHtml: true,
-                    toastClass: 'toast-error' 
+                    toastClass: 'toast-error',
                 });
             }
         );
     }
 
-    togglePasswordVisibility(): void {
-        this.passwordVisible = !this.passwordVisible;
+    cargarUsuario(id: any): void {
+        this.authService.obtenerUsuarioPorId(id).subscribe(
+            data => {
+                this.nombreUsuario = data.nombreUsuario;
+                this.contrasena = data.contrasenaUncripted;
+                // Verificar si el usuario tiene el rol de admin
+                this.esAdmin = data.roles.some((rol: any) => rol.rolNombre === 'ROLE_ADMIN');
+            },
+            err => {
+                this.toastr.error('ERROR al cargar los datos del usuario', '', {
+                    enableHtml: true,
+                    toastClass: 'toast-error',
+                });
+            }
+        );
+    }
+
+    togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
     }
 
     toggleSmallElementsVisibility(smallId: string, show: boolean) {

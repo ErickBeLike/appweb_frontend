@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProductosService } from '../../services/productos/productos.service'; // Asegúrate de tener el servicio correcto
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+import { TokenService } from '../../services/authentication/token.service';
 
 @Component({
   selector: 'app-productos-lista',
@@ -17,14 +18,20 @@ export class ProductosListaComponent implements OnInit {
   ordenActual: string = 'idProducto'; // Columna de orden predeterminada
   orden: string = 'asc'; // Dirección de orden predeterminada
 
+  isLogged = false;
+  isAdmin = false;
+
   constructor(
     private productosService: ProductosService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosProductos();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodosLosProductos() {

@@ -30,7 +30,7 @@
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'rol'"></i>
                                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'rol' && orden === 'asc'"></i>
                                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'rol' && orden === 'desc'"></i>
-                                Rol
+                                Roles
                             </th>
                             <th (click)="ordenarUsuarios('nombreUsuario')" style="cursor: pointer">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreUsuario'"></i>
@@ -45,12 +45,22 @@
                     <tbody>
                         <tr *ngFor="let usuario of usuariosFiltrados">
                             <td><strong>{{ usuario.idUsuario }}</strong></td>
-                            <td>{{ usuario.rol }}</td>
+                            <td>
+                                <ng-container *ngIf="usuario.roles && usuario.roles.length > 0">
+                                    <span *ngFor="let rol of usuario.roles; let last = last">
+                                        {{ rol.rolNombre }}<ng-container *ngIf="!last">, </ng-container>
+                                    </span>
+                                </ng-container>
+                                <ng-container *ngIf="!usuario.roles || usuario.roles.length === 0">
+                                    Sin rol
+                                </ng-container>
+                            </td>
+                            
                             <td>{{ usuario.nombreUsuario }}</td>
                             <td>
-                                <ng-container *ngIf="contrasenasVisiblesPorFila[usuario.idUsuario]; else asteriscos">{{ usuario.contrasenaUsuario }}</ng-container>
-                                <ng-template #asteriscos>{{ ocultarContrasena(usuario.contrasenaUsuario) }}</ng-template>
-                            </td>
+                                <ng-container *ngIf="contrasenasVisiblesPorFila[usuario.idUsuario]; else asteriscos">{{ usuario.contrasenaUncripted }}</ng-container>
+                                <ng-template #asteriscos>{{ ocultarContrasena(usuario.contrasenaUncripted) }}</ng-template>
+                            </td>                            
                             <td>
                                 <button class="ver btn btn-link btn-sm" (click)="alternarVisibilidadContrasenaFila(usuario.idUsuario)">
                                     <ng-container *ngIf="!contrasenasVisiblesPorFila[usuario.idUsuario]">
@@ -77,8 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
-                </button>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
             </div>
             <div class="modal-body">
                 ¿Estás seguro de que deseas eliminar este usuario?

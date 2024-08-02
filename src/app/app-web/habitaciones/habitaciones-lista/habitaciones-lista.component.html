@@ -6,7 +6,7 @@
       <span class="h1"><i class="fa-solid fa-bed"></i> Habitaciones</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin" routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i class="fa-solid fa-plus"></i></button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
         <!-- Barra de búsqueda y filtro -->
@@ -89,8 +89,8 @@
                 </select>
               </td>
               <td>
-                <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarHabitacion(habitacion.idHabitacion)"></i>
-                <i (click)="openDeleteModal(habitacion.idHabitacion)" class="borrar fa-solid fa-trash"></i>
+                <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin" (click)="editarHabitacion(habitacion.idHabitacion)"></i>
+                <i (click)="openDeleteModal(habitacion.idHabitacion)" *ngIf="isAdmin" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
