@@ -1,60 +1,61 @@
 .ochenta {
-    width: 82%;
-    align-items: right;
-    align-content: right;
-    margin-left: 17%;
-    margin-top: 20px;
+  width: 82%;
+  align-items: right;
+  align-content: right;
+  margin-left: 17%;
+  margin-top: 20px;
 }
 
 .container {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
-    border-radius: 10px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
+  border-radius: 10px;
 }
 
 /* Estilos para botones personalizados */
 .btn-custom {
-  background-color: #F28502; 
-  border-color: #F28502;
-  color: #FFFFFF;
+  background-color: #f28502;
+  border-color: #f28502;
+  color: #ffffff;
 }
 
 .btn-custom:hover {
-  background-color: #D76E00; 
-  border-color: #D76E00; 
-  color: #FFFFFF; 
+  background-color: #d76e00;
+  border-color: #d76e00;
+  color: #ffffff;
 }
 
 /* Estilos para botones personalizados */
 .btn-outline-custom {
-  border-color: #F28502;
-  color: #F28502;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
-  }
-  
-  .btn-outline-custom:hover {
-  background-color: #F28502;
-  border-color: #F28502;
-  color: #FFFFFF;
+  border-color: #f28502;
+  color: #f28502;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    transform 0.3s;
+}
+
+.btn-outline-custom:hover {
+  background-color: #f28502;
+  border-color: #f28502;
+  color: #ffffff;
   transform: scale(1.05);
-  }
+}
 
 .editar {
-  color: #25a701; 
+  color: #25a701;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
 .borrar {
-  color: #c00c0c; 
+  color: #c00c0c;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
 .ver {
-  color: #007bff; 
+  color: #007bff;
   cursor: pointer;
   transition: transform 0.3s;
 }
@@ -71,12 +72,12 @@
 }
 
 .coso {
-  color: #001D38;
+  color: #001d38;
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .coso:hover {
-  color: #F28502;
+  color: #f28502;
   transform: scale(1.05);
 }

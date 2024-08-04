@@ -5,59 +5,72 @@
         <div class="col-md-7">
             <div class="form-container">
                 <div class="close-button-container">
-                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/clientes/clientes-lista'>
+                    <button type="button" class="btn btn-secondary" aria-label="Close"
+                        routerLink='/app-web/clientes/clientes-lista'>
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center form-title">{{ titulo }}</h2>
-                
+
                 <form [formGroup]="formCliente" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
-                        <label for="clientName"><i class="fa-solid fa-user"></i> Nombre del Cliente<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" id="clientName" 
-                        formControlName="nombre" (input)="onInput($event)" 
-                        (focus)="toggleSmallElementsVisibility('clientNameHelp', true)" 
-                        (blur)="toggleSmallElementsVisibility('clientNameHelp', false)" required>
-                        <small id="clientNameHelp" class="form-text text-muted" [hidden]="!showSmallElements['clientNameHelp']">No se aceptan números ni símbolos raros</small>
+                        <label for="clientName"><i class="fa-solid fa-user"></i> Nombre del Cliente<span
+                                class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="clientName" formControlName="nombre"
+                            (input)="onInput($event)" (focus)="toggleSmallElementsVisibility('clientNameHelp', true)"
+                            (blur)="toggleSmallElementsVisibility('clientNameHelp', false)" required>
+                        <small id="clientNameHelp" class="form-text text-muted"
+                            [hidden]="!showSmallElements['clientNameHelp']">No se aceptan números ni símbolos
+                            raros</small>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="clientLastName1"><i class="fa-solid fa-user"></i> Apellido paterno<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" id="clientLastName1" 
-                            formControlName="apellidoPaterno" (input)="onInputPa($event)" 
-                            (focus)="toggleSmallElementsVisibility('clientLastName1Help', true)" 
-                            (blur)="toggleSmallElementsVisibility('clientLastName1Help', false)" required>
-                            <small id="clientLastName1Help" class="form-text text-muted" [hidden]="!showSmallElements['clientLastName1Help']">No se aceptan números ni símbolos raros</small>
+                            <label for="clientLastName1"><i class="fa-solid fa-user"></i> Apellido paterno<span
+                                    class="text-danger"> *</span></label>
+                            <input type="text" class="form-control" id="clientLastName1"
+                                formControlName="apellidoPaterno" (input)="onInputPa($event)"
+                                (focus)="toggleSmallElementsVisibility('clientLastName1Help', true)"
+                                (blur)="toggleSmallElementsVisibility('clientLastName1Help', false)" required>
+                            <small id="clientLastName1Help" class="form-text text-muted"
+                                [hidden]="!showSmallElements['clientLastName1Help']">No se aceptan números ni símbolos
+                                raros</small>
                         </div>
                         <div class="col-md-6">
                             <label for="clientLastName2"><i class="fa-solid fa-user"></i> Apellido materno</label>
-                            <input type="text" class="form-control" id="clientLastName2" 
-                            formControlName="apellidoMaterno" (input)="onInputMa($event)" 
-                            (focus)="toggleSmallElementsVisibility('clientLastName2Help', true)" 
-                            (blur)="toggleSmallElementsVisibility('clientLastName2Help', false)">
-                            <small id="clientLastName2Help" class="form-text text-muted" [hidden]="!showSmallElements['clientLastName2Help']">No se aceptan números ni símbolos raros</small>
+                            <input type="text" class="form-control" id="clientLastName2"
+                                formControlName="apellidoMaterno" (input)="onInputMa($event)"
+                                (focus)="toggleSmallElementsVisibility('clientLastName2Help', true)"
+                                (blur)="toggleSmallElementsVisibility('clientLastName2Help', false)">
+                            <small id="clientLastName2Help" class="form-text text-muted"
+                                [hidden]="!showSmallElements['clientLastName2Help']">No se aceptan números ni símbolos
+                                raros</small>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="email"><i class="fa-solid fa-envelope"></i> Correo<span class="text-danger"> *</span></label>
-                            <input type="email" class="form-control" id="email" formControlName="correo" 
-                            (focus)="toggleSmallElementsVisibility('emailHelp', true)" 
-                            (blur)="toggleSmallElementsVisibility('emailHelp', false)" required>
-                            <small id="emailHelp" class="form-text text-muted" [hidden]="!showSmallElements['emailHelp']">Ejemplo: cliente&#64;dominio.com</small>
+                            <label for="email"><i class="fa-solid fa-envelope"></i> Correo<span class="text-danger">
+                                    *</span></label>
+                            <input type="email" class="form-control" id="email" formControlName="correo"
+                                (focus)="toggleSmallElementsVisibility('emailHelp', true)"
+                                (blur)="toggleSmallElementsVisibility('emailHelp', false)" required>
+                            <small id="emailHelp" class="form-text text-muted"
+                                [hidden]="!showSmallElements['emailHelp']">Ejemplo: cliente&#64;dominio.com</small>
                         </div>
                         <div class="col-md-6">
-                            <label for="phone"><i class="fa-solid fa-phone"></i> Teléfono<span class="text-danger"> *</span></label>
-                            <input type="text" class="form-control" id="phone" 
-                            formControlName="telefono" (input)="inTelefonoInput($event)" 
-                            (focus)="toggleSmallElementsVisibility('phoneHelp', true)" 
-                            (blur)="toggleSmallElementsVisibility('phoneHelp', false)" required>
-                            <small id="phoneHelp" class="form-text text-muted" [hidden]="!showSmallElements['phoneHelp']">Ejemplo: 111-111-1111</small>
+                            <label for="phone"><i class="fa-solid fa-phone"></i> Teléfono<span class="text-danger">
+                                    *</span></label>
+                            <input type="text" class="form-control" id="phone" formControlName="telefono"
+                                (input)="inTelefonoInput($event)"
+                                (focus)="toggleSmallElementsVisibility('phoneHelp', true)"
+                                (blur)="toggleSmallElementsVisibility('phoneHelp', false)" required>
+                            <small id="phoneHelp" class="form-text text-muted"
+                                [hidden]="!showSmallElements['phoneHelp']">Ejemplo: 111-111-1111</small>
                         </div>
                     </div>
-                    
+
                     <div class="buttons-container">
-                        <button type="button" class="btn btn-danger" routerLink='/app-web/clientes/clientes-lista'>Cancelar</button>
+                        <button type="button" class="btn btn-danger"
+                            routerLink='/app-web/clientes/clientes-lista'>Cancelar</button>
                         <button type="submit" class="btn btn-success" [disabled]="formCliente.invalid">Guardar</button>
                     </div>
                 </form>

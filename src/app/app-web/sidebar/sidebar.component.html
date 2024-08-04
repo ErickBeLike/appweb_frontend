@@ -19,6 +19,13 @@
         <span class="toggle-icon"></span>
       </div>
     </li>
+    <!-- Usuarios -->
+    <li class="menu-item" *ngIf="isAdmin">
+      <div class="menu-title">
+        <a routerLink="/app-web/usuarios/usuarios-lista"><i class="fa-solid fa-users"></i> Usuarios</a>
+        <span class="toggle-icon"></span>
+      </div>
+    </li>
     <!-- Habitaciones -->
     <li class="menu-item">
       <div class="menu-title">
@@ -47,13 +54,6 @@
         <span class="toggle-icon"></span>
       </div>
     </li>
-    <!-- Usuarios -->
-    <li class="menu-item" *ngIf="isAdmin">
-      <div class="menu-title">
-        <a routerLink="/app-web/usuarios/usuarios-lista"><i class="fa-solid fa-users"></i> Usuarios</a>
-        <span class="toggle-icon"></span>
-      </div>
-    </li>
     <!-- Cargos -->
     <li class="menu-item" *ngIf="isAdmin">
       <div class="menu-title">
@@ -63,6 +63,7 @@
     </li>
   </ul>
   <div class="logout-button-container">
-    <button type="submit" class="btn btn-outline-light" routerLink="/app-web/login" (click)="onLogOut()">Cerrar sesión <i class="fa-solid fa-door-open"></i></button>
+    <button type="submit" class="btn btn-outline-light" routerLink="/app-web/login" (click)="onLogOut()">Cerrar sesión
+      <i class="fa-solid fa-door-open"></i></button>
   </div>
 </nav>

@@ -1,365 +1,362 @@
 .body {
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #FFFFF0; /* Fondo general */
-    background-image: url('/assets/images/landing-page/fondo.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #fffff0; /* Fondo general */
+  background-image: url("/assets/images/landing-page/fondo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .hero {
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
-    background-color: #001D38; /* Fondo oscuro */
-    color: #FFFFF0; /* Texto claro */
-    padding: 40px;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  background-color: #001d38; /* Fondo oscuro */
+  color: #fffff0; /* Texto claro */
+  padding: 40px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: skewX(-30deg);
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: skewX(-30deg);
 }
 
 .container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px 20px 40px 20px;
-    background-color: #fff; /* Fondo blanco para el contenedor principal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307); /* Sombra sutil */
-    border-radius: 10px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px 20px 40px 20px;
+  background-color: #fff; /* Fondo blanco para el contenedor principal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307); /* Sombra sutil */
+  border-radius: 10px;
 }
 
 h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-align: center;
-    position: relative; /* Añadido para que el ::after sea posicionado correctamente */
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative; /* Añadido para que el ::after sea posicionado correctamente */
 }
 
 h2::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -10px;
-    width: 100px;
-    height: 4px;
-    background-color: #F28502; /* Color naranja */
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 100px;
+  height: 4px;
+  background-color: #f28502; /* Color naranja */
 }
 
 .services,
 .rooms,
 .restaurant,
 .other-services {
-    margin: 40px 0;
+  margin: 40px 0;
 }
 
-.services-list{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
+.services-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .hero a {
-    text-decoration: none;
-  }
-  
+  text-decoration: none;
+}
 
 .room h3 {
-    margin-top: 0;
-    color: #F28502; /* Agregado para mantener el color del título */
+  margin-top: 0;
+  color: #f28502; /* Agregado para mantener el color del título */
 }
 
 .room p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .carousel-inner img.fixed-size {
-    width: 600px;
-    height: 400px;
-    object-fit: cover;
+  width: 600px;
+  height: 400px;
+  object-fit: cover;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
 }
 
 .carousel-indicators button {
-    background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Estilos adicionales para los carruseles */
 .carousel-inner {
-    border-radius: 10px; 
-    overflow: hidden; 
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .carousel-item {
-    border-radius: 10px; 
+  border-radius: 10px;
 }
 
 .carousel-indicators {
-    bottom: 10px; 
+  bottom: 10px;
 }
 
 .carousel-caption {
-    background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Estilos específicos para el carrusel de la sección de habitaciones */
 .carousel-inner,
 .recreational-area .carousel-inner {
-    max-height: 400px; 
+  max-height: 400px;
 }
 
 /* Estilos adicionales para las imágenes del carrusel */
 .carousel-inner img {
-    width: 100%; 
-    height: auto; 
-    border-radius: 10px;
-    transition: transform 0.5s ease; 
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.5s ease;
 }
 
 .carousel-inner img:hover {
-    transform: scale(1.05); 
+  transform: scale(1.05);
 }
 
 .restaurant .overlay,
 .recreational-area .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #FFFFF0;
-    transition: background 0.3s;
-    height: 100px;
-    border-radius: 0px 0px 10px 10px;
-
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fffff0;
+  transition: background 0.3s;
+  height: 100px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .restaurant h3 {
-    margin-bottom: 10px;
-    color: #F28502;
+  margin-bottom: 10px;
+  color: #f28502;
 }
 
 .restaurant p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .services-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .service {
-    background: #F28502; /* Cambia el color de fondo */
-    color: white; /* Cambia el color del texto */
-    padding: 20px;
-    border-radius: 10px;
-    flex: 1 1 calc(50% - 40px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    position: relative; /* Añadido para el pseudo-elemento */
+  background: #f28502; /* Cambia el color de fondo */
+  color: white; /* Cambia el color del texto */
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1 1 calc(50% - 40px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  position: relative; /* Añadido para el pseudo-elemento */
 }
 
 .service::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.29); /* Fondo semi-transparente */
-    border-radius: 10px; /* Borde redondeado */
-    transition: opacity 0.3s; /* Transición de opacidad */
-    opacity: 0; /* Inicialmente transparente */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.29); /* Fondo semi-transparente */
+  border-radius: 10px; /* Borde redondeado */
+  transition: opacity 0.3s; /* Transición de opacidad */
+  opacity: 0; /* Inicialmente transparente */
 }
 
 .service:hover::before {
-    opacity: 1; /* Al hacer hover, muestra el fondo semi-transparente */
+  opacity: 1; /* Al hacer hover, muestra el fondo semi-transparente */
 }
 
 .service:hover {
-    transform: translateY(-5px); /* Efecto de levantamiento */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); /* Efecto de levantamiento */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content {
-    background-color: #fff; /* Cambia el color de fondo del modal */
-    border-radius: 10px; /* Agrega bordes redondeados al modal */
+  background-color: #fff; /* Cambia el color de fondo del modal */
+  border-radius: 10px; /* Agrega bordes redondeados al modal */
 }
 
 .modal-body {
-    display: flex; /* Usa flexbox para alinear los elementos en el cuerpo del modal */
-    flex-direction: column; /* Alinea los elementos en columna */
-    padding: 20px; /* Añade un espacio interno al cuerpo del modal */
+  display: flex; /* Usa flexbox para alinear los elementos en el cuerpo del modal */
+  flex-direction: column; /* Alinea los elementos en columna */
+  padding: 20px; /* Añade un espacio interno al cuerpo del modal */
 }
 
 .modal-body img {
-    width: 80%; /* Ancho fijo */
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border: 2px solid #000000; /* Agrega un borde sólido de 2px de ancho con color naranja */
-    object-fit: cover;
+  width: 80%; /* Ancho fijo */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #000000; /* Agrega un borde sólido de 2px de ancho con color naranja */
+  object-fit: cover;
 }
 
 .modal-body img {
-    max-width: 70%; 
-    height: auto;
-    border-radius: 10px; 
-    margin-bottom: 15px; 
+  max-width: 70%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .modal-body p {
-    margin-bottom: 10px; /* Ajusta el espacio entre párrafos */
+  margin-bottom: 10px; /* Ajusta el espacio entre párrafos */
 }
 
 .modal-footer {
-    justify-content: center; /* Centra los elementos del pie del modal */
+  justify-content: center; /* Centra los elementos del pie del modal */
 }
 
 .btn-secondary {
-    background-color: #F28502; /* Cambia el color de fondo del botón de cerrar */
-    border-color: #F28502; /* Cambia el color del borde del botón de cerrar */
+  background-color: #f28502; /* Cambia el color de fondo del botón de cerrar */
+  border-color: #f28502; /* Cambia el color del borde del botón de cerrar */
 }
 
 .btn-secondary:hover {
-    background-color: #e1700c; /* Cambia el color de fondo al pasar el ratón sobre el botón de cerrar */
-    border-color: #e1700c; /* Cambia el color del borde al pasar el ratón sobre el botón de cerrar */
+  background-color: #e1700c; /* Cambia el color de fondo al pasar el ratón sobre el botón de cerrar */
+  border-color: #e1700c; /* Cambia el color del borde al pasar el ratón sobre el botón de cerrar */
 }
 
 .contact-link {
-    color: #F28502; /* Color naranja */
-    cursor: pointer;
-    font-weight: bold; /* Negrita */
-    text-decoration: underline; /* Subrayado */
-    transition: color 0.3s; /* Transición de color para el hover */
+  color: #f28502; /* Color naranja */
+  cursor: pointer;
+  font-weight: bold; /* Negrita */
+  text-decoration: underline; /* Subrayado */
+  transition: color 0.3s; /* Transición de color para el hover */
 }
 
 .contact-link:hover {
-    color: #c16700; /* Color naranja más oscuro al hacer hover */
+  color: #c16700; /* Color naranja más oscuro al hacer hover */
 }
 
 .rooms-carousel {
-    margin: 40px 0;
+  margin: 40px 0;
 }
 
 .rooms-carousel h2::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -10px;
-    width: 100px;
-    height: 4px;
-    background-color: #F28502;
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 100px;
+  height: 4px;
+  background-color: #f28502;
 }
 
 .carousel-content {
-    display: flex;
-    align-items: center;
-    height: 400px;
+  display: flex;
+  align-items: center;
+  height: 400px;
 }
 
 .carousel-image {
-    flex: 1;
-    background-size: cover;
-    background-position: center;
-    height: 80%;
-    margin-left: 10%;
-    border-radius: 10px;
-    transition: transform 0.5s ease;
-    cursor: pointer;
-    background-color: #f8f8f8; /* Fondo de la imagen cuando no hay contenido */
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  height: 80%;
+  margin-left: 10%;
+  border-radius: 10px;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+  background-color: #f8f8f8; /* Fondo de la imagen cuando no hay contenido */
 }
 
 .carousel-text {
-    flex: 1;
-    padding: 30px;
-    padding-right: 10%;
-    border-radius: 10px;
+  flex: 1;
+  padding: 30px;
+  padding-right: 10%;
+  border-radius: 10px;
 }
 
 .carousel-text h3 {
-    margin-top: 0;
-    color: #F28502;
+  margin-top: 0;
+  color: #f28502;
 }
 
 .carousel-text p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .carousel-image:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .carousel-inner {
-    border-radius: 10px;
-    overflow: hidden;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
 }
 
 .carousel-indicators {
-    bottom: 10px;
+  bottom: 10px;
 }
 
 /* Coso para tooltip */
 
 .tooltip-container {
-    position: relative;
-    display: inline-block;
-    cursor: help;
+  position: relative;
+  display: inline-block;
+  cursor: help;
 }
 
 .tooltip-text {
-    visibility: hidden;
-    width: 180px; /* Ancho del tooltip */
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Posiciona el tooltip encima del elemento */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
+  visibility: hidden;
+  width: 180px; /* Ancho del tooltip */
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Posiciona el tooltip encima del elemento */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .tooltip-container:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
-

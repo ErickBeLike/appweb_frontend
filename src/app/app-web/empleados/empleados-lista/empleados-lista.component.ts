@@ -2,26 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmpleadosService } from '../../services/empleados/empleados.service';
 import { ToastrService } from 'ngx-toastr';
-import unidecode from 'unidecode'; // Nota: utiliza 'unidecode' en lugar de '{ unidecode }'
-
+import unidecode from 'unidecode';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 
 @Component({
   selector: 'app-empleados-lista',
   templateUrl: './empleados-lista.component.html',
-  styleUrls: ['./empleados-lista.component.css']
+  styleUrls: ['./empleados-lista.component.css'],
 })
 export class EmpleadosListaComponent implements OnInit {
   empleados: any[] = [];
   empleadosFiltrados: any[] = [];
   empleadoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
-  ordenActual: string = 'idEmpleado'; // Columna de orden predeterminada
-  orden: string = 'asc'; // Dirección de orden predeterminada
+  ordenActual: string = 'idEmpleado';
+  orden: string = 'asc';
 
   constructor(
-    private empleadosService: EmpleadosService, 
+    private empleadosService: EmpleadosService,
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class EmpleadosListaComponent implements OnInit {
         this.empleados = response;
         this.empleadosFiltrados = [...this.empleados];
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -47,16 +47,43 @@ export class EmpleadosListaComponent implements OnInit {
     if (valor === '') {
       this.empleadosFiltrados = [...this.empleados];
     } else {
-      this.empleadosFiltrados = this.empleados.filter(empleado => 
-        this.contieneTextoNormalizado(empleado.idEmpleado.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.persona.nombre.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.idCargo.nombreCargo.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.fechaNacimiento.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.sexo.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.persona.correo.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.persona.telefono.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(empleado.direccionEmpleado.toLowerCase(), valorNormalizado) ||
-        empleado.diasLaborales.some((dia: string) => this.contieneTextoNormalizado(dia.toLowerCase(), valorNormalizado))
+      this.empleadosFiltrados = this.empleados.filter(
+        (empleado) =>
+          this.contieneTextoNormalizado(
+            empleado.idEmpleado.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.persona.nombre.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.idCargo.nombreCargo.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.fechaNacimiento.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.sexo.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.persona.correo.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.persona.telefono.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            empleado.direccionEmpleado.toLowerCase(),
+            valorNormalizado
+          ) ||
+          empleado.diasLaborales.some((dia: string) =>
+            this.contieneTextoNormalizado(dia.toLowerCase(), valorNormalizado)
+          )
       );
     }
   }
@@ -92,37 +119,36 @@ export class EmpleadosListaComponent implements OnInit {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
-  openDeleteModal(idEmpleado: number) {
-    this.empleadoAEliminar = idEmpleado;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.empleadoAEliminar = null;
-  }
-
-  confirmarEliminarEmpleado() {
-    if (this.empleadoAEliminar !== null) {
-      this.empleadosService.eliminarEmpleado(this.empleadoAEliminar).subscribe(
-        () => {
-          this.obtenerTodosLosEmpleados();
-          this.toastr.success('Empleado eliminado exitosamente', '', {
-            enableHtml: true,
-            toastClass: 'toast-eliminar'
-          });
-          this.closeDeleteModal();
-        },
-        error => {
-          console.error(error);
-          this.toastr.error('ERROR al eliminar al empleado', '', {
-            enableHtml: true,
-            toastClass: 'toast-error'
-          });
-          this.closeDeleteModal();
+  notification(idEmpleaddo: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este empleado?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarEmpleado(idEmpleaddo);
         }
-      );
-    }
+      });
+  }
+
+  eliminarEmpleado(idEmpleado: number) {
+    this.empleadosService.eliminarEmpleado(idEmpleado).subscribe(
+      () => {
+        this.obtenerTodosLosEmpleados();
+        this.notificationService.showSuccess(
+          'Empleado eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
+        console.error(error);
+        this.notificationService.showError(
+          'ERROR al querer eliminar al empleado',
+          ''
+        );
+      }
+    );
   }
 
   editarEmpleado(idEmpleado: number) {

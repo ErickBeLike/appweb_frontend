@@ -3,14 +3,15 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+import { TokenService } from '../../services/authentication/token.service';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 
 @Component({
   selector: 'app-usuarios-lista',
   templateUrl: './usuarios-lista.component.html',
-  styleUrls: ['./usuarios-lista.component.css']
+  styleUrls: ['./usuarios-lista.component.css'],
 })
 export class UsuariosListaComponent implements OnInit {
-
   usuarios: any[] = [];
   usuariosFiltrados: any[] = [];
   contrasenasVisiblesPorFila: { [key: number]: boolean } = {};
@@ -19,23 +20,32 @@ export class UsuariosListaComponent implements OnInit {
   ordenActual: string = 'idUsuario';
   orden: string = 'asc';
 
+  isLogged = false;
+  isAdmin = false;
+
   constructor(
     private authService: AuthService, // Usa el AuthService para las operaciones de usuario
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosUsuarios();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodosLosUsuarios() {
-    this.authService.obtenerTodosLosUsuarios().subscribe(response => {
-      this.usuarios = response;
-      this.usuariosFiltrados = [...this.usuarios];
-    }, error => {
-      console.error(error);
-    });
+    this.authService.obtenerTodosLosUsuarios().subscribe(
+      (response) => {
+        this.usuarios = response;
+        this.usuariosFiltrados = [...this.usuarios];
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   buscarUsuario(event: Event) {
@@ -45,9 +55,16 @@ export class UsuariosListaComponent implements OnInit {
     if (valor === '') {
       this.usuariosFiltrados = [...this.usuarios];
     } else {
-      this.usuariosFiltrados = this.usuarios.filter(usuario =>
-        this.contieneTextoNormalizado(usuario.rol.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(usuario.nombreUsuario.toLowerCase(), valorNormalizado)
+      this.usuariosFiltrados = this.usuarios.filter(
+        (usuario) =>
+          this.contieneTextoNormalizado(
+            usuario.rol.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            usuario.nombreUsuario.toLowerCase(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -80,32 +97,36 @@ export class UsuariosListaComponent implements OnInit {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
-  eliminarUsuario(idUsuario: number) {
-    const confirmar = confirm(`¿Estás seguro de eliminar el usuario con ID ${idUsuario}?`);
-    if (confirmar) {
-      this.usuarioAEliminar = idUsuario;
-      this.showDeleteModal = true;
-    }
+  notification(idUsuario: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este usuario?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarUsuario(idUsuario);
+        }
+      });
   }
 
-  confirmarEliminarUsuario() {
-    if (this.usuarioAEliminar !== null) {
-      this.authService.eliminarUsuario(this.usuarioAEliminar).subscribe(response => {
+  eliminarUsuario(idUsuario: number) {
+    this.authService.eliminarUsuario(idUsuario).subscribe(
+      () => {
         this.obtenerTodosLosUsuarios();
-        this.toastr.success('Usuario eliminado exitosamente', '', {
-          enableHtml: true,
-          toastClass: 'toast-eliminar'
-        });
-        this.closeDeleteModal();
-      }, error => {
+        this.notificationService.showSuccess(
+          'Usuario eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
         console.error(error);
-        this.toastr.error('ERROR al querer eliminar el usuario', '', {
-          enableHtml: true,
-          toastClass: 'toast-error'
-        });
-        this.closeDeleteModal();
-      });
-    }
+        this.notificationService.showError(
+          'ERROR al querer eliminar el usuario',
+          ''
+        );
+      }
+    );
   }
 
   editarUsuario(idUsuario: number): void {
@@ -128,17 +149,8 @@ export class UsuariosListaComponent implements OnInit {
     if (this.contrasenasVisiblesPorFila[idUsuario] === undefined) {
       this.contrasenasVisiblesPorFila[idUsuario] = true;
     } else {
-      this.contrasenasVisiblesPorFila[idUsuario] = !this.contrasenasVisiblesPorFila[idUsuario];
+      this.contrasenasVisiblesPorFila[idUsuario] =
+        !this.contrasenasVisiblesPorFila[idUsuario];
     }
-  }
-
-  openDeleteModal(idUsuario: number) {
-    this.usuarioAEliminar = idUsuario;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.usuarioAEliminar = null;
   }
 }

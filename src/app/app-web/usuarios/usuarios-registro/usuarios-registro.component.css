@@ -1,97 +1,97 @@
 .container {
-    padding-top: 50px;
-    width: 82%;
-    align-items: right;
-    align-content: right;
-    margin-left: 17%;
-    margin-top: 20px;
-    padding-bottom: 50px;
+  padding-top: 50px;
+  width: 82%;
+  align-items: right;
+  align-content: right;
+  margin-left: 17%;
+  margin-top: 20px;
+  padding-bottom: 50px;
 }
 
 .form-container {
-    position: relative; /* Añadir esta línea */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
-    border-radius: 15px;
-    padding: 20px;
-    background-color: #FFFFFF;
+  position: relative; /* Añadir esta línea */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #ffffff;
 }
 
 .close-button-container {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .form-title {
-    color: #001D38;
+  color: #001d38;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .input-group .form-control {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .input-group .btn-outline-secondary {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .buttons-container {
-    margin-top: 20px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .btn-danger {
-    background-color: #001D38;
-    border-color: #001D38;
-    margin-right: 10px;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  margin-right: 10px;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-danger:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-success {
-    background-color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-success:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-outline-secondary {
-    background-color: #ffffff;
-    color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #ffffff;
+  color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-outline-secondary:hover {
-    color: #FFFFFF;
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  color: #ffffff;
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-secondary {
-    background-color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-secondary:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }

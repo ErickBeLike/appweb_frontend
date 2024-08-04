@@ -5,40 +5,42 @@
         <div class="col-md-7">
             <div class="form-container">
                 <div class="close-button-container">
-                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink="/app-web/ventas/ventas-lista">
+                    <button type="button" class="btn btn-secondary" aria-label="Close"
+                        routerLink="/app-web/ventas/ventas-lista">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center">{{ titulo }}</h2>
                 <form [formGroup]="formVenta" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
-                        <label for="selectEmpleado"><i class="fa-solid fa-address-card"></i> Empleado<span class="text-danger"> *</span></label>
-                        <select class="form-control" id="selectEmpleado" formControlName="idEmpleado" required>
-                            <option value="" disabled selected>Seleccionar empleado...</option>
-                            <option *ngFor="let empleado of empleados" [value]="empleado.idEmpleado">{{ empleado.persona.nombre }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-boxes-stacked"></i> Productos <span class="text-danger"> *</span></label>
+                        <label><i class="fa-solid fa-boxes-stacked"></i> Productos <span class="text-danger">
+                                *</span></label>
                         <div class="d-flex align-items-center">
-                            <button type="button" class="btn btn-primary mt-1" (click)="openModal()">Agregar productos</button>
+                            <button type="button" class="btn btn-primary mt-1" (click)="openModal()">Agregar
+                                productos</button>
                         </div>
                         <div class="selected-products mt-3">
                             <div *ngFor="let producto of productosVenta; let i = index" class="selected-product mb-2">
-                                <div class="product-name">{{ producto.nombreProducto }}</div>
-                                <div class="product-name"><i class="fa-solid fa-dollar-sign"></i> {{ producto.precioProducto }}</div>
+                                <div class="product-name nombre">{{ producto.nombreProducto }}</div>
+                                <div class="product-name precio"><i class="fa-solid fa-dollar-sign"></i> {{
+                                    producto.precioProducto }}</div>
                                 <div class="product-quantity">
-                                    <label for="quantity-{{i}}"><i class="fa-solid fa-arrow-up-short-wide"></i> Cantidad</label>
-                                    <input id="quantity-{{i}}" type="number" min="1" [formControl]="getControl(i)" required class="form-control">
+                                    <label for="quantity-{{i}}"><i class="fa-solid fa-arrow-up-short-wide"></i>
+                                        Cantidad</label>
+                                    <input id="quantity-{{i}}" type="number" min="1" [formControl]="getControl(i)"
+                                        required class="form-control cantidad" style="width: 100px;">
                                 </div>
-                                <button type="button" class="btn btn-danger ml-3" style="margin-left: 10%;" (click)="eliminarProducto(i)">Eliminar</button>
+                                <button type="button" class="btn btn-danger boton" style="margin-left: 30px;"
+                                    (click)="eliminarProducto(i)">Eliminar</button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group text-center">
                         <div class="buttons-container">
-                            <button type="button" class="btn btn-danger mr-2" routerLink="/app-web/ventas/ventas-lista">Cancelar</button>
-                            <button type="submit" class="btn btn-success" [disabled]="formVenta.invalid">Guardar</button>
+                            <button type="button" class="btn btn-danger mr-2"
+                                routerLink="/app-web/ventas/ventas-lista">Cancelar</button>
+                            <button type="submit" class="btn btn-success"
+                                [disabled]="formVenta.invalid">Guardar</button>
                         </div>
                     </div>
                 </form>
@@ -48,7 +50,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true" [ngClass]="{'show': showModal}" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel"
+    aria-hidden="true" [ngClass]="{'show': showModal}" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,9 +62,11 @@
             </div>
             <div class="modal-body">
                 <div *ngFor="let producto of productos" class="product-item mb-2">
-                    <span>{{ producto.nombreProducto }}</span>
-                    <span><i class="fa-solid fa-dollar-sign"></i> {{ producto.precioProducto }}</span>
-                    <button type="button" class="btn btn-primary ml-auto" (click)="agregarProducto(producto)">Agregar</button>
+                    <span class="product-name nombre">{{ producto.nombreProducto }}</span>
+                    <span class="product-price precio"><i class="fa-solid fa-dollar-sign"></i> {{
+                        producto.precioProducto | number:'1.2-2' }}</span>
+                    <button type="button" class="btn btn-primary boton"
+                        (click)="agregarProducto(producto)">Agregar</button>
                 </div>
             </div>
             <div class="modal-footer">

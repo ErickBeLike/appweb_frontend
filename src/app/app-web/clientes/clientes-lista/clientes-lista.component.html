@@ -6,7 +6,8 @@
       <span class="h1"><i class="fa-solid fa-address-book"></i> Clientes</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar cliente <i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar
+          cliente <i class="fa-solid fa-plus"></i></button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
 
         <!-- Barra de búsqueda y filtro -->
@@ -21,7 +22,7 @@
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th (click)="ordenarClientes('idCliente')" style="cursor: pointer"> 
+              <th (click)="ordenarClientes('idCliente')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCliente'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCliente' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCliente' && orden === 'desc'"></i>
@@ -36,7 +37,8 @@
               <th (click)="ordenarClientes('persona.telefono')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.telefono'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.telefono' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
                 Teléfono
               </th>
               <th (click)="ordenarClientes('persona.correo')" style="cursor: pointer">
@@ -45,45 +47,29 @@
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.correo' && orden === 'desc'"></i>
                 Correo
               </th>
+              <th>Fecha de creación</th>
+              <th>Fecha de actualización</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          
+
           <tbody>
             <tr *ngFor="let cliente of clientesFiltrados">
               <td><strong>{{ cliente.idCliente }}</strong></td>
-              <td>{{ cliente.persona.nombre }} {{ cliente.persona.apellidoPaterno }} {{ cliente.persona.apellidoMaterno }}</td>
+              <td>{{ cliente.persona.nombre }} {{ cliente.persona.apellidoPaterno }} {{ cliente.persona.apellidoMaterno
+                }}</td>
               <td>{{ cliente.persona.telefono }}</td>
               <td>{{ cliente.persona.correo }}</td>
+              <td>{{ cliente.fechaCreacion }}</td>
+              <td>{{ cliente.fechaActualizacion }}</td>
               <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarCliente(cliente.idCliente)"></i>
-                <i (click)="openDeleteModal(cliente.idCliente)" class="borrar fa-solid fa-trash"></i>
+                <i (click)="notification(cliente.idCliente)" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>    
+  </div>
 </section>
-
-
-<!-- Modal para Confirmar Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este cliente?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="confirmarEliminarCliente()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>

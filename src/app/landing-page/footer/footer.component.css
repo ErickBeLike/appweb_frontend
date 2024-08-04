@@ -1,7 +1,7 @@
 /* Fondo del footer */
 footer {
-  background-color: #001D38 !important;
-  color: #FFFFF0;
+  background-color: #001d38 !important;
+  color: #fffff0;
 }
 
 /* Estilos para las imágenes del footer */
@@ -12,11 +12,11 @@ footer img {
 /* Estilos para los íconos del footer */
 footer i {
   font-size: 24px;
-  color: #2FD7D1;
+  color: #2fd7d1;
 }
 
 /* Estilos para los textos del footer */
 footer span {
   font-size: 16px;
-  color: #FFFFF0;
+  color: #fffff0;
 }

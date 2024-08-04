@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../services/authentication/token.service';
+import { NotiServiceService } from '../services/notification/notyf/noti-service.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']  // Corregir typo 'styleUrl' a 'styleUrls'
+  styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-
   nombreUsuario: string = '';
   roles: string[] = [];
 
@@ -15,13 +15,14 @@ export class SidebarComponent implements OnInit {
   isAdmin = false;
 
   constructor(
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private notiService: NotiServiceService
   ) {}
 
   ngOnInit() {
-    if(this.tokenService.getToken()) {
+    if (this.tokenService.getToken()) {
       this.isLogged = true;
-      this.nombreUsuario = this.tokenService.getUserName() ?? '';  // Asignar cadena vacía si getUserName() devuelve null
+      this.nombreUsuario = this.tokenService.getUserName() ?? '';
     } else {
       this.isLogged = false;
       this.nombreUsuario = '';
@@ -30,10 +31,8 @@ export class SidebarComponent implements OnInit {
     this.isAdmin = this.tokenService.isAdmin();
   }
 
-
-
   onLogOut(): void {
     this.tokenService.logOut();
+    this.notiService.showSuccess('Has cerrado sesión');
   }
-
 }

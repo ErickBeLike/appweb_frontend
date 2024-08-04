@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +22,7 @@ import { ReservacionesListaComponent } from './app-web/reservaciones/reservacion
 import { ReservacionesRegistroComponent } from './app-web/reservaciones/reservaciones-registro/reservaciones-registro.component';
 import { CargosListaComponent } from './app-web/cargos/cargos-lista/cargos-lista.component';
 import { CargosRegistroComponent } from './app-web/cargos/cargos-registro/cargos-registro.component';
-import { LoginComponent } from './app-web/login/login.component'; 
+import { LoginComponent } from './app-web/login/login.component';
 import { DashboardComponent } from './app-web/dashboard/dashboard.component';
 import { SidebarComponent } from './app-web/sidebar/sidebar.component';
 
@@ -37,9 +40,6 @@ import { MapComponent } from './landing-page/map/map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { interceptorProvider } from './app-web/interceptors/prod-interceptor-service.service';
-
-
-
 
 @NgModule({
   declarations: [
@@ -61,7 +61,7 @@ import { interceptorProvider } from './app-web/interceptors/prod-interceptor-ser
     LoginComponent,
     DashboardComponent,
     SidebarComponent,
-    
+
     InicioComponent,
     ServiciosComponent,
     ContactoComponent,
@@ -82,13 +82,10 @@ import { interceptorProvider } from './app-web/interceptors/prod-interceptor-ser
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      timeOut: 5000
-    })
+      timeOut: 5000,
+    }),
   ],
-  providers: [
-    provideClientHydration(),
-    interceptorProvider
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideClientHydration(), interceptorProvider],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

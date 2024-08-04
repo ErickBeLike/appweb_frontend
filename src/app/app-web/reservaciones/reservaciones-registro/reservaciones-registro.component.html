@@ -5,46 +5,59 @@
         <div class="col-md-8">
             <div class="form-container">
                 <div class="close-button-container">
-                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink="/app-web/reservaciones/reservaciones-lista">
+                    <button type="button" class="btn btn-secondary" aria-label="Close"
+                        routerLink="/app-web/reservaciones/reservaciones-lista">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center">{{ titulo }}</h2>
                 <form [formGroup]="formReservacion" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
-                        <label for="customerName"><i class="fa-solid fa-user"></i> Nombre del Cliente<span class="text-danger"> *</span></label>
+                        <label for="customerName"><i class="fa-solid fa-user"></i> Nombre del Cliente<span
+                                class="text-danger"> *</span></label>
                         <select class="form-control" id="customerName" formControlName="idCliente" required>
                             <option value="" disabled selected>Seleccionar cliente...</option>
-                            <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">{{ cliente.persona.nombre }} {{ cliente.persona.apellidoPaterno }} {{ cliente.persona.apellidoMaterno }}</option>
+                            <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">{{
+                                cliente.persona.nombre }} {{ cliente.persona.apellidoPaterno }} {{
+                                cliente.persona.apellidoMaterno }}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="reservationStartDate"><i class="fa-solid fa-calendar-days"></i> Fecha de inicio<span class="text-danger"> *</span></label>
-                        <input type="date" class="form-control" id="reservationStartDate" formControlName="fechaInicio" required>
+                        <label for="reservationStartDate"><i class="fa-solid fa-calendar-days"></i> Fecha de inicio<span
+                                class="text-danger"> *</span></label>
+                        <input type="date" class="form-control" id="reservationStartDate" formControlName="fechaInicio"
+                            required>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="typeReservation"><i class="fa-solid fa-bell-concierge"></i> Tipo de reservación<span class="text-danger"> *</span></label>
+                            <label for="typeReservation"><i class="fa-solid fa-bell-concierge"></i> Tipo de
+                                reservación<span class="text-danger"> *</span></label>
                             <select class="form-control" id="availability" formControlName="tipoReservacion" required>
                                 <option value="" disabled selected>Seleccionar tipo de reservación...</option>
                                 <option *ngFor="let tipo of tipoReservacion" [value]="tipo">{{ tipo }}</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="numberReservation"><i class="fa-solid fa-clock"></i> Tiempo de reservación<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="timeReservation" formControlName="tiempoReservacion" required>
+                            <label for="numberReservation"><i class="fa-solid fa-clock"></i> Tiempo de reservación<span
+                                    class="text-danger"> *</span></label>
+                            <input type="number" class="form-control" id="timeReservation"
+                                formControlName="tiempoReservacion" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="roomId"><i class="fa-solid fa-hotel"></i> Habitación<span class="text-danger"> *</span></label>
+                        <label for="roomId"><i class="fa-solid fa-hotel"></i> Habitación<span class="text-danger">
+                                *</span></label>
                         <select class="form-control" id="roomId" formControlName="idHabitacion" required>
                             <option value="" disabled selected>Seleccionar habitación...</option>
-                            <option *ngFor="let habitacion of habitaciones" [value]="habitacion.idHabitacion">{{ habitacion.habitacion }} - {{ habitacion.disponibilidad }}</option>
+                            <option *ngFor="let habitacion of habitaciones" [value]="habitacion.idHabitacion">{{
+                                habitacion.habitacion }} - {{ habitacion.disponibilidad }}</option>
                         </select>
                     </div>
                     <div class="buttons-container">
-                        <button type="button" class="btn btn-danger" routerLink="/app-web/reservaciones/reservaciones-lista">Cancelar</button>
-                        <button type="submit" class="btn btn-success" [disabled]="formReservacion.invalid">Guardar</button>
+                        <button type="button" class="btn btn-danger"
+                            routerLink="/app-web/reservaciones/reservaciones-lista">Cancelar</button>
+                        <button type="submit" class="btn btn-success"
+                            [disabled]="formReservacion.invalid">Guardar</button>
                     </div>
                 </form>
             </div>

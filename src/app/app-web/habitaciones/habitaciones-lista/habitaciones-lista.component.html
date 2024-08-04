@@ -6,14 +6,17 @@
       <span class="h1"><i class="fa-solid fa-bed"></i> Habitaciones</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin" routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin"
+          routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i
+            class="fa-solid fa-plus"></i></button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
           <div class="input-group">
             <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <input type="text" class="form-control" placeholder="Buscar habitación..." (input)="buscarHabitacion($event)">
+            <input type="text" class="form-control" placeholder="Buscar habitación..."
+              (input)="buscarHabitacion($event)">
           </div>
         </div>
 
@@ -46,8 +49,10 @@
               </th>
               <th (click)="ordenarHabitaciones('depositoInicialNoche')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'depositoInicialNoche'"></i>
-                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-asc"
+                  *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'desc'"></i>
                 Depósito
               </th>
               <th (click)="ordenarHabitaciones('disponibilidad')" style="cursor: pointer">
@@ -56,6 +61,8 @@
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'disponibilidad' && orden === 'desc'"></i>
                 Disponibilidad
               </th>
+              <th *ngIf="isAdmin">Fecha de creación</th>
+              <th *ngIf="isAdmin">Fecha de actualización</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -83,38 +90,23 @@
                   'green': habitacion.disponibilidad === 'DISPONIBLE',
                   'red': habitacion.disponibilidad === 'OCUPADA'
                 }"></span>
-                <select class="form-select custom-select" [(ngModel)]="habitacion.disponibilidad" (change)="actualizarDisponibilidad(habitacion)">
+                <select class="form-select custom-select" [(ngModel)]="habitacion.disponibilidad"
+                  (change)="actualizarDisponibilidad(habitacion)">
                   <option value="DISPONIBLE" [selected]="habitacion.disponibilidad === 'DISPONIBLE'">DISPONIBLE</option>
                   <option value="OCUPADA" [selected]="habitacion.disponibilidad === 'OCUPADA'">OCUPADA</option>
                 </select>
               </td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaCreacion }}</td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaActualizacion }}</td>
               <td>
-                <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin" (click)="editarHabitacion(habitacion.idHabitacion)"></i>
-                <i (click)="openDeleteModal(habitacion.idHabitacion)" *ngIf="isAdmin" class="borrar fa-solid fa-trash"></i>
+                <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
+                  (click)="editarHabitacion(habitacion.idHabitacion)"></i>
+                <i (click)="notification(habitacion.idHabitacion)" *ngIf="isAdmin" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>    
-</section>
-
-<!-- Modal para Confirmar Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
-      </div>
-      <div class="modal-body">
-        ¿Estás seguro de que deseas eliminar esta habitación?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="confirmarEliminarHabitacion()">Eliminar</button>
-      </div>
-    </div>
   </div>
-</div>
+</section>

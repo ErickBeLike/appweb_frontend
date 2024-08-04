@@ -6,14 +6,17 @@
             <span class="h1"><i class="fa-solid fa-tags"></i> Productos</span>
             <div class="card-body mt-4">
                 <span class="h3">Gestionar</span>
-                <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin" routerLink='/app-web/productos/productos-registro'>Agregar producto <i class="fa-solid fa-plus"></i></button>
+                <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin"
+                    routerLink='/app-web/productos/productos-registro'>Agregar producto <i
+                        class="fa-solid fa-plus"></i></button>
                 <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" class="form-control" placeholder="Buscar producto..." (input)="buscarProducto($event)">
+                        <input type="text" class="form-control" placeholder="Buscar producto..."
+                            (input)="buscarProducto($event)">
                     </div>
                 </div>
 
@@ -22,22 +25,30 @@
                         <tr>
                             <th (click)="ordenarProductos('idProducto')" style="cursor: pointer">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idProducto'"></i>
-                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idProducto' && orden === 'asc'"></i>
-                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idProducto' && orden === 'desc'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'idProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'idProducto' && orden === 'desc'"></i>
                                 ID
                             </th>
                             <th (click)="ordenarProductos('nombreProducto')" style="cursor: pointer">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreProducto'"></i>
-                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'nombreProducto' && orden === 'asc'"></i>
-                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'nombreProducto' && orden === 'desc'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'nombreProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'nombreProducto' && orden === 'desc'"></i>
                                 Nombre
                             </th>
                             <th (click)="ordenarProductos('precioProducto')" style="cursor: pointer">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'precioProducto'"></i>
-                                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'precioProducto' && orden === 'asc'"></i>
-                                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'precioProducto' && orden === 'desc'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'precioProducto' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'precioProducto' && orden === 'desc'"></i>
                                 Precio
                             </th>
+                            <th *ngIf="isAdmin">Fecha de creación</th>
+                            <th *ngIf="isAdmin">Fecha de actualización</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -46,9 +57,13 @@
                             <td><strong>{{ producto.idProducto }}</strong></td>
                             <td>{{ producto.nombreProducto }}</td>
                             <td>$ {{ producto.precioProducto }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaCreacion }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaActualizacion }}</td>
                             <td>
-                                <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin" (click)="editarProducto(producto.idProducto)"></i>
-                                <i (click)="openDeleteModal(producto.idProducto)" *ngIf="isAdmin" class="borrar fa-solid fa-trash"></i>
+                                <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
+                                    (click)="editarProducto(producto.idProducto)"></i>
+                                <i (click)="notification(producto.idProducto)" *ngIf="isAdmin"
+                                    class="borrar fa-solid fa-trash"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -57,22 +72,3 @@
         </div>
     </div>
 </section>
-
-<!-- Modal para Confirmar Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este producto?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="confirmarEliminarProducto()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>

@@ -9,40 +9,41 @@
 .container {
   margin: 20px auto;
   padding: 20px;
-  background-color: #fff; 
+  background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
   border-radius: 10px;
 }
 
 /* Estilos para botones personalizados */
 .btn-outline-custom {
-border-color: #F28502;
-color: #F28502;
-transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+  border-color: #f28502;
+  color: #f28502;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    transform 0.3s;
 }
 
 .btn-outline-custom:hover {
-background-color: #F28502;
-border-color: #F28502;
-color: #FFFFFF;
-transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  color: #ffffff;
+  transform: scale(1.05);
 }
 
 .editar {
-  color: #25a701; 
+  color: #25a701;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
 .borrar {
-  color: #c00c0c; 
+  color: #c00c0c;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
 .editar:hover,
 .borrar:hover {
-  transform: scale(1.20);
+  transform: scale(1.2);
 }
 
 .modal-content {
@@ -51,12 +52,12 @@ transform: scale(1.05);
 }
 
 .coso {
-  color: #001D38;
+  color: #001d38;
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .coso:hover {
-  color: #F28502;
+  color: #f28502;
   transform: scale(1.05);
 }

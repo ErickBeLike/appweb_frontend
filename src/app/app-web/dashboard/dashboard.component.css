@@ -1,20 +1,21 @@
 /* styles.css */
 .ochenta {
-    width: 82%;
-    align-items: right;
-    align-content: right;
-    margin-left: 17%;
-    position: fixed;
+  width: 82%;
+  align-items: right;
+  align-content: right;
+  margin-left: 17%;
+  position: fixed;
 }
 
 .container {
-    height: 100vh; /* 100% de la altura del viewport */
-    display: flex;
-    align-items: center; /* Centra verticalmente */
-    justify-content: center; /* Centra horizontalmente */
+  height: 100vh; /* 100% de la altura del viewport */
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
 }
 
-.container .text-center, h1 {
-    text-align: center; /* Alinea el texto al centro */
-    font-size: 2em; /* Cambia el tamaño del texto */
+.container .text-center,
+h1 {
+  text-align: center; /* Alinea el texto al centro */
+  font-size: 2em; /* Cambia el tamaño del texto */
 }

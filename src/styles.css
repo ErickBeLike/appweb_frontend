@@ -1,55 +1,129 @@
 .toast-agregar {
-    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.753); 
-    position: fixed;
-    bottom: 10px; 
-    right: 10px; 
-    background-color: #ffffff; 
-    border-radius: 10px; 
-    padding: 10px;
-    font-size: large;
-    font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.753);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: large;
+  font-weight: 500;
 }
 
 .toast-editar {
-    box-shadow: 0 4px 8px rgba(0, 0, 255, 0.753); 
-    position: fixed;
-    bottom: 10px; 
-    right: 10px; 
-    background-color: #ffffff; 
-    border-radius: 10px; 
-    padding: 10px;
-    font-size: large;
-    font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 0, 255, 0.753);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: large;
+  font-weight: 500;
 }
 
 .toast-eliminar {
-    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753); 
-    position: fixed;
-    bottom: 10px; 
-    right: 10px;
-    background-color: #ffffff;
-    border-radius: 10px; 
-    padding: 10px;
-    font-size: large;
-    font-weight: 500;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: large;
+  font-weight: 500;
 }
 
 .toast-error {
-    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753); 
-    position: fixed;
-    bottom: 10px; 
-    right: 10px;
-    background-color: #ffffff;
-    border-radius: 10px; 
-    padding: 10px;
-    font-size: large;
-    font-weight: 500;
-    color: red;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753);
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: large;
+  font-weight: 500;
+  color: red;
 }
 
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
+/* La barra de desplazamiento en sí */
+::-webkit-scrollbar {
+  width: 12px; /* Ancho de la barra de desplazamiento vertical */
+  height: 12px; /* Altura de la barra de desplazamiento horizontal */
+}
 
+/* El "thumb" o la parte que se mueve dentro de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 50, 97, 0.8),
+    rgba(0, 50, 97, 0.5)
+  ); /* Gradiente más pronunciado */
+  border-radius: 10px; /* Bordes redondeados del thumb */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada del thumb */
+}
 
+/* El área en la que se mueve el thumb */
+::-webkit-scrollbar-track {
+  background: #f9f9f9; /* Color de la pista con un toque más claro */
+  border-radius: 10px; /* Bordes redondeados de la pista */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2); /* Sombra interna más pronunciada de la pista */
+}
+
+/* El área al pasar el mouse sobre el thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 50, 97, 0.9),
+    rgba(0, 50, 97, 0.7)
+  ); /* Gradiente más oscuro al pasar el mouse */
+}
+
+/* Estilos personalizados para Notyf */
+.notyf__toast {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.notyf__toast i.material-icons {
+  margin-right: 8px; /* Espacio entre el icono y el mensaje */
+}
+
+.notyf__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  animation: progress 5s linear forwards; /* Cambia el tiempo para que coincida con la duración de la notificación */
+}
+
+@keyframes progress {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+.notyf__message {
+  display: flex;
+  align-items: center;
+}
+
+.notyf__message i {
+  font-size: 30px; /* Ajusta el tamaño del ícono según sea necesario */
+  color: white; /* Ajusta el color del ícono si es necesario */
+}
+
+.notyf__message {
+  font-weight: bold;
+}

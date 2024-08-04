@@ -3,26 +3,26 @@ import { VentasService } from '../../services/ventas/ventas.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 
 @Component({
   selector: 'app-ventas-lista',
   templateUrl: './ventas-lista.component.html',
-  styleUrls: ['./ventas-lista.component.css']
+  styleUrls: ['./ventas-lista.component.css'],
 })
 export class VentasListaComponent implements OnInit {
-
   ventas: any[] = [];
   ventasFiltradas: any[] = [];
   ventaAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   filtro: string = '';
-  ordenActual: string = 'idVenta'; 
+  ordenActual: string = 'idVenta';
   orden: string = 'asc';
 
   constructor(
     private ventasService: VentasService,
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -30,12 +30,15 @@ export class VentasListaComponent implements OnInit {
   }
 
   obtenerTodasLasVentas() {
-    this.ventasService.obtenerTodasLasVentas().subscribe(response => {
-      this.ventas = response;
-      this.ventasFiltradas = [...this.ventas];
-    }, error => {
-      console.error(error);
-    });
+    this.ventasService.obtenerTodasLasVentas().subscribe(
+      (response) => {
+        this.ventas = response;
+        this.ventasFiltradas = [...this.ventas];
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   buscarVenta(event: Event) {
@@ -45,12 +48,25 @@ export class VentasListaComponent implements OnInit {
     if (valor === '') {
       this.ventasFiltradas = [...this.ventas];
     } else {
-      this.ventasFiltradas = this.ventas.filter(venta =>
-        this.contieneTextoNormalizado(venta.idVenta.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(venta.total.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(venta.fechaVenta.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(venta.idEmpleado.persona.nombre.toLowerCase(), valorNormalizado) ||
-        this.contieneProducto(venta.detallesVenta, valorNormalizado)
+      this.ventasFiltradas = this.ventas.filter(
+        (venta) =>
+          this.contieneTextoNormalizado(
+            venta.idVenta.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            venta.total.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            venta.fechaVenta.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            venta.idEmpleado.persona.nombre.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneProducto(venta.detallesVenta, valorNormalizado)
       );
     }
   }
@@ -62,7 +78,12 @@ export class VentasListaComponent implements OnInit {
 
   contieneProducto(detallesVenta: any[], valorNormalizado: string): boolean {
     for (const detalleVenta of detallesVenta) {
-      if (this.contieneTextoNormalizado(detalleVenta.producto.nombreProducto.toLowerCase(), valorNormalizado)) {
+      if (
+        this.contieneTextoNormalizado(
+          detalleVenta.producto.nombreProducto.toLowerCase(),
+          valorNormalizado
+        )
+      ) {
         return true;
       }
     }
@@ -97,34 +118,36 @@ export class VentasListaComponent implements OnInit {
     return value;
   }
 
-  openDeleteModal(idVenta: number) {
-    this.ventaAEliminar = idVenta;
-    this.showDeleteModal = true;
+  notification(idVenta: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar esta venta?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarVenta(idVenta);
+        }
+      });
   }
 
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.ventaAEliminar = null;
-  }
-
-  confirmarEliminarVenta() {
-    if (this.ventaAEliminar !== null) {
-      this.ventasService.eliminarVenta(this.ventaAEliminar).subscribe(response => {
+  eliminarVenta(idVenta: number) {
+    this.ventasService.eliminarVenta(idVenta).subscribe(
+      () => {
         this.obtenerTodasLasVentas();
-        this.toastr.success('Venta eliminada exitosamente', '', {
-          enableHtml: true,
-          toastClass: 'toast-eliminar' 
-      });
-      this.closeDeleteModal();
-      }, error => {
+        this.notificationService.showSuccess(
+          'Venta eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
         console.error(error);
-        this.toastr.error('ERROR al querer eliminar la venta', '', {
-          enableHtml: true,
-          toastClass: 'toast-error' 
-      });
-      this.closeDeleteModal();
-      });
-    }
+        this.notificationService.showError(
+          'ERROR al querer eliminar la venta',
+          ''
+        );
+      }
+    );
   }
 
   editarVenta(idVenta: number): void {

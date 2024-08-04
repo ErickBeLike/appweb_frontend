@@ -6,7 +6,8 @@
       <span class="h1"><i class="fa-solid fa-address-card"></i> Empleados</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/empleados/empleados-registro'>Agregar empleado <i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end"
+          routerLink='/app-web/empleados/empleados-registro'>Agregar empleado <i class="fa-solid fa-plus"></i></button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
         <!-- Barra de búsqueda -->
@@ -33,8 +34,10 @@
               <th (click)="ordenarEmpleados('idCargo.nombreCargo')" style="cursor: pointer">
                 Cargo
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCargo.nombreCargo'"></i>
-                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-asc"
+                  *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'desc'"></i>
               </th>
               <th (click)="ordenarEmpleados('fechaNacimiento')" style="cursor: pointer">
                 Fecha de nacimiento
@@ -58,24 +61,30 @@
                 Teléfono
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.telefono'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.telefono' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
               </th>
               <th (click)="ordenarEmpleados('direccionEmpleado')" style="cursor: pointer">
                 Dirección
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'direccionEmpleado'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'direccionEmpleado' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'direccionEmpleado' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'direccionEmpleado' && orden === 'desc'"></i>
               </th>
               <th>
                 Días laborales
               </th>
+              <th>horario</th>
+              <th>Fecha de creación</th>
+              <th>Fecha de actualización</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let empleado of empleadosFiltrados">
               <td><strong>{{ empleado.idEmpleado }}</strong></td>
-              <td>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{ empleado.persona.apellidoMaterno }}</td>
+              <td>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{
+                empleado.persona.apellidoMaterno }}</td>
               <td>{{ empleado.idCargo.nombreCargo }}</td>
               <td>{{ empleado.fechaNacimiento }}</td>
               <td>{{ empleado.sexo }}</td>
@@ -88,32 +97,21 @@
                 </ul>
               </td>
               <td>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                  <li>Entrada: {{ empleado.horarioEntrada }}</li>
+                  <li>Salida: {{ empleado.horarioSalida }}</li>
+                </ul>
+              </td>
+              <td>{{ empleado.fechaCreacion }}</td>
+              <td>{{ empleado.fechaActualizacion }}</td>
+              <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarEmpleado(empleado.idEmpleado)"></i>
-                <i (click)="openDeleteModal(empleado.idEmpleado)" class="borrar fa-solid fa-trash"></i>
+                <i (click)="notification(empleado.idEmpleado)" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>    
-</section>
-
-<!-- Modal para Confirmar Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
-      </div>
-      <div class="modal-body">
-        ¿Estás seguro de que deseas eliminar este empleado?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-        <button type="button" class="btn btn-danger" (click)="confirmarEliminarEmpleado()">Eliminar</button>
-      </div>
-    </div>
   </div>
-</div>
+</section>

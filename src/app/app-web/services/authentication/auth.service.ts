@@ -6,13 +6,12 @@ import { LoginUsuario } from '../../models/login-usuario';
 import { JwtDto } from '../../models/jwt-dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   authURL = 'http://localhost:8080/auth/';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   public nuevo(nuevoUsuario: NuevoUsuario): Observable<any> {
     return this.httpClient.post<any>(this.authURL + 'nuevo', nuevoUsuario);
@@ -30,8 +29,14 @@ export class AuthService {
     return this.httpClient.get<any>(`${this.authURL}get/${id}`);
   }
 
-  public actualizarUsuario(id: number, nuevoUsuario: NuevoUsuario): Observable<any> {
-    return this.httpClient.put<any>(`${this.authURL}update/${id}`, nuevoUsuario);
+  public actualizarUsuario(
+    id: number,
+    nuevoUsuario: NuevoUsuario
+  ): Observable<any> {
+    return this.httpClient.put<any>(
+      `${this.authURL}update/${id}`,
+      nuevoUsuario
+    );
   }
 
   public eliminarUsuario(id: number): Observable<any> {

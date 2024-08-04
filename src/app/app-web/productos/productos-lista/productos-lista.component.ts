@@ -4,11 +4,12 @@ import { ProductosService } from '../../services/productos/productos.service'; /
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
 import { TokenService } from '../../services/authentication/token.service';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 
 @Component({
   selector: 'app-productos-lista',
   templateUrl: './productos-lista.component.html',
-  styleUrls: ['./productos-lista.component.css']
+  styleUrls: ['./productos-lista.component.css'],
 })
 export class ProductosListaComponent implements OnInit {
   productos: any[] = [];
@@ -24,7 +25,7 @@ export class ProductosListaComponent implements OnInit {
   constructor(
     private productosService: ProductosService,
     private router: Router,
-    private toastr: ToastrService,
+    private notificationService: NotificationService,
     private tokenService: TokenService
   ) {}
 
@@ -40,7 +41,7 @@ export class ProductosListaComponent implements OnInit {
         this.productos = response;
         this.productosFiltrados = [...this.productos];
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -53,9 +54,16 @@ export class ProductosListaComponent implements OnInit {
     if (valor === '') {
       this.productosFiltrados = [...this.productos];
     } else {
-      this.productosFiltrados = this.productos.filter(producto =>
-        this.contieneTextoNormalizado(producto.nombreProducto.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(producto.precioProducto.toString(), valorNormalizado)
+      this.productosFiltrados = this.productos.filter(
+        (producto) =>
+          this.contieneTextoNormalizado(
+            producto.nombreProducto.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            producto.precioProducto.toString(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -88,37 +96,26 @@ export class ProductosListaComponent implements OnInit {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
-  openDeleteModal(idProducto: number) {
-    this.productoAEliminar = idProducto;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.productoAEliminar = null;
-  }
-
-  confirmarEliminarProducto() {
-    if (this.productoAEliminar !== null) {
-      this.productosService.eliminarProducto(this.productoAEliminar).subscribe(
-        () => {
-          this.obtenerTodosLosProductos();
-          this.toastr.success('Producto eliminado exitosamente', '', {
-            enableHtml: true,
-            toastClass: 'toast-eliminar'
-          });
-          this.closeDeleteModal();
-        },
-        error => {
-          console.error(error);
-          this.toastr.error('ERROR al querer eliminar el producto', '', {
-            enableHtml: true,
-            toastClass: 'toast-error'
-          });
-          this.closeDeleteModal();
+  notification(idProducto: number) {
+    this.notificationService.showConfirmation('Confirmar Eliminación', '¿Estás seguro de que deseas eliminar este producto?')
+      .then(confirmed => {
+        if (confirmed) {
+          this.eliminarProducto(idProducto);
         }
-      );
-    }
+      });
+  }
+
+  eliminarProducto(idProducto: number) {
+    this.productosService.eliminarProducto(idProducto).subscribe(
+      () => {
+        this.obtenerTodosLosProductos();
+        this.notificationService.showSuccess('Producto eliminado exitosamente', '');
+      },
+      (error) => {
+        console.error(error);
+        this.notificationService.showError('ERROR al querer eliminar el producto', '');
+      }
+    );
   }
 
   editarProducto(idProducto: number) {

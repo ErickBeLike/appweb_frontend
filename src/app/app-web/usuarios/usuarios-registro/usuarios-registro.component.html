@@ -5,45 +5,56 @@
         <div class="col-md-7">
             <div class="form-container">
                 <div class="close-button-container">
-                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/usuarios/usuarios-lista'>
+                    <button type="button" class="btn btn-secondary" aria-label="Close"
+                        routerLink='/app-web/usuarios/usuarios-lista'>
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center">{{ titulo }}</h2>
                 <form #f="ngForm" (ngSubmit)="onRegister()">
                     <div class="form-group">
-                        <label for="nombreUsuario"><i class="fa-solid fa-user"></i> Nombre de Usuario<span class="text-danger"> *</span></label>
-                        <input type="text" class="form-control" id="nombreUsuario" [(ngModel)]="nombreUsuario" name="nombreUsuario" required
-                        (focus)="toggleSmallElementsVisibility('nombreUsuario', true)" 
-                        (blur)="toggleSmallElementsVisibility('nombreUsuario', false)">
-                        <small id="nombreUsuarioHelp" class="form-text text-muted" [hidden]="!showSmallElements['nombreUsuario']">Campo necesario</small>
+                        <label for="nombreUsuario"><i class="fa-solid fa-user"></i> Nombre de Usuario<span
+                                class="text-danger"> *</span></label>
+                        <input type="text" class="form-control" id="nombreUsuario" [(ngModel)]="nombreUsuario"
+                            name="nombreUsuario" required (focus)="toggleSmallElementsVisibility('nombreUsuario', true)"
+                            (blur)="toggleSmallElementsVisibility('nombreUsuario', false)">
+                        <small id="nombreUsuarioHelp" class="form-text text-muted"
+                            [hidden]="!showSmallElements['nombreUsuario']">Campo necesario</small>
                     </div>
                     <div class="form-group">
-                        <label for="contrasena"><i class="fa-solid fa-lock"></i> Contraseña<span class="text-danger"> *</span></label>
+                        <label for="contrasena"><i class="fa-solid fa-lock"></i> Contraseña<span class="text-danger">
+                                *</span></label>
                         <div class="input-group">
-                            <input *ngIf="!showPassword" type="password" class="form-control" id="contrasena" [(ngModel)]="contrasena" name="contrasena" placeholder="Contraseña" required
-                            (focus)="toggleSmallElementsVisibility('contrasena', true)" 
-                        (blur)="toggleSmallElementsVisibility('contrasena', false)">
-                            <input *ngIf="showPassword" type="text" class="form-control" id="contrasenaVisible" [(ngModel)]="contrasena" name="contrasenaVisible" placeholder="Contraseña" required
-                            (focus)="toggleSmallElementsVisibility('contrasena', true)" 
-                        (blur)="toggleSmallElementsVisibility('contrasena', false)">
+                            <input *ngIf="!showPassword" type="password" class="form-control" id="contrasena"
+                                [(ngModel)]="contrasena" name="contrasena" placeholder="Contraseña" required
+                                (focus)="toggleSmallElementsVisibility('contrasena', true)"
+                                (blur)="toggleSmallElementsVisibility('contrasena', false)">
+                            <input *ngIf="showPassword" type="text" class="form-control" id="contrasenaVisible"
+                                [(ngModel)]="contrasena" name="contrasenaVisible" placeholder="Contraseña" required
+                                (focus)="toggleSmallElementsVisibility('contrasena', true)"
+                                (blur)="toggleSmallElementsVisibility('contrasena', false)">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
-                                    <i class="fa" id="contrasena" [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"></i>
+                                <button class="btn btn-outline-secondary" type="button"
+                                    (click)="togglePasswordVisibility()">
+                                    <i class="fa" id="contrasena"
+                                        [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"></i>
                                 </button>
                             </div>
                         </div>
-                        <small id="clientNameHelp" class="form-text text-muted" 
+                        <small id="clientNameHelp" class="form-text text-muted"
                             [hidden]="!showSmallElements['contrasena']">Mínimo 8 caracteres</small>
                     </div>
                     <div class="form-group">
                         <div>
-                            <label for="adminPermission" style="margin-right: 10px;"><i class="fa-solid fa-user-shield"></i> Conceder permisos de administrador</label>
-                            <input class="form-check-input" type="checkbox" id="adminPermission" [(ngModel)]="esAdmin" name="adminPermission" />
+                            <label for="adminPermission" style="margin-right: 10px;"><i
+                                    class="fa-solid fa-user-shield"></i> Conceder permisos de administrador</label>
+                            <input class="form-check-input" type="checkbox" id="adminPermission" [(ngModel)]="esAdmin"
+                                name="adminPermission" />
                         </div>
                     </div>
                     <div class="buttons-container">
-                        <button type="button" class="btn btn-danger mr-2" routerLink='/app-web/usuarios/usuarios-lista'>Cancelar</button>
+                        <button type="button" class="btn btn-danger mr-2"
+                            routerLink='/app-web/usuarios/usuarios-lista'>Cancelar</button>
                         <button type="submit" class="btn btn-success" [disabled]="!f.valid">Guardar</button>
                     </div>
                 </form>

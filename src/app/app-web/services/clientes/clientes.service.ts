@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientesService {
-
   private apiUrl = 'http://localhost:8080/api/clientes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   obtenerTodosLosClientes(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);

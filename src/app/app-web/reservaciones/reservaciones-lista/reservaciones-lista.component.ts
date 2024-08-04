@@ -3,11 +3,14 @@ import { ReservacionesService } from '../../services/reservaciones/reservaciones
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
+import moment from 'moment';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
+import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
 
 @Component({
   selector: 'app-reservaciones-lista',
   templateUrl: './reservaciones-lista.component.html',
-  styleUrls: ['./reservaciones-lista.component.css']
+  styleUrls: ['./reservaciones-lista.component.css'],
 })
 export class ReservacionesListaComponent implements OnInit {
   reservaciones: any[] = [];
@@ -15,13 +18,14 @@ export class ReservacionesListaComponent implements OnInit {
   reservacionAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   filtro: string = '';
-  ordenActual: string = 'idReservacion'; 
-  orden: string = 'asc'; 
+  ordenActual: string = 'idReservacion';
+  orden: string = 'asc';
 
   constructor(
-    private reservacionesService: ReservacionesService, 
+    private reservacionesService: ReservacionesService,
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService,
+    private notiService: NotiServiceService
   ) {}
 
   ngOnInit(): void {
@@ -29,12 +33,15 @@ export class ReservacionesListaComponent implements OnInit {
   }
 
   obtenerTodasLasReservaciones() {
-    this.reservacionesService.obtenerTodasLasReservaciones().subscribe(response => {
-      this.reservaciones = response;
-      this.reservacionesFiltradas = [...this.reservaciones];
-    }, error => {
-      console.error(error);
-    });
+    this.reservacionesService.obtenerTodasLasReservaciones().subscribe(
+      (response) => {
+        this.reservaciones = response;
+        this.reservacionesFiltradas = [...this.reservaciones];
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   buscarReservacion(event: any): void {
@@ -44,10 +51,18 @@ export class ReservacionesListaComponent implements OnInit {
     } else {
       this.reservacionesFiltradas = this.reservaciones.filter(
         (reservacion) =>
-          unidecode(reservacion.idCliente.persona.nombre.toLowerCase()).includes(valor) ||
-          unidecode(reservacion.idCliente.persona.apellidoPaterno.toLowerCase()).includes(valor) ||
-          unidecode(reservacion.idCliente.persona.apellidoMaterno.toLowerCase()).includes(valor) ||
-          unidecode(reservacion.idHabitacion.habitacion.toLowerCase()).includes(valor)
+          unidecode(
+            reservacion.idCliente.persona.nombre.toLowerCase()
+          ).includes(valor) ||
+          unidecode(
+            reservacion.idCliente.persona.apellidoPaterno.toLowerCase()
+          ).includes(valor) ||
+          unidecode(
+            reservacion.idCliente.persona.apellidoMaterno.toLowerCase()
+          ).includes(valor) ||
+          unidecode(reservacion.idHabitacion.habitacion.toLowerCase()).includes(
+            valor
+          )
       );
     }
   }
@@ -84,38 +99,101 @@ export class ReservacionesListaComponent implements OnInit {
     return value;
   }
 
-  openDeleteModal(idReservacion: number) {
-    this.reservacionAEliminar = idReservacion;
-    this.showDeleteModal = true;
+  notification(idReservacion: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar esta reservacion?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarReservacion(idReservacion);
+        }
+      });
   }
 
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.reservacionAEliminar = null;
-  }
-
-  confirmarEliminarReservacion() {
-    if (this.reservacionAEliminar !== null) {
-      this.reservacionesService.eliminarReservacion(this.reservacionAEliminar).subscribe(response => {
+  eliminarReservacion(idReservacion: number) {
+    this.reservacionesService.eliminarReservacion(idReservacion).subscribe(
+      () => {
         this.obtenerTodasLasReservaciones();
-        this.toastr.success('Reservación eliminada exitosamente', '', {
-          enableHtml: true,
-          toastClass: 'toast-eliminar' 
-      });
-      this.closeDeleteModal();
-      }, error => {
+        this.notificationService.showSuccess(
+          'Reservación eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
         console.error(error);
-        this.toastr.error('ERROR al querer eliminar la reservación', '', {
-          enableHtml: true,
-          toastClass: 'toast-error' 
-      });
-      this.closeDeleteModal();
-      });
+        this.notificationService.showError(
+          'ERROR al querer eliminar la reservación',
+          ''
+        );
+      }
+    );
+  }
+
+  generarPagos(reservacion: any): any[] {
+    if (!reservacion.pagos || reservacion.pagos.length === 0) {
+      return [];
     }
+
+    const fechaInicio = moment(reservacion.fechaInicio);
+    const tipoReservacion = reservacion.tipoReservacion; // "diaria", "semanal", "mensual"
+
+    return reservacion.pagos.map((pago: any, index: number) => {
+      let fechaPago: moment.Moment | undefined;
+      if (tipoReservacion === 'NOCHE') {
+        fechaPago = fechaInicio.clone().add(index, 'days');
+      } else if (tipoReservacion === 'SEMANA') {
+        fechaPago = fechaInicio.clone().add(index, 'weeks');
+      } else if (tipoReservacion === 'MES') {
+        fechaPago = fechaInicio.clone().add(index, 'months');
+      } else {
+        fechaPago = fechaInicio.clone(); // Valor por defecto si el tipo de reservación no es válido
+      }
+      return { ...pago, fechaPago: fechaPago.format('DD/MM/YYYY') };
+    });
+  }
+
+  actualizarPago(
+    idPago: number,
+    numero: number,
+    monto: number,
+    event: Event,
+    reservacion: any
+  ) {
+    const inputElement = event.target as HTMLInputElement;
+    const pagado = inputElement.checked;
+
+    const pagoDTO = {
+      idPago, // Agregar si es necesario para la identificación en el backend
+      monto,
+      pagado,
+      numeroPago: numero,
+    };
+
+    this.reservacionesService.actualizarEstadoPago(idPago, pagoDTO).subscribe(
+      (response) => {
+        this.notiService.showSuccess('Pago actualizado');
+
+        const pagoActualizado = reservacion.pagos.find(
+          (pago: any) => pago.idPago === idPago
+        );
+        if (pagoActualizado) {
+          pagoActualizado.pagado = pagado;
+        }
+      },
+      (error) => {
+        console.error('Error al actualizar pago', error);
+        this.notiService.showError('ERROR al actualizar pago');
+      }
+    );
   }
 
   editarReservacion(idReservacion: number) {
-    this.router.navigate(['/app-web/reservaciones/reservaciones-registro', idReservacion]);
+    this.router.navigate([
+      '/app-web/reservaciones/reservaciones-registro',
+      idReservacion,
+    ]);
   }
 
   generarReporte() {

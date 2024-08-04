@@ -1,30 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientesService } from '../../services/clientes/clientes.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service'; // Importa tu servicio
 import unidecode from 'unidecode'; // Importa la función unidecode
+import { TokenService } from '../../services/authentication/token.service';
 
 @Component({
   selector: 'app-clientes-lista',
   templateUrl: './clientes-lista.component.html',
-  styleUrls: ['./clientes-lista.component.css']
+  styleUrls: ['./clientes-lista.component.css'],
 })
 export class ClientesListaComponent implements OnInit {
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
   clienteAEliminar: number | null = null;
-  showDeleteModal: boolean = false;
   ordenActual: string = 'idCliente'; // Columna de orden predeterminada
   orden: string = 'asc'; // Dirección de orden predeterminada
+
+  isLogged = false;
+  isAdmin = false;
 
   constructor(
     private clientesService: ClientesService,
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService, // Inyecta el servicio de notificaciones
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosClientes();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodosLosClientes() {
@@ -33,7 +39,7 @@ export class ClientesListaComponent implements OnInit {
         this.clientes = response;
         this.clientesFiltrados = [...this.clientes];
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -46,12 +52,28 @@ export class ClientesListaComponent implements OnInit {
     if (valor === '') {
       this.clientesFiltrados = [...this.clientes];
     } else {
-      this.clientesFiltrados = this.clientes.filter(cliente =>
-        this.contieneTextoNormalizado(cliente.persona.nombre.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(cliente.persona.apellidoPaterno.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(cliente.persona.apellidoMaterno.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(cliente.persona.telefono.toString(), valorNormalizado) ||
-        this.contieneTextoNormalizado(cliente.persona.correo.toLowerCase(), valorNormalizado)
+      this.clientesFiltrados = this.clientes.filter(
+        (cliente) =>
+          this.contieneTextoNormalizado(
+            cliente.persona.nombre.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cliente.persona.apellidoPaterno.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cliente.persona.apellidoMaterno.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cliente.persona.telefono.toString(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cliente.persona.correo.toLowerCase(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -84,37 +106,36 @@ export class ClientesListaComponent implements OnInit {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
-  openDeleteModal(idCliente: number) {
-    this.clienteAEliminar = idCliente;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.clienteAEliminar = null;
-  }
-
-  confirmarEliminarCliente() {
-    if (this.clienteAEliminar !== null) {
-      this.clientesService.eliminarCliente(this.clienteAEliminar).subscribe(
-        () => {
-          this.obtenerTodosLosClientes();
-          this.toastr.success('Cliente eliminado exitosamente', '', {
-            enableHtml: true,
-            toastClass: 'toast-eliminar'
-          });
-          this.closeDeleteModal();
-        },
-        error => {
-          console.error(error);
-          this.toastr.error('ERROR al querer eliminar al cliente', '', {
-            enableHtml: true,
-            toastClass: 'toast-error'
-          });
-          this.closeDeleteModal();
+  notification(idCliente: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este cliente?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarCliente(idCliente);
         }
-      );
-    }
+      });
+  }
+
+  eliminarCliente(idCliente: number) {
+    this.clientesService.eliminarCliente(idCliente).subscribe(
+      () => {
+        this.obtenerTodosLosClientes();
+        this.notificationService.showSuccess(
+          'Cliente eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
+        console.error(error);
+        this.notificationService.showError(
+          'ERROR al querer eliminar al cliente',
+          ''
+        );
+      }
+    );
   }
 
   editarCliente(idCliente: number) {

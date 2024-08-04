@@ -3,28 +3,36 @@ import { Router } from '@angular/router';
 import { CargosService } from '../../services/cargos/cargos.service';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode'; // Importa la función unidecode
+import { TokenService } from '../../services/authentication/token.service';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 
 @Component({
   selector: 'app-cargos-lista',
   templateUrl: './cargos-lista.component.html',
-  styleUrls: ['./cargos-lista.component.css']
+  styleUrls: ['./cargos-lista.component.css'],
 })
 export class CargosListaComponent implements OnInit {
   cargos: any[] = [];
   cargosFiltrados: any[] = [];
   cargoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
-  ordenActual: string = 'idCargo'; // Columna de orden predeterminada
-  orden: string = 'asc'; // Dirección de orden predeterminada
+  ordenActual: string = 'idCargo';
+  orden: string = 'asc';
+
+  isLogged = false;
+  isAdmin = false;
 
   constructor(
     private cargosService: CargosService,
     private router: Router,
-    private toastr: ToastrService
+    private notificationService: NotificationService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosCargos();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodosLosCargos() {
@@ -33,7 +41,7 @@ export class CargosListaComponent implements OnInit {
         this.cargos = response;
         this.cargosFiltrados = [...this.cargos];
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -46,9 +54,16 @@ export class CargosListaComponent implements OnInit {
     if (valor === '') {
       this.cargosFiltrados = [...this.cargos];
     } else {
-      this.cargosFiltrados = this.cargos.filter(cargo =>
-        this.contieneTextoNormalizado(cargo.nombreCargo.toLowerCase(), valorNormalizado) ||
-        this.contieneTextoNormalizado(cargo.descripcionCargo.toLowerCase(), valorNormalizado)
+      this.cargosFiltrados = this.cargos.filter(
+        (cargo) =>
+          this.contieneTextoNormalizado(
+            cargo.nombreCargo.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cargo.descripcionCargo.toLowerCase(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -81,37 +96,36 @@ export class CargosListaComponent implements OnInit {
     return campo.split('.').reduce((o, i) => o[i], obj);
   }
 
-  openDeleteModal(idCargo: number) {
-    this.cargoAEliminar = idCargo;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-    this.cargoAEliminar = null;
-  }
-
-  confirmarEliminarCargo() {
-    if (this.cargoAEliminar !== null) {
-      this.cargosService.eliminarCargo(this.cargoAEliminar).subscribe(
-        () => {
-          this.obtenerTodosLosCargos();
-          this.toastr.success('Cargo eliminado exitosamente', '', {
-            enableHtml: true,
-            toastClass: 'toast-eliminar'
-          });
-          this.closeDeleteModal();
-        },
-        error => {
-          console.error(error);
-          this.toastr.error('ERROR al querer eliminar el cargo', '', {
-            enableHtml: true,
-            toastClass: 'toast-error'
-          });
-          this.closeDeleteModal();
+  notification(iiCargo: number) {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este cargo?'
+      )
+      .then((confirmed) => {
+        if (confirmed) {
+          this.eliminarCargo(iiCargo);
         }
-      );
-    }
+      });
+  }
+
+  eliminarCargo(idCargo: number) {
+    this.cargosService.eliminarCargo(idCargo).subscribe(
+      () => {
+        this.obtenerTodosLosCargos();
+        this.notificationService.showSuccess(
+          'Cargo eliminado exitosamente',
+          ''
+        );
+      },
+      (error) => {
+        console.error(error);
+        this.notificationService.showError(
+          'ERROR al querer eliminar el cargo',
+          ''
+        );
+      }
+    );
   }
 
   editarCargo(idCargo: number) {

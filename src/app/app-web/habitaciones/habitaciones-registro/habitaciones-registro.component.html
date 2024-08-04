@@ -5,60 +5,108 @@
         <div class="col-md-7">
             <div class="form-container">
                 <div class="close-button-container">
-                    <button type="button" class="btn btn-secondary" aria-label="Close" routerLink='/app-web/habitaciones/habitaciones-lista'>
+                    <button type="button" class="btn btn-secondary" aria-label="Close"
+                        routerLink='/app-web/habitaciones/habitaciones-lista'>
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <h2 class="text-center" id="form-title">{{ titulo }}</h2>
                 <form [formGroup]="formHabitacion" (ngSubmit)="agregarOEditar()">
                     <div class="form-group">
-                        <label for="roomName"><i class="fa-solid fa-hotel"></i> Nombre de la habitación<span class="text-danger"> *</span></label>
+                        <label for="roomName"><i class="fa-solid fa-hotel"></i> Nombre de la habitación<span
+                                class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="roomName" formControlName="habitacion" required>
                     </div>
                     <div class="form-group">
-                        <label for="capacity"><i class="fa-solid fa-users"></i> Cupo<span class="text-danger"> *</span></label>
+                        <label for="capacity"><i class="fa-solid fa-users"></i> Cupo<span class="text-danger">
+                                *</span></label>
                         <input type="number" class="form-control" id="capacity" formControlName="cupo" required>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-money-bill-wave"></i> Precio por noche<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="precioPorNoche" required>
+                            <label for="price"><i class="fa-solid fa-money-bill-wave"></i> Precio por noche<span
+                                    class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="price" formControlName="precioPorNoche"
+                                    required>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito inicial<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="depositoInicialNoche" required>
+                            <label for="deposit"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito inicial<span
+                                    class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="deposit"
+                                    formControlName="depositoInicialNoche" required>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-money-bill-wave"></i> Precio por semana<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="precioPorSemana" required>
+                            <label for="priceWeek"><i class="fa-solid fa-money-bill-wave"></i> Precio por semana<span
+                                    class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="priceWeek"
+                                    formControlName="precioPorSemana" required>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito inicial<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="depositoInicialSemana" required>
+                            <label for="depositWeek"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito
+                                inicial<span class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="depositWeek"
+                                    formControlName="depositoInicialSemana" required>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-money-bill-wave"></i> Precio por mes<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="precioPorMes" required>
+                            <label for="priceMonth"><i class="fa-solid fa-money-bill-wave"></i> Precio por mes<span
+                                    class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="priceMonth" formControlName="precioPorMes"
+                                    required>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="price"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito inicial<span class="text-danger"> *</span></label>
-                            <input type="number" class="form-control" id="price" formControlName="depositoInicialMes" required>
+                            <label for="depositMonth"><i class="fa-solid fa-hand-holding-dollar"></i> Depósito
+                                inicial<span class="text-danger"> *</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="number" class="form-control" id="depositMonth"
+                                    formControlName="depositoInicialMes" required>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="availability"><i class="fa-solid fa-check-to-slot"></i> Disponibilidad<span class="text-danger"> *</span></label>
+                        <label for="availability"><i class="fa-solid fa-check-to-slot"></i> Disponibilidad<span
+                                class="text-danger"> *</span></label>
                         <select class="form-control" id="availability" formControlName="disponibilidad" required>
                             <option value="DISPONIBLE">Disponible</option>
                             <option value="OCUPADA">Ocupada</option>
                         </select>
                     </div>
                     <div class="buttons-container">
-                        <button type="button" class="btn btn-danger" routerLink='/app-web/habitaciones/habitaciones-lista'>Cancelar</button>
-                        <button type="submit" class="btn btn-success" [disabled]="formHabitacion.invalid">Guardar</button>
+                        <button type="button" class="btn btn-danger"
+                            routerLink='/app-web/habitaciones/habitaciones-lista'>Cancelar</button>
+                        <button type="submit" class="btn btn-success"
+                            [disabled]="formHabitacion.invalid">Guardar</button>
                     </div>
                 </form>
             </div>

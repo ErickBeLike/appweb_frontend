@@ -6,7 +6,8 @@
       <span class="h1"><i class="fa-solid fa-toolbox"></i> Cargos</span>
       <div class="card-body mt-4">
         <span class="h3">Gestionar</span>
-        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/cargos/cargos-registro'>Agregar cargo <i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/cargos/cargos-registro'>Agregar
+          cargo <i class="fa-solid fa-plus"></i></button>
         <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
 
         <!-- Barra de búsqueda y filtro -->
@@ -20,7 +21,7 @@
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th (click)="ordenarCargos('idCargo')" style="cursor: pointer"> 
+              <th (click)="ordenarCargos('idCargo')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCargo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCargo' && orden === 'desc'"></i>
@@ -35,46 +36,31 @@
               <th (click)="ordenarCargos('descripcionCargo')" style="cursor: pointer">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'descripcionCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'descripcionCargo' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'descripcionCargo' && orden === 'desc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'descripcionCargo' && orden === 'desc'"></i>
                 Descripción
               </th>
+              <th *ngIf="isAdmin">Fecha de creación</th>
+              <th *ngIf="isAdmin">Fecha de actualización</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          
+
           <tbody>
             <tr *ngFor="let cargo of cargosFiltrados">
               <td><strong>{{ cargo.idCargo }}</strong></td>
               <td>{{ cargo.nombreCargo }}</td>
               <td>{{ cargo.descripcionCargo }}</td>
+              <td>{{ cargo.fechaCreacion }}</td>
+              <td>{{ cargo.fechaActualizacion }}</td>
               <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarCargo(cargo.idCargo)"></i>
-                <i (click)="openDeleteModal(cargo.idCargo)" class="borrar fa-solid fa-trash"></i>
+                <i (click)="notification(cargo.idCargo)" class="borrar fa-solid fa-trash"></i>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>    
+  </div>
 </section>
-
-<!-- Modal para Confirmar Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true" [ngClass]="{'show': showDeleteModal}" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()">
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este cargo?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="confirmarEliminarCargo()">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>

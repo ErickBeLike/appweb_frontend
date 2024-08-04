@@ -1,189 +1,201 @@
 .container {
-    padding-top: 50px;
-    width: 82%;
-    align-items: right;
-    align-content: right;
-    margin-left: 17%;
-    margin-top: 20px;
-    padding-bottom: 50px;
+  padding-top: 50px;
+  width: 82%;
+  align-items: right;
+  align-content: right;
+  margin-left: 17%;
+  margin-top: 20px;
+  padding-bottom: 50px;
 }
 
 .form-container {
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
-    border-radius: 15px;
-    padding: 20px;
-    background-color: #FFFFFF;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #ffffff;
 }
 
 .close-button-container {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .form-title {
-    color: #001D38;
+  color: #001d38;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .selected-product {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
 }
 
 .product-name {
-    flex-grow: 1;
-    font-weight: bold;
+  flex-grow: 1;
+  font-weight: bold;
 }
 
 .product-quantity {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .product-quantity label {
-    display: block;
-    font-size: 12px;
-    color: #555;
-    margin-bottom: 5px;
+  display: block;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 5px;
 }
 
 .form-control-inline {
-    width: auto;
-    display: inline-block;
-    border-radius: 10px;
+  width: auto;
+  display: inline-block;
+  border-radius: 10px;
 }
 
 .buttons-container {
-    margin-top: 20px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .btn-danger {
-    background-color: #001D38;
-    border-color: #001D38;
-    margin-right: 5px;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  margin-right: 5px;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-danger:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-success {
-    background-color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-success:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-primary {
-    background-color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-primary:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .btn-secondary {
-    background-color: #001D38;
-    border-color: #001D38;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
 }
 
 .btn-secondary:hover {
-    background-color: #F28502;
-    border-color: #F28502;
-    transform: scale(1.05);
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
 }
 
 .modal-dialog-centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin-left: 41.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: 41.5%;
 }
 
 .modal-content {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
-    border-radius: 15px;
-    position: relative;
-    
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+  border-radius: 15px;
+  position: relative;
 }
 
 .modal-header {
-    border-bottom: none;
-    position: relative;
+  border-bottom: none;
+  position: relative;
 }
 
 .modal-title {
-    font-weight: bold;
-    flex-grow: 1;
-    text-align: center;
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #001D38;
-    border: none;
-    color: #fff;
-    border-radius: 10px;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    outline: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #001d38;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
 }
 
 .close-btn:hover {
-    background: #F28502;
+  background: #f28502;
 }
 
 .modal-body {
-    max-height: 60vh;
-    overflow-y: auto;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .product-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
 }
 
-.product-item span {
-    flex-grow: 1;
-    font-weight: bold;
+.nombre {
+  flex: 2; /* Toma más espacio para el nombre del producto */
+  font-weight: bold;
+}
+
+.precio {
+  flex: 1; /* Espacio para el precio del producto */
+  text-align: center;
+}
+
+.cantidad {
+  flex: 1; /* Espacio para el cantidad del producto */
+}
+
+.boton {
+  flex: 1; /* Ajusta el botón para que esté alineado con el nombre y precio */
 }
 
 .modal-footer {
-    border-top: none;
-    display: flex;
-    justify-content: flex-end;
+  border-top: none;
+  display: flex;
+  justify-content: flex-end;
 }

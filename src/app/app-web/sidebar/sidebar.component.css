@@ -1,142 +1,144 @@
 .sidebar {
-    width: 17%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    background-color: #001D38;
-    color: #fff;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 17%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: #001d38;
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebar-header {
-    text-align: center;
+  text-align: center;
 }
 
 .logo {
-    display: block;
-    margin: 0 auto 10px auto;
-    width: 80%; 
-    cursor: pointer;
-    transition: transform 0.3s;
+  display: block;
+  margin: 0 auto 10px auto;
+  width: 80%;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
 .logo:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .sidebar-menu {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .sidebar-menu > li {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .sidebar-menu a {
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    padding: 10px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    transform 0.3s;
 }
 
 .sidebar-menu a:hover {
-    background-color: #F28502; 
-    color: #FFFFF0;
-    transform: scale(1.05);
+  background-color: #f28502;
+  color: #fffff0;
+  transform: scale(1.05);
 }
 
 .logout-button-container {
-    margin-top: auto; 
+  margin-top: auto;
 }
 
 .btn-outline-light {
-    color: #fff;
-    background-color: transparent;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    width: 100%; 
-    padding: 10px;
-    text-align: center;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s; 
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    transform 0.3s;
 }
 
 .btn-outline-light:hover {
-    background-color: red;
-    color: #fff;
-    border-color: red;
-    transform: scale(1.05);
+  background-color: red;
+  color: #fff;
+  border-color: red;
+  transform: scale(1.05);
 }
 
 .sub-menu {
-    display: none;
-    margin-top: 5px;
-    padding-left: 20px;
-    list-style-type: none;
+  display: none;
+  margin-top: 5px;
+  padding-left: 20px;
+  list-style-type: none;
 }
 
 .sub-menu.open {
-    display: block;
+  display: block;
 }
 
 .sub-menu a {
-    color: #bbb;
-    text-decoration: none;
-    display: block;
-    padding: 5px 0;
+  color: #bbb;
+  text-decoration: none;
+  display: block;
+  padding: 5px 0;
 }
 
 .sub-menu a:hover {
-    color: #fff;
+  color: #fff;
 }
 
 .menu-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .menu-item a {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .menu-title {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 18px;
 }
 
 .toggle-icon i {
-    transition: transform 0.3s ease-in-out;
-    margin-left: 1rem;
+  transition: transform 0.3s ease-in-out;
+  margin-left: 1rem;
 }
 
 .sub-menu {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 20px;
 }
 
 .sub-menu.open {
-    display: flex;
-    padding-left: 40px;
+  display: flex;
+  padding-left: 40px;
 }
 
 .menu-title a {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .menu-title a i {
-    margin-left: 0px; 
-    margin-right: 10px; 
+  margin-left: 0px;
+  margin-right: 10px;
 }
