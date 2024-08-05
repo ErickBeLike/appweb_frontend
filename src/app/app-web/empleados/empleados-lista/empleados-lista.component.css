@@ -54,6 +54,13 @@
   transition: transform 0.3s;
 }
 
+.ver {
+  color: #007bff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.ver:hover,
 .editar:hover,
 .borrar:hover {
   transform: scale(1.2);

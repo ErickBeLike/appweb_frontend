@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 const TOKEN_KEY = 'AuthToken';
 
@@ -9,15 +10,23 @@ const TOKEN_KEY = 'AuthToken';
 export class TokenService {
   roles: Array<string> = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
+
+  private get localStorage() {
+    return isPlatformBrowser(this.platformId) ? window.localStorage : null;
+  }
 
   public setToken(token: string): void {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.setItem(TOKEN_KEY, token);
+    const storage = this.localStorage;
+    if (storage) {
+      storage.removeItem(TOKEN_KEY);
+      storage.setItem(TOKEN_KEY, token);
+    }
   }
 
   public getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    const storage = this.localStorage;
+    return storage ? storage.getItem(TOKEN_KEY) : null;
   }
 
   public isLogged(): boolean {
@@ -55,7 +64,10 @@ export class TokenService {
   }
 
   public logOut(): void {
-    window.localStorage.clear();
+    const storage = this.localStorage;
+    if (storage) {
+      storage.clear();
+    }
     this.router.navigate(['/app-web/login']);
   }
 }

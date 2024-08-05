@@ -39,31 +39,29 @@
                 <i class="coso fa-solid fa-sort-desc"
                   *ngIf="ordenActual === 'idCargo.nombreCargo' && orden === 'desc'"></i>
               </th>
+              <!--
               <th (click)="ordenarEmpleados('fechaNacimiento')" style="cursor: pointer">
                 Fecha de nacimiento
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaNacimiento'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaNacimiento' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaNacimiento' && orden === 'desc'"></i>
               </th>
+              -->
+              <!--
               <th (click)="ordenarEmpleados('sexo')" style="cursor: pointer">
                 Sexo
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'sexo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'sexo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'sexo' && orden === 'desc'"></i>
               </th>
+            -->
               <th (click)="ordenarEmpleados('persona.correo')" style="cursor: pointer">
-                Correo
+                Contacto
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.correo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.correo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.correo' && orden === 'desc'"></i>
               </th>
-              <th (click)="ordenarEmpleados('persona.telefono')" style="cursor: pointer">
-                Teléfono
-                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.telefono'"></i>
-                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.telefono' && orden === 'asc'"></i>
-                <i class="coso fa-solid fa-sort-desc"
-                  *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
-              </th>
+              <!--
               <th (click)="ordenarEmpleados('direccionEmpleado')" style="cursor: pointer">
                 Dirección
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'direccionEmpleado'"></i>
@@ -71,10 +69,12 @@
                 <i class="coso fa-solid fa-sort-desc"
                   *ngIf="ordenActual === 'direccionEmpleado' && orden === 'desc'"></i>
               </th>
+              
               <th>
                 Días laborales
               </th>
               <th>horario</th>
+            -->
               <th>Fecha de creación</th>
               <th>Fecha de actualización</th>
               <th>Acciones</th>
@@ -86,11 +86,21 @@
               <td>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{
                 empleado.persona.apellidoMaterno }}</td>
               <td>{{ empleado.idCargo.nombreCargo }}</td>
+              <!--
               <td>{{ empleado.fechaNacimiento }}</td>
+              -->
+              <!--
               <td>{{ empleado.sexo }}</td>
-              <td>{{ empleado.persona.correo }}</td>
-              <td>{{ empleado.persona.telefono }}</td>
+              -->
+              <td>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                  <li><i class="fa-solid fa-envelope"></i> {{ empleado.persona.correo }}</li>
+                  <li><i class="fa-solid fa-phone"></i> {{ empleado.persona.telefono }}</li>
+                </ul>
+              </td>
+              <!--
               <td>{{ empleado.direccionEmpleado }}</td>
+              
               <td>
                 <ul style="list-style: none; margin: 0; padding: 0;">
                   <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
@@ -101,10 +111,11 @@
                   <li>Entrada: {{ empleado.horarioEntrada }}</li>
                   <li>Salida: {{ empleado.horarioSalida }}</li>
                 </ul>
-              </td>
+              </td>-->
               <td>{{ empleado.fechaCreacion }}</td>
               <td>{{ empleado.fechaActualizacion }}</td>
               <td>
+                <i class="ver fa-solid fa-circle-info me-3" (click)="verInformacion(empleado.idEmpleado)" aria-label="Ver información completa"></i>
                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarEmpleado(empleado.idEmpleado)"></i>
                 <i (click)="notification(empleado.idEmpleado)" class="borrar fa-solid fa-trash"></i>
               </td>

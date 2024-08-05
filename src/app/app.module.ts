@@ -3,6 +3,7 @@ import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +41,7 @@ import { MapComponent } from './landing-page/map/map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { interceptorProvider } from './app-web/interceptors/prod-interceptor-service.service';
+import { EmpleadosInfoComponent } from './app-web/empleados/empleados-info/empleados-info.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { interceptorProvider } from './app-web/interceptors/prod-interceptor-ser
     MapComponent,
     CargosRegistroComponent,
     CargosListaComponent,
+    EmpleadosInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,11 @@ import { interceptorProvider } from './app-web/interceptors/prod-interceptor-ser
       timeOut: 5000,
     }),
   ],
-  providers: [provideClientHydration(), interceptorProvider],
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch()),
+    interceptorProvider,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

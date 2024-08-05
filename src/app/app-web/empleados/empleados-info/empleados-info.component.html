@@ -1,0 +1,89 @@
+<app-sidebar></app-sidebar>
+
+<div class="container" data-aos="fade-up">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-content">
+        <h2 class="card-title">Detalles del Empleado</h2>
+        <button type="button" class="btn btn-secondary" aria-label="Close"
+          routerLink='/app-web/empleados/empleados-lista'>
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div *ngIf="empleado" class="info-grid">
+        <!-- Grid de ID y Nombre -->
+        <div class="info-grid-row">
+          <div class="info-group">
+            <h3>ID de empleado:</h3>
+            <p>{{ empleado.idEmpleado }}</p>
+          </div>
+          <div class="info-group">
+            <h3>Nombre Completo:</h3>
+            <p>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{ empleado.persona.apellidoMaterno }}</p>
+          </div>
+        </div>
+
+        <!-- Grid de Sexo y Cargo -->
+        <div class="info-grid-row">
+          <div class="info-group">
+            <h3>Sexo:</h3>
+            <p>{{ empleado.sexo }}</p>
+          </div>
+          <div class="info-group">
+            <h3>Cargo:</h3>
+            <p>{{ empleado.idCargo.nombreCargo }}</p>
+          </div>
+        </div>
+
+        <!-- Grid de Contacto y Dirección -->
+        <div class="info-grid-row">
+          <div class="info-group">
+            <h3>Contacto:</h3>
+            <p><i class="fa-solid fa-envelope"></i> {{ empleado.persona.correo }}</p>
+            <p><i class="fa-solid fa-phone"></i> {{ empleado.persona.telefono }}</p>
+          </div>
+          <div class="info-group">
+            <h3>Dirección:</h3>
+            <p>{{ empleado.direccionEmpleado }}</p>
+          </div>
+        </div>
+
+        <!-- Grid de Días Laborales y Horario -->
+        <div class="info-grid-row">
+          <div class="info-group">
+            <h3>Días Laborales:</h3>
+            <ul>
+              <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
+            </ul>
+          </div>
+          <div class="info-group">
+            <h3>Horario:</h3>
+            <p>Entrada: {{ empleado.horarioEntrada }}</p>
+            <p>Salida: {{ empleado.horarioSalida }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Detalles de Registro/Actualización -->
+      <div class="info-section">
+        <h2>Detalles de Registro/Actualización</h2>
+        <div class="info-grid-row">
+          <div class="info-group">
+            <h3>Fecha de Creación:</h3>
+            <p>{{ empleado.fechaCreacion | date }}</p>
+          </div>
+          <div class="info-group">
+            <h3>Fecha de Actualización:</h3>
+            <p>{{ empleado.fechaActualizacion | date }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" (click)="volver()">Volver</button>
+      </div>
+    </div>
+  </div>
+</div>

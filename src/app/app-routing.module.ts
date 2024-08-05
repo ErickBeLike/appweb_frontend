@@ -22,6 +22,7 @@ import { CargosListaComponent } from './app-web/cargos/cargos-lista/cargos-lista
 import { CargosRegistroComponent } from './app-web/cargos/cargos-registro/cargos-registro.component';
 import { DashboardComponent } from './app-web/dashboard/dashboard.component';
 import { ProdGuardService as guard } from './app-web/guards/guard-service.service';
+import { EmpleadosInfoComponent } from './app-web/empleados/empleados-info/empleados-info.component';
 
 const routes: Routes = [
   //Ruta predeterminada
@@ -96,6 +97,12 @@ const routes: Routes = [
   {
     path: 'app-web/empleados/empleados-registro/:id',
     component: EmpleadosRegistroComponent,
+    canActivate: [guard],
+    data: { expectedRol: ['admin'] },
+  },
+  {
+    path: 'app-web/empleados/empleados-info/:id',
+    component: EmpleadosInfoComponent,
     canActivate: [guard],
     data: { expectedRol: ['admin'] },
   },

@@ -1,0 +1,144 @@
+.container {
+  padding-top: 30px;
+  width: 82%;
+  margin-left: 17%;
+  margin-top: 20px;
+  padding-bottom: 50px;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  margin: auto 15%;
+}
+
+.card-header {
+  background-color: #001d38;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 15px 15px 0 0;
+  position: relative; /* Necesario para posicionar el botón correctamente */
+}
+
+.card-header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.card-title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.card-header button {
+  position: absolute;
+  right: 20px; /* Ajusta el espacio entre el botón y el borde derecho */
+  display: flex;
+  align-items: center; /* Alinea verticalmente el icono dentro del botón */
+  justify-content: center; /* Alinea horizontalmente el icono dentro del botón */
+  width: 40px; /* Ajusta el ancho del botón */
+  height: 40px; /* Ajusta la altura del botón para que sea igual al ancho */
+  border: none; /* Elimina el borde por defecto */
+  background-color: #001d38; /* Color de fondo del botón */
+  color: #ffffff; /* Color del icono */
+  border-radius: 5px; /* Esquinas ligeramente redondeadas (opcional) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra ligera si lo deseas */
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s; /* Transiciones para efectos */
+}
+
+.card-header button i {
+  font-size: 1.2em; /* Ajusta el tamaño del icono si es necesario */
+  margin: 0; /* Elimina márgenes adicionales del icono */
+}
+
+.card-header button:hover {
+  background-color: #f28502; /* Color de fondo cuando el botón está en hover */
+  transform: scale(1.05); /* Efecto de escala al pasar el ratón */
+}
+
+
+.card-body {
+  padding: 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.info-grid-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.info-group {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-group h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #001d38;
+}
+
+.info-group p {
+  margin: 0;
+  font-size: 1em;
+  color: #555;
+}
+
+.info-section {
+  margin-top: 40px;
+}
+
+.info-section h2 {
+  text-align: center;
+  font-size: 1.5em;
+  color: #001d38;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #001d38;
+  padding-bottom: 10px;
+}
+
+.button-group {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-secondary {
+  background-color: #001d38;
+  border-color: #001d38;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #f28502;
+  border-color: #f28502;
+  transform: scale(1.05);
+}
+
+.fa-solid {
+  margin-right: 5px;
+}
+
+/* Opcional: Ajustes para diseño responsivo */
+@media (max-width: 768px) {
+  .info-grid-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-group {
+    margin-bottom: 15px;
+  }
+}

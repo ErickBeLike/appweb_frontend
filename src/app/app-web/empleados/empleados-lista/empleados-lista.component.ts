@@ -40,6 +40,10 @@ export class EmpleadosListaComponent implements OnInit {
     );
   }
 
+  verInformacion(idEmpleado: number) {
+    this.router.navigate([`/app-web/empleados/empleados-info/${idEmpleado}`]);
+  }
+
   buscarEmpleado(event: Event) {
     const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
     const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda

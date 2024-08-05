@@ -181,7 +181,7 @@ export class EmpleadosRegistroComponent implements OnInit {
     this.empleadosService.actualizarEmpleado(id, empleado).subscribe(
       (response) => {
         this.router.navigate(['/app-web/empleados/empleados-lista']);
-        this.notiService.showSuccess('Empleado editado exitosamente');
+        this.notiService.showSuccess('Empleado editado');
       },
       (error) => {
         console.error(error);
