@@ -7,6 +7,9 @@ import { TokenService } from '../../services/authentication/token.service';
 import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 @Component({
   selector: 'app-habitaciones-lista',
   templateUrl: './habitaciones-lista.component.html',
@@ -15,14 +18,11 @@ import { NotiServiceService } from '../../services/notification/notyf/noti-servi
 export class HabitacionesListaComponent implements OnInit {
   habitaciones: any[] = [];
   habitacionesFiltradas: any[] = [];
-  habitacionAEliminar: number | null = null;
-  showDeleteModal: boolean = false;
   ordenActual: string = 'idHabitacion';
   orden: string = 'asc';
-  roles: string[] = [];
-
   isLogged = false;
   isAdmin = false;
+  isLoading = false;
 
   constructor(
     private habitacionesService: HabitacionesService,
@@ -39,14 +39,16 @@ export class HabitacionesListaComponent implements OnInit {
   }
 
   obtenerTodasLasHabitaciones() {
+    this.isLoading = true;
     this.habitacionesService.obtenerTodasLasHabitaciones().subscribe(
       (response: any[]) => {
+        this.isLoading = false;
         this.habitaciones = response;
-        // Al inicio, mostramos todas las habitaciones
         this.habitacionesFiltradas = [...this.habitaciones];
       },
       (error) => {
-        console.error(error);
+        this.isLoading = false;
+        this.notiService.showError('ERROR al cargar las habitaciones');
       }
     );
   }
@@ -79,6 +81,10 @@ export class HabitacionesListaComponent implements OnInit {
     this.habitacionesFiltradas.sort((a, b) => {
       let campoA = a[campo];
       let campoB = b[campo];
+      if (campo === 'fechaCreacion' || campo === 'fechaActualizacion') {
+        campoA = new Date(campoA);
+        campoB = new Date(campoB);
+      }
       if (typeof campoA === 'string') {
         campoA = campoA.toLowerCase();
         campoB = campoB.toLowerCase();
@@ -89,7 +95,7 @@ export class HabitacionesListaComponent implements OnInit {
     });
   }
 
-  notification(iddHabitacion: number) {
+  notification(idHabitacion: number) {
     this.notificationService
       .showConfirmation(
         'Confirmar Eliminación',
@@ -97,7 +103,7 @@ export class HabitacionesListaComponent implements OnInit {
       )
       .then((confirmed) => {
         if (confirmed) {
-          this.eliminarHabitacion(iddHabitacion);
+          this.eliminarHabitacion(idHabitacion);
         }
       });
   }
@@ -107,15 +113,15 @@ export class HabitacionesListaComponent implements OnInit {
       () => {
         this.obtenerTodasLasHabitaciones();
         this.notificationService.showSuccess(
-          'Habitación eliminada exitosamente',
-          ''
+          '',
+          'Habitación eliminada exitosamente'
         );
       },
       (error) => {
         console.error(error);
         this.notificationService.showError(
-          'ERROR al querer eliminar la habitación',
-          ''
+          '',
+          'ERROR al querer eliminar la habitación'
         );
       }
     );
@@ -129,7 +135,99 @@ export class HabitacionesListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Implementa la lógica para generar un reporte en PDF
+    // Crear una nueva instancia de jsPDF con orientación horizontal
+    const doc = new jsPDF('landscape');
+
+    // Título del documento
+    doc.setFontSize(18);
+    doc.text('Reporte de Habitaciones', 14, 15);
+
+    // Obtener la fecha actual en formato dia-mes-año
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es 0-indexado
+    const anio = fechaActual.getFullYear();
+    const fechaFormato = `${dia}/${mes}/${anio}`;
+
+    // Añadir la fecha de generación del reporte
+    doc.setFontSize(12);
+    doc.text(`Generado el: ${fechaFormato}`, 14, 23);
+
+    // Definir las columnas
+    const columns = [
+      { header: 'ID', dataKey: 'idHabitacion' },
+      { header: 'Habitación', dataKey: 'habitacion' },
+      { header: 'Cupo', dataKey: 'cupo' },
+      { header: 'Precio / Noche', dataKey: 'precioNoche' },
+      { header: 'Depósito / Noche', dataKey: 'depositoNoche' },
+      { header: 'Precio / Semana', dataKey: 'precioSemana' },
+      { header: 'Depósito / Semana', dataKey: 'depositoSemana' },
+      { header: 'Precio / Mes', dataKey: 'precioMes' },
+      { header: 'Depósito / Mes', dataKey: 'depositoMes' },
+      { header: 'Disponibilidad', dataKey: 'disponibilidad' },
+      ...(this.isAdmin
+        ? [
+            { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
+            { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
+          ]
+        : []),
+    ];
+
+    // Función para formatear fecha y hora
+    const formatFechaHora = (fecha: Date) => {
+      const opcionesFecha: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      };
+      const opcionesHora: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesFecha);
+      const horaFormateada = fecha.toLocaleTimeString('es-ES', opcionesHora);
+      return `${fechaFormateada} ${horaFormateada}`;
+    };
+
+    // Mapear los datos de las habitaciones
+    const rows = this.habitaciones.map((habitacion) => ({
+      idHabitacion: habitacion.idHabitacion,
+      habitacion: habitacion.habitacion,
+      cupo: habitacion.cupo,
+      precioNoche: habitacion.precioPorNoche,
+      precioSemana: habitacion.precioPorSemana,
+      precioMes: habitacion.precioPorMes,
+      depositoNoche: habitacion.depositoInicialNoche,
+      depositoSemana: habitacion.depositoInicialSemana,
+      depositoMes: habitacion.depositoInicialMes,
+      disponibilidad: habitacion.disponibilidad,
+      ...(this.isAdmin
+        ? {
+            fechaCreacion: habitacion.fechaCreacion
+              ? formatFechaHora(new Date(habitacion.fechaCreacion))
+              : '',
+            fechaActualizacion: habitacion.fechaActualizacion
+              ? formatFechaHora(new Date(habitacion.fechaActualizacion))
+              : 'N/A',
+          }
+        : {}),
+    }));
+
+    // Añadir la tabla al documento PDF
+    (doc as any).autoTable({
+      columns: columns,
+      body: rows,
+      startY: 28,
+      margin: { left: 14, right: 14 },
+      theme: 'striped',
+    });
+
+    // Construir el nombre del archivo
+    const nombreArchivo = `registro_habitaciones_${dia}-${mes}-${anio}.pdf`;
+
+    // Guardar el archivo PDF
+    doc.save(nombreArchivo);
   }
 
   actualizarDisponibilidad(habitacion: any): void {
@@ -137,12 +235,12 @@ export class HabitacionesListaComponent implements OnInit {
       .actualizarHabitacion(habitacion.idHabitacion, habitacion)
       .subscribe(
         () => {
-          console.log('Disponibilidad actualizada');
           this.notiService.showSuccess('Disponibilidad actualizada');
+          this.obtenerTodasLasHabitaciones();
         },
         (error) => {
-          console.error(error);
           this.notiService.showError('ERROR al actualizar disponibilidad');
+          this.obtenerTodasLasHabitaciones();
         }
       );
   }

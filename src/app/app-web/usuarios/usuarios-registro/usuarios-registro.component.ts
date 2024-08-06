@@ -22,6 +22,8 @@ export class UsuariosRegistroComponent implements OnInit {
   contrasena: string = '';
   errMsj: string = '';
 
+  isLoading = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -80,8 +82,10 @@ export class UsuariosRegistroComponent implements OnInit {
   }
 
   cargarUsuario(id: any): void {
+    this.isLoading = true;
     this.authService.obtenerUsuarioPorId(id).subscribe(
       (data) => {
+        this.isLoading = false;
         this.nombreUsuario = data.nombreUsuario;
         this.contrasena = data.contrasenaUncripted;
         // Verificar si el usuario tiene el rol de admin
@@ -90,7 +94,8 @@ export class UsuariosRegistroComponent implements OnInit {
         );
       },
       (err) => {
-        this.notiService.showError('ERROR al cargar los datos del usuario');
+        this.isLoading = false;
+        this.notiService.showError('ERROR al cargar usuario');
       }
     );
   }

@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-7">
@@ -27,7 +39,6 @@
                         <label for="cargoDescripcion"><i class="fa-solid fa-circle-info"></i> Descripción del Cargo<span
                                 class="text-danger"> *</span></label>
                         <textarea class="form-control" id="cargoDescripcion" formControlName="descripcionCargo"
-                            (input)="onInputDescripcion($event)"
                             (focus)="toggleSmallElementsVisibility('cargoDescripcionHelp', true)"
                             (blur)="toggleSmallElementsVisibility('cargoDescripcionHelp', false)" required></textarea>
                         <small id="cargoDescripcionHelp" class="form-text text-muted"

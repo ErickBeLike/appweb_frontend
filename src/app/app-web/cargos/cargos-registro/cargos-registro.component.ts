@@ -16,6 +16,8 @@ export class CargosRegistroComponent {
   id: any | null;
   showSmallElements: { [key: string]: boolean } = {};
 
+  isLoading = false;
+
   @ViewChild('smallElements') smallElements!: ElementRef[];
 
   constructor(
@@ -30,10 +32,7 @@ export class CargosRegistroComponent {
         '',
         [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)],
       ],
-      descripcionCargo: [
-        '',
-        [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)],
-      ],
+      descripcionCargo: ['', [Validators.required]],
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -46,9 +45,17 @@ export class CargosRegistroComponent {
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar cargo';
-      this.cargosService.buscarCargoId(this.id).subscribe((response) => {
-        this.formCargo.patchValue(response);
-      });
+      this.isLoading = true;
+      this.cargosService.buscarCargoId(this.id).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.formCargo.patchValue(response);
+        },
+        (error) => {
+          this.isLoading = false;
+          this.notiService.showError('ERROR al cargar cargo');
+        }
+      );
     }
   }
 
@@ -92,14 +99,6 @@ export class CargosRegistroComponent {
     const inputValue = event.target.value;
     const newValue = inputValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     this.formCargo.get('nombreCargo')?.setValue(newValue, { emitEvent: false });
-  }
-
-  onInputDescripcion(event: any) {
-    const inputValue = event.target.value;
-    const newValue = inputValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    this.formCargo
-      .get('descripcionCargo')
-      ?.setValue(newValue, { emitEvent: false });
   }
 
   toggleSmallElementsVisibility(smallId: string, show: boolean) {

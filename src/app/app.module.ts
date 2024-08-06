@@ -40,8 +40,9 @@ import { MapComponent } from './landing-page/map/map.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { interceptorProvider } from './app-web/interceptors/prod-interceptor-service.service';
+import { interceptorProvider } from './app-web/services/interceptors/prod-interceptor-service.service';
 import { EmpleadosInfoComponent } from './app-web/empleados/empleados-info/empleados-info.component';
+import { EmailService } from './app-web/services/email/email.service';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { EmpleadosInfoComponent } from './app-web/empleados/empleados-info/emple
     provideClientHydration(),
     provideHttpClient(withFetch()),
     interceptorProvider,
+    EmailService
   ],
   bootstrap: [AppComponent],
 })

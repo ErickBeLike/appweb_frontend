@@ -42,4 +42,8 @@ export class AuthService {
   public eliminarUsuario(id: number): Observable<any> {
     return this.httpClient.delete<any>(`${this.authURL}delete/${id}`);
   }
+
+  public refresh(dto: JwtDto): Observable<JwtDto> {
+    return this.httpClient.post<JwtDto>(this.authURL + 'refresh', dto);
+  }
 }

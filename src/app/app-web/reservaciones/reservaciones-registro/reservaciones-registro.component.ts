@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClientesService } from '../../services/clientes/clientes.service';
 import { ReservacionesService } from '../../services/reservaciones/reservaciones.service';
@@ -19,6 +19,10 @@ export class ReservacionesRegistroComponent implements OnInit {
   clientes: any[] = [];
   habitaciones: any[] = [];
   tipoReservacion: string[] = ['NOCHE', 'SEMANA', 'MES'];
+  selectedHabitacion: any | null = null;
+  showSmallElements: { [key: string]: boolean } = {};
+  showModal = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,12 +31,13 @@ export class ReservacionesRegistroComponent implements OnInit {
     private habitacionesService: HabitacionesService,
     private router: Router,
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     private notiService: NotiServiceService
   ) {
     this.formReservacion = this.fb.group({
       idCliente: ['', [Validators.required]],
       fechaInicio: ['', [Validators.required]],
-      tiempoReservacion: ['0', [Validators.required]],
+      tiempoReservacion: ['', [Validators.required, this.tiempoValidator]],
       tipoReservacion: ['', [Validators.required]],
       idHabitacion: ['', [Validators.required]],
     });
@@ -41,11 +46,7 @@ export class ReservacionesRegistroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clientesService.obtenerTodosLosClientes().subscribe((data) => {
-      this.clientes = data;
-      // Ordenar clientes del más reciente al más antiguo (por ID, fecha de creación, etc.)
-      this.clientes.sort((a, b) => b.idCliente - a.idCliente); // Ordenar por ID en orden descendente
-    });
+    this.obtenerClientes();
     this.obtenerHabitaciones();
     this.esEditar();
   }
@@ -53,23 +54,25 @@ export class ReservacionesRegistroComponent implements OnInit {
   obtenerClientes() {
     this.clientesService.obtenerTodosLosClientes().subscribe((response) => {
       this.clientes = response;
+      // Ordenar clientes del más reciente al más antiguo (por ID, fecha de creación, etc.)
+      this.clientes.sort((a, b) => b.idCliente - a.idCliente); // Ordenar por ID en orden descendente
     });
   }
 
   obtenerHabitaciones() {
-    this.habitacionesService
-      .obtenerTodasLasHabitaciones()
-      .subscribe((response) => {
-        this.habitaciones = response;
-      });
+    this.habitacionesService.obtenerTodasLasHabitaciones().subscribe((response) => {
+      this.habitaciones = response;
+    });
   }
 
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar Reservación';
-      this.reservacionesService
-        .buscarReservacionPorId(this.id)
-        .subscribe((response) => {
+      this.isLoading = true;
+      this.reservacionesService.buscarReservacionPorId(this.id).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.selectedHabitacion = response.idHabitacion;
           this.formReservacion.patchValue({
             idCliente: response.idCliente.idCliente,
             fechaInicio: response.fechaInicio,
@@ -77,7 +80,12 @@ export class ReservacionesRegistroComponent implements OnInit {
             tipoReservacion: response.tipoReservacion,
             idHabitacion: response.idHabitacion.idHabitacion,
           });
-        });
+        },
+        (error) => {
+          this.isLoading = false;
+          this.notiService.showError('ERROR al cargar reservación');
+        }
+      );
     }
   }
 
@@ -126,5 +134,33 @@ export class ReservacionesRegistroComponent implements OnInit {
       tipoReservacion: formModel.tipoReservacion,
       idHabitacion: formModel.idHabitacion,
     };
+  }
+
+  openModal(): void {
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  selectHabitacion(habitacion: any): void {
+    this.selectedHabitacion = habitacion;
+    this.formReservacion.patchValue({
+      idHabitacion: habitacion.idHabitacion
+    });
+    this.closeModal();
+  }
+
+  toggleSmallElementsVisibility(elementId: string, show: boolean) {
+    this.showSmallElements[elementId] = show;
+  }
+
+  tiempoValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!Number.isInteger(value) || value < 0) {
+      return { invalidCupo: true };
+    }
+    return null;
   }
 }

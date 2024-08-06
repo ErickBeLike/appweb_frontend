@@ -44,4 +44,15 @@ export class NotificationService {
       confirmButtonColor: '#40c464',
     });
   }
+
+  // Método para mostrar una notificación de error
+  public showWarning(title: string, text: string): void {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#40c464',
+    });
+  }
 }

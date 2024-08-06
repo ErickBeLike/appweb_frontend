@@ -62,7 +62,6 @@
   transform: scale(1.05); /* Efecto de escala al pasar el ratón */
 }
 
-
 .card-body {
   padding: 20px;
 }
@@ -137,7 +136,7 @@
   .info-grid-row {
     grid-template-columns: 1fr;
   }
-  
+
   .info-group {
     margin-bottom: 15px;
   }

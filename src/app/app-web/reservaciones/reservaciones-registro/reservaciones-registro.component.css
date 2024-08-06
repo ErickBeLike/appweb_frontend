@@ -77,3 +77,100 @@
   border-color: #f28502;
   transform: scale(1.05);
 }
+
+.selected-room {
+  font-weight: bold;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.modal-dialog {
+  max-width: 50%; /* Ajusta el ancho máximo del modal */
+  width: 50%; /* Ajusta el ancho del modal */
+  margin-left: 34%;
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.modal-header {
+  border-bottom: none;
+  position: relative;
+}
+
+.modal-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #001d38;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.close-btn:hover {
+  background: #f28502;
+}
+
+.modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.room-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.room-name {
+  flex: 2;
+  font-weight: bold;
+}
+
+.room-availability {
+  margin-right: 10px;
+  flex: 1;
+  text-align: center;
+}
+
+.boton {
+  flex: 1;
+}
+
+.modal-footer {
+  border-top: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%; /* Ajusta el ancho máximo del modal en pantallas pequeñas */
+  }
+}

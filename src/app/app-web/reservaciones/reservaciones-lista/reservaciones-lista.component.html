@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
@@ -9,7 +21,8 @@
                 <button class="btn btn-outline-custom btn-lg float-end"
                     routerLink="/app-web/reservaciones/reservaciones-registro">Agregar reservación <i
                         class="fa-solid fa-plus"></i></button>
-                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte
+                    <i class="fa-solid fa-file-pdf"></i></button>
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -23,7 +36,8 @@
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th (click)="ordenarReservaciones('idReservacion')" style="cursor: pointer">
+                            <th (click)="ordenarReservaciones('idReservacion')"
+                                style="cursor: pointer; user-select: none;">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idReservacion'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'idReservacion' && orden === 'asc'"></i>
@@ -31,7 +45,8 @@
                                     *ngIf="ordenActual === 'idReservacion' && orden === 'desc'"></i>
                                 ID
                             </th>
-                            <th (click)="ordenarReservaciones('idCliente.persona.nombre')" style="cursor: pointer">
+                            <th (click)="ordenarReservaciones('idCliente.persona.nombre')"
+                                style="cursor: pointer; user-select: none;">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCliente.persona.nombre'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'idCliente.persona.nombre' && orden === 'asc'"></i>
@@ -39,7 +54,8 @@
                                     *ngIf="ordenActual === 'idCliente.persona.nombre' && orden === 'desc'"></i>
                                 Cliente
                             </th>
-                            <th (click)="ordenarReservaciones('idHabitacion.habitacion')" style="cursor: pointer">
+                            <th (click)="ordenarReservaciones('idHabitacion.habitacion')"
+                                style="cursor: pointer; user-select: none;">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idHabitacion.habitacion'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'idHabitacion.habitacion' && orden === 'asc'"></i>
@@ -47,7 +63,8 @@
                                     *ngIf="ordenActual === 'idHabitacion.habitacion' && orden === 'desc'"></i>
                                 Habitación
                             </th>
-                            <th (click)="ordenarReservaciones('fechaInicio')" style="cursor: pointer">
+                            <th (click)="ordenarReservaciones('fechaInicio')"
+                                style="cursor: pointer; user-select: none;">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaInicio'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'fechaInicio' && orden === 'asc'"></i>
@@ -55,7 +72,7 @@
                                     *ngIf="ordenActual === 'fechaInicio' && orden === 'desc'"></i>
                                 Tiempo de reservación
                             </th>
-                            <th (click)="ordenarReservaciones('total')" style="cursor: pointer">
+                            <th (click)="ordenarReservaciones('total')" style="cursor: pointer; user-select: none;">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'total'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'total' && orden === 'asc'"></i>
@@ -64,9 +81,25 @@
                                 Total
                             </th>
                             <th>Registro de pagos</th>
-                            <th>Fecha de creación</th>
-                            <th>Fecha de actualizacón</th>
-                            <th>Acciones</th>
+                            <th *ngIf="isAdmin" (click)="ordenarReservaciones('fechaCreacion')"
+                                style="cursor: pointer; user-select: none;">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                                Fecha de creación
+                            </th>
+                            <th *ngIf="isAdmin" (click)="ordenarReservaciones('fechaActualizacion')"
+                                style="cursor: pointer; user-select: none;">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                                Fecha de actualización
+                            </th>
+                            <th style="user-select: none;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,10 +123,10 @@
                             </td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
-                                    <li><strong>Entrada:</strong> {{ reservacion.fechaInicio }}</li>
+                                    <li><strong>Entrada:</strong> {{ reservacion.fechaInicio | date:'dd/MM/yyyy' }}</li>
                                     <li><strong>Tiempo:</strong> {{ reservacion.tiempoReservacion }} {{
                                         reservacion.tipoReservacion }}</li>
-                                    <li><strong>Salida:</strong> {{ reservacion.fechaFinal }}</li>
+                                    <li><strong>Salida:</strong> {{ reservacion.fechaFinal | date:'dd/MM/yyyy' }}</li>
                                 </ul>
                             </td>
                             <td>
@@ -107,13 +140,17 @@
                                     <li *ngFor="let pago of generarPagos(reservacion)">
                                         <input type="checkbox" class="form-check-input" [checked]="pago.pagado"
                                             (change)="actualizarPago(pago.idPago, pago.numero, pago.monto, $event, reservacion)">
-                                        Pago {{ pago.numeroPago }}: $ {{ pago.monto }} - Fecha: {{ pago.fechaPago }}
+                                        <ul style="list-style: none; margin: 0; padding: 0;">
+                                            <li>Pago {{ pago.numeroPago }} : $ {{ pago.monto }}</li>
+                                            <li>Fecha: {{ pago.fechaPago }}</li>
+                                        </ul>
                                     </li>
+                                    <hr>
                                     <strong>Total: </strong>$ {{ reservacion.total }}
                                 </ul>
                             </td>
-                            <td>{{ reservacion.fechaCreacion }}</td>
-                            <td>{{ reservacion.fechaActualizacion }}</td>
+                            <td *ngIf="isAdmin">{{ reservacion.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td *ngIf="isAdmin">{{ reservacion.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3"
                                     (click)="editarReservacion(reservacion.idReservacion)"></i>

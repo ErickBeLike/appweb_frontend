@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
@@ -9,7 +21,8 @@
                 <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin"
                     routerLink='/app-web/productos/productos-registro'>Agregar producto <i
                         class="fa-solid fa-plus"></i></button>
-                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte
+                    <i class="fa-solid fa-file-pdf"></i></button>
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -23,7 +36,7 @@
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th (click)="ordenarProductos('idProducto')" style="cursor: pointer">
+                            <th (click)="ordenarProductos('idProducto')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idProducto'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'idProducto' && orden === 'asc'"></i>
@@ -31,7 +44,7 @@
                                     *ngIf="ordenActual === 'idProducto' && orden === 'desc'"></i>
                                 ID
                             </th>
-                            <th (click)="ordenarProductos('nombreProducto')" style="cursor: pointer">
+                            <th (click)="ordenarProductos('nombreProducto')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreProducto'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'nombreProducto' && orden === 'asc'"></i>
@@ -39,7 +52,7 @@
                                     *ngIf="ordenActual === 'nombreProducto' && orden === 'desc'"></i>
                                 Nombre
                             </th>
-                            <th (click)="ordenarProductos('precioProducto')" style="cursor: pointer">
+                            <th (click)="ordenarProductos('precioProducto')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'precioProducto'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'precioProducto' && orden === 'asc'"></i>
@@ -47,9 +60,25 @@
                                     *ngIf="ordenActual === 'precioProducto' && orden === 'desc'"></i>
                                 Precio
                             </th>
-                            <th *ngIf="isAdmin">Fecha de creación</th>
-                            <th *ngIf="isAdmin">Fecha de actualización</th>
-                            <th>Acciones</th>
+                            <th *ngIf="isAdmin" (click)="ordenarProductos('fechaCreacion')"
+                                style="cursor: pointer; user-select: none">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                                Fecha de creación
+                            </th>
+                            <th *ngIf="isAdmin" (click)="ordenarProductos('fechaActualizacion')"
+                                style="cursor: pointer; user-select: none">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                                Fecha de actualización
+                            </th>
+                            <th *ngIf="isAdmin" style="user-select: none;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,8 +86,8 @@
                             <td><strong>{{ producto.idProducto }}</strong></td>
                             <td>{{ producto.nombreProducto }}</td>
                             <td>$ {{ producto.precioProducto }}</td>
-                            <td *ngIf="isAdmin">{{ producto.fechaCreacion }}</td>
-                            <td *ngIf="isAdmin">{{ producto.fechaActualizacion }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
                                     (click)="editarProducto(producto.idProducto)"></i>

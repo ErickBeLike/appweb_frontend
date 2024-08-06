@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmpleadosService } from '../../services/empleados/empleados.service';
+import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
 
 @Component({
   selector: 'app-empleados-info',
@@ -10,10 +11,13 @@ import { EmpleadosService } from '../../services/empleados/empleados.service';
 export class EmpleadosInfoComponent implements OnInit {
   empleado: any;
 
+  isLoading = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private empleadosService: EmpleadosService
+    private empleadosService: EmpleadosService,
+    private notiService: NotiServiceService
   ) {}
 
   ngOnInit(): void {
@@ -24,13 +28,16 @@ export class EmpleadosInfoComponent implements OnInit {
   }
 
   obtenerEmpleado(id: string) {
+    this.isLoading = true;
     this.empleadosService.buscarEmpleadoId(+id).subscribe(
       (empleado) => {
+        this.isLoading = false;
         this.empleado = empleado;
-        // Aquí puedes usar el servicio para obtener más detalles del empleado y asignarlos a this.empleado
       },
       (error) => {
-        console.error(error);
+        //console.error(error);
+        this.isLoading = false;
+        this.notiService.showError("ERROR al cargar empleado")
       }
     );
   }

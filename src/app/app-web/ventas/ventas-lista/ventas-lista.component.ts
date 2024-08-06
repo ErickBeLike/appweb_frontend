@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { VentasService } from '../../services/ventas/ventas.service';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import unidecode from 'unidecode';
 import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
+import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
+import { TokenService } from '../../services/authentication/token.service';
+import unidecode from 'unidecode';
+import moment from 'moment';
+
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-ventas-lista',
@@ -13,37 +18,45 @@ import { NotificationService } from '../../services/notification/sweetalert2/not
 export class VentasListaComponent implements OnInit {
   ventas: any[] = [];
   ventasFiltradas: any[] = [];
-  ventaAEliminar: number | null = null;
-  showDeleteModal: boolean = false;
-  filtro: string = '';
   ordenActual: string = 'idVenta';
   orden: string = 'asc';
+
+  isLogged = false;
+  isAdmin = false;
+  isLoading = false;
 
   constructor(
     private ventasService: VentasService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private notiService: NotiServiceService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodasLasVentas();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodasLasVentas() {
+    this.isLoading = true;
     this.ventasService.obtenerTodasLasVentas().subscribe(
       (response) => {
+        this.isLoading = false;
         this.ventas = response;
         this.ventasFiltradas = [...this.ventas];
       },
       (error) => {
-        console.error(error);
+        this.isLoading = false;
+        this.notiService.showError('ERROR al cargar las ventas');
       }
     );
   }
 
   buscarVenta(event: Event) {
     const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
-    const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda
+    const valorNormalizado = unidecode(valor);
 
     if (valor === '') {
       this.ventasFiltradas = [...this.ventas];
@@ -72,7 +85,7 @@ export class VentasListaComponent implements OnInit {
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
-    const textoNormalizado = unidecode(texto); // Normaliza el texto de la tabla
+    const textoNormalizado = unidecode(texto);
     return textoNormalizado.includes(valorNormalizado);
   }
 
@@ -90,7 +103,7 @@ export class VentasListaComponent implements OnInit {
     return false;
   }
 
-  ordenarVentas(criterio: string, orden: string) {
+  ordenarVentas(criterio: string) {
     if (this.ordenActual === criterio) {
       this.orden = this.orden === 'asc' ? 'desc' : 'asc';
     } else {
@@ -103,9 +116,16 @@ export class VentasListaComponent implements OnInit {
       const aValue = this.obtenerValor(a, criterio);
       const bValue = this.obtenerValor(b, criterio);
 
-      if (aValue < bValue) return -1 * factor;
-      if (aValue > bValue) return 1 * factor;
-      return 0;
+      if (criterio.includes('fecha')) {
+        // Para fechas
+        return moment(aValue).diff(moment(bValue)) * factor;
+      } else if (typeof aValue === 'string') {
+        // Para strings
+        return aValue.localeCompare(bValue) * factor;
+      } else {
+        // Para números
+        return (aValue - bValue) * factor;
+      }
     });
   }
 
@@ -155,6 +175,116 @@ export class VentasListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Implementa la lógica para generar un reporte en PDF
+    // Crear una nueva instancia de jsPDF con orientación horizontal
+    const doc = new jsPDF('landscape');
+
+    // Título del documento
+    doc.setFontSize(18);
+    doc.text('Reporte de Ventas', 14, 15);
+
+    // Obtener la fecha actual en formato dia-mes-año
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es 0-indexado
+    const anio = fechaActual.getFullYear();
+    const fechaFormato = `${dia}/${mes}/${anio}`;
+
+    // Añadir la fecha de generación del reporte
+    doc.setFontSize(12);
+    doc.text(`Generado el: ${fechaFormato}`, 14, 23);
+
+    // Definir las columnas
+    const columns = [
+      { header: 'ID', dataKey: 'idVenta' },
+      { header: 'Empleado', dataKey: 'empleado' },
+      { header: 'Fecha Venta', dataKey: 'fechaVenta' },
+      { header: 'Total', dataKey: 'total' },
+      { header: 'Detalles', dataKey: 'detallesVenta' },
+      ...(this.isAdmin
+        ? [
+            { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
+            { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
+          ]
+        : []),
+    ];
+
+    // Función para formatear fechas
+    const formatFecha = (fecha: Date) => {
+      const opciones: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      };
+      return fecha.toLocaleDateString('es-ES', opciones);
+    };
+
+    // Función para formatear fechas y horas
+    const formatFechaHora = (fecha: Date) => {
+      const opciones: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+      return fecha.toLocaleString('es-ES', opciones);
+    };
+
+    // Mapear los datos de las ventas
+    const rows = this.ventasFiltradas.map((venta) => ({
+      idVenta: venta.idVenta,
+      empleado:
+        venta.idEmpleado && venta.idEmpleado.persona
+          ? `${venta.idEmpleado.persona.nombre} ${venta.idEmpleado.persona.apellidoPaterno} ${venta.idEmpleado.persona.apellidoMaterno}`
+          : 'N/A',
+      fechaVenta: formatFecha(new Date(venta.fechaVenta)),
+      total: `$${venta.total}`,
+      detallesVenta: venta.detallesVenta
+        ? venta.detallesVenta
+            .map(
+              (detalle: any) =>
+                `Producto: ${detalle.producto.nombreProducto} - Cantidad: ${detalle.cantidad} - Precio: $${detalle.precioUnitario} - SubTotal: $${detalle.subtotal}`
+            )
+            .join('\n') // Cambiar a salto de línea
+        : 'N/A',
+      ...(this.isAdmin
+        ? {
+            fechaCreacion: venta.fechaCreacion
+              ? formatFechaHora(new Date(venta.fechaCreacion))
+              : 'N/A',
+            fechaActualizacion: venta.fechaActualizacion
+              ? formatFechaHora(new Date(venta.fechaActualizacion))
+              : 'N/A',
+          }
+        : {}),
+    }));
+
+    // Añadir la tabla al documento PDF
+    (doc as any).autoTable({
+      columns: columns,
+      body: rows,
+      startY: 28,
+      margin: { left: 14, right: 14 },
+      theme: 'striped',
+      styles: {
+        cellPadding: 1,
+        fontSize: 10,
+        valign: 'top', // Alinea el texto en la parte superior de la celda
+      },
+      columnStyles: {
+        detallesVenta: {
+          cellWidth: 'auto', // Ajusta automáticamente el ancho de la celda para contenido
+          fontSize: 8, // Ajusta el tamaño de la fuente para adaptarse al contenido
+        },
+      },
+    });
+
+    // Construir el nombre del archivo
+    const nombreArchivo = `registro_ventas_${dia}-${mes}-${anio}.pdf`;
+
+    // Guardar el archivo PDF
+    doc.save(nombreArchivo);
   }
 }

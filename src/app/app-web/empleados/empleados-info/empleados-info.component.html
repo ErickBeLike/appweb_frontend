@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+  <div class="sk-chase">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+  </div>
+</div>
+
 <div class="container" data-aos="fade-up">
   <div class="card">
     <div class="card-header">
@@ -21,7 +33,8 @@
           </div>
           <div class="info-group">
             <h3>Nombre Completo:</h3>
-            <p>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{ empleado.persona.apellidoMaterno }}</p>
+            <p>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{ empleado.persona.apellidoMaterno
+              }}</p>
           </div>
         </div>
 

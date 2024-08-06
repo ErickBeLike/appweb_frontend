@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+  <div class="sk-chase">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+  </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
@@ -8,7 +20,8 @@
         <span class="h3">Gestionar</span>
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/cargos/cargos-registro'>Agregar
           cargo <i class="fa-solid fa-plus"></i></button>
-        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte <i
+            class="fa-solid fa-file-pdf"></i></button>
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -21,28 +34,41 @@
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th (click)="ordenarCargos('idCargo')" style="cursor: pointer">
+              <th (click)="ordenarCargos('idCargo')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCargo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCargo' && orden === 'desc'"></i>
                 ID
               </th>
-              <th (click)="ordenarCargos('nombreCargo')" style="cursor: pointer">
+              <th (click)="ordenarCargos('nombreCargo')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'nombreCargo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'nombreCargo' && orden === 'desc'"></i>
                 Nombre del Cargo
               </th>
-              <th (click)="ordenarCargos('descripcionCargo')" style="cursor: pointer">
+              <th (click)="ordenarCargos('descripcionCargo')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'descripcionCargo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'descripcionCargo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc"
                   *ngIf="ordenActual === 'descripcionCargo' && orden === 'desc'"></i>
                 Descripción
               </th>
-              <th *ngIf="isAdmin">Fecha de creación</th>
-              <th *ngIf="isAdmin">Fecha de actualización</th>
-              <th>Acciones</th>
+              <th *ngIf="isAdmin" (click)="ordenarCargos('fechaCreacion')" style="cursor: pointer; user-select: none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                Fecha de creación
+              </th>
+              <th *ngIf="isAdmin" (click)="ordenarCargos('fechaActualizacion')"
+                style="cursor: pointer; user-select: none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                <i class="coso fa-solid fa-sort-asc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                Fecha de actualización
+              </th>
+              <th style="user-select: none;">Acciones</th>
             </tr>
           </thead>
 

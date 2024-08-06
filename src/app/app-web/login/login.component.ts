@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit {
 
   errMsj: string = '';
 
+  isLoading = false;
+
   constructor(
     private tokenService: TokenService,
     private authService: AuthService,
@@ -31,14 +33,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   onLogin(): void {
+    this.isLoading = true;
     this.loginUsuario = new LoginUsuario(this.nombreUsuario, this.contrasena);
     this.authService.login(this.loginUsuario).subscribe(
       (data) => {
+        this.isLoading = false;
         this.tokenService.setToken(data.token);
         this.router.navigate(['/app-web/dashboard']);
         this.notiService.showSuccess('Inicio de sesión exitoso');
       },
       (err) => {
+        this.isLoading = false;
         this.errMsj = 'Credenciales erróneas';
         this.notiService.showError('ERROR al iniciar sesión');
       }

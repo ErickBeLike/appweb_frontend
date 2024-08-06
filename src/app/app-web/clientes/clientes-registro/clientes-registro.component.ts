@@ -16,6 +16,8 @@ export class ClientesRegistroComponent {
   id: any | null;
   showSmallElements: { [key: string]: boolean } = {};
 
+  isLoading = false;
+
   @ViewChild('smallElements') smallElements!: ElementRef[];
 
   constructor(
@@ -56,9 +58,15 @@ export class ClientesRegistroComponent {
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar cliente';
+      this.isLoading = true;
       this.clientesService.buscarClienteId(this.id).subscribe((response) => {
+        this.isLoading = false;
         this.formCliente.patchValue(response.persona);
-      });
+      },
+    (error) => {
+      this.isLoading = false;
+      this.notiService.showError("ERROR al cargar cliente")
+    });
     }
   }
 
@@ -71,6 +79,7 @@ export class ClientesRegistroComponent {
   }
 
   agregar(): void {
+    this.isLoading = true;
     const cliente = { persona: this.formCliente.value };
     this.clientesService.agregarCliente(cliente).subscribe(
       (response) => {

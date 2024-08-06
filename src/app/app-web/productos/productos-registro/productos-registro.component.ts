@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductosService } from '../../services/productos/productos.service';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +21,10 @@ export class ProductosRegistroComponent implements OnInit {
   formProducto: FormGroup;
   id: any | null;
 
+  showSmallElements: { [key: string]: boolean } = {};
+
+  isLoading = false;
+
   constructor(
     private fb: FormBuilder,
     private productosService: ProductosService,
@@ -24,7 +34,7 @@ export class ProductosRegistroComponent implements OnInit {
   ) {
     this.formProducto = this.fb.group({
       nombreProducto: ['', Validators.required],
-      precioProducto: ['', Validators.required],
+      precioProducto: ['', [Validators.required, this.precioValidator]],
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -37,9 +47,17 @@ export class ProductosRegistroComponent implements OnInit {
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar Producto';
-      this.productosService.buscarProductoId(this.id).subscribe((response) => {
-        this.formProducto.patchValue(response);
-      });
+      this.isLoading = true;
+      this.productosService.buscarProductoId(this.id).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.formProducto.patchValue(response);
+        },
+        (error) => {
+          this.isLoading = false;
+          this.notiService.showError('ERROR al cargar producto');
+        }
+      );
     }
   }
 
@@ -76,5 +94,18 @@ export class ProductosRegistroComponent implements OnInit {
         this.notiService.showError('ERROR al editar producto');
       }
     );
+  }
+
+  toggleSmallElementsVisibility(elementId: string, show: boolean) {
+    this.showSmallElements[elementId] = show;
+  }
+
+  precioValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const regex = /^\d+(\.\d{1,2})?$/;
+    if (value < 0 || !regex.test(value)) {
+      return { invalidPrecio: true };
+    }
+    return null;
   }
 }

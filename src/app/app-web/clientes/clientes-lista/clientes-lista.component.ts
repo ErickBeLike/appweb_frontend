@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientesService } from '../../services/clientes/clientes.service';
-import { NotificationService } from '../../services/notification/sweetalert2/notification.service'; // Importa tu servicio
-import unidecode from 'unidecode'; // Importa la función unidecode
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
+import unidecode from 'unidecode';
 import { TokenService } from '../../services/authentication/token.service';
+import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
+
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-clientes-lista',
@@ -14,8 +18,10 @@ export class ClientesListaComponent implements OnInit {
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
   clienteAEliminar: number | null = null;
-  ordenActual: string = 'idCliente'; // Columna de orden predeterminada
-  orden: string = 'asc'; // Dirección de orden predeterminada
+  ordenActual: string = 'idCliente';
+  orden: string = 'asc';
+
+  isLoading = false;
 
   isLogged = false;
   isAdmin = false;
@@ -23,8 +29,9 @@ export class ClientesListaComponent implements OnInit {
   constructor(
     private clientesService: ClientesService,
     private router: Router,
-    private notificationService: NotificationService, // Inyecta el servicio de notificaciones
-    private tokenService: TokenService
+    private notificationService: NotificationService,
+    private tokenService: TokenService,
+    private notiService: NotiServiceService
   ) {}
 
   ngOnInit(): void {
@@ -34,20 +41,24 @@ export class ClientesListaComponent implements OnInit {
   }
 
   obtenerTodosLosClientes() {
+    this.isLoading = true;
     this.clientesService.obtenerTodosLosClientes().subscribe(
       (response: any[]) => {
         this.clientes = response;
         this.clientesFiltrados = [...this.clientes];
+        this.isLoading = false;
       },
       (error) => {
-        console.error(error);
+        //console.error(error);
+        this.notiService.showError('ERROR al cargar los clientes');
+        this.isLoading = false;
       }
     );
   }
 
   buscarCliente(event: Event) {
     const valor = (event.target as HTMLInputElement).value.toLowerCase().trim();
-    const valorNormalizado = unidecode(valor); // Normaliza el texto de búsqueda
+    const valorNormalizado = unidecode(valor);
 
     if (valor === '') {
       this.clientesFiltrados = [...this.clientes];
@@ -79,7 +90,7 @@ export class ClientesListaComponent implements OnInit {
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
-    const textoNormalizado = unidecode(texto); // Normaliza el texto de la tabla
+    const textoNormalizado = unidecode(texto);
     return textoNormalizado.includes(valorNormalizado);
   }
 
@@ -96,6 +107,14 @@ export class ClientesListaComponent implements OnInit {
       const aValue = this.obtenerValor(a, campo);
       const bValue = this.obtenerValor(b, campo);
 
+      // Comparar fechas
+      if (campo === 'fechaCreacion' || campo === 'fechaActualizacion') {
+        const aDate = new Date(aValue);
+        const bDate = new Date(bValue);
+        return (aDate.getTime() - bDate.getTime()) * factor;
+      }
+
+      // Comparar valores generales
       if (aValue < bValue) return -1 * factor;
       if (aValue > bValue) return 1 * factor;
       return 0;
@@ -129,7 +148,7 @@ export class ClientesListaComponent implements OnInit {
         );
       },
       (error) => {
-        console.error(error);
+        //console.error(error);
         this.notificationService.showError(
           'ERROR al querer eliminar al cliente',
           ''
@@ -143,6 +162,86 @@ export class ClientesListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Lógica para generar reporte PDF (puedes utilizar la implementación que ya tienes) o una acción distinta
+    // Crear una nueva instancia de jsPDF con orientación horizontal
+    const doc = new jsPDF('landscape');
+
+    // Título del documento
+    doc.setFontSize(18);
+    doc.text('Reporte de Clientes', 14, 15);
+
+    // Obtener la fecha actual en formato dia-mes-año
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es 0-indexado
+    const anio = fechaActual.getFullYear();
+    const fechaFormato = `${dia}/${mes}/${anio}`;
+
+    // Añadir la fecha de generación del reporte
+    doc.setFontSize(12);
+    doc.text(`Generado el: ${fechaFormato}`, 14, 23);
+
+    // Función para formatear fecha y hora
+    const formatFechaHora = (fecha: Date) => {
+      const opcionesFecha: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      };
+      const opcionesHora: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesFecha);
+      const horaFormateada = fecha.toLocaleTimeString('es-ES', opcionesHora);
+      return `${fechaFormateada} ${horaFormateada}`;
+    };
+
+    // Definir las columnas
+    const columns = [
+      { header: 'ID', dataKey: 'idCliente' },
+      { header: 'Nombre Completo', dataKey: 'nombreCompleto' },
+      { header: 'Teléfono', dataKey: 'telefono' },
+      { header: 'Correo', dataKey: 'correo' },
+      ...(this.isAdmin
+        ? [
+            { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
+            { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
+          ]
+        : []),
+    ];
+
+    // Mapear los datos de los clientes
+    const rows = this.clientes.map((cliente) => ({
+      idCliente: cliente.idCliente,
+      nombreCompleto: `${cliente.persona.nombre} ${cliente.persona.apellidoPaterno} ${cliente.persona.apellidoMaterno}`,
+      telefono: cliente.persona.telefono,
+      correo: cliente.persona.correo,
+      ...(this.isAdmin
+        ? {
+            fechaCreacion: cliente.fechaCreacion
+              ? formatFechaHora(new Date(cliente.fechaCreacion))
+              : '',
+            fechaActualizacion: cliente.fechaActualizacion
+              ? formatFechaHora(new Date(cliente.fechaActualizacion))
+              : 'N/A',
+          }
+        : {}),
+    }));
+
+    // Añadir la tabla al documento PDF
+    (doc as any).autoTable({
+      columns: columns,
+      body: rows,
+      startY: 28,
+      margin: { left: 14, right: 14 },
+      theme: 'striped',
+    });
+
+    // Construir el nombre del archivo
+    const nombreArchivo = `registro_clientes_${dia}-${mes}-${anio}.pdf`;
+
+    // Guardar el archivo PDF
+    doc.save(nombreArchivo);
   }
 }

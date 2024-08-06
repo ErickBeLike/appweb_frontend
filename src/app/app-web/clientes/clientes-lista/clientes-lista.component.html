@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+  <div class="sk-chase">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+  </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
@@ -8,7 +20,8 @@
         <span class="h3">Gestionar</span>
         <button class="btn btn-outline-custom btn-lg float-end" routerLink='/app-web/clientes/clientes-registro'>Agregar
           cliente <i class="fa-solid fa-plus"></i></button>
-        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()" *ngIf="isAdmin">Generar
+          reporte <i class="fa-solid fa-file-pdf"></i></button>
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -21,34 +34,48 @@
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th (click)="ordenarClientes('idCliente')" style="cursor: pointer">
+              <th (click)="ordenarClientes('idCliente')" style="cursor: pointer; user-select:none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idCliente'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idCliente' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idCliente' && orden === 'desc'"></i>
                 ID
               </th>
-              <th (click)="ordenarClientes('persona.nombre')" style="cursor: pointer">
+              <th (click)="ordenarClientes('persona.nombre')" style="cursor: pointer; user-select:none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.nombre'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.nombre' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.nombre' && orden === 'desc'"></i>
                 Nombre completo
               </th>
-              <th (click)="ordenarClientes('persona.telefono')" style="cursor: pointer">
+              <th (click)="ordenarClientes('persona.telefono')" style="cursor: pointer; user-select:none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.telefono'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.telefono' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc"
                   *ngIf="ordenActual === 'persona.telefono' && orden === 'desc'"></i>
                 Teléfono
               </th>
-              <th (click)="ordenarClientes('persona.correo')" style="cursor: pointer">
+              <th (click)="ordenarClientes('persona.correo')" style="cursor: pointer; user-select:none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'persona.correo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'persona.correo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'persona.correo' && orden === 'desc'"></i>
                 Correo
               </th>
-              <th>Fecha de creación</th>
-              <th>Fecha de actualización</th>
-              <th>Acciones</th>
+              <th *ngIf="isAdmin" (click)="ordenarClientes('fechaCreacion')" style="cursor: pointer; user-select:none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                Fecha de creación
+              </th>
+              <th *ngIf="isAdmin" (click)="ordenarClientes('fechaActualizacion')"
+                style="cursor: pointer; user-select:none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                <i class="coso fa-solid fa-sort-asc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                Fecha de actualización
+              </th>
+
+              <th *ngIf="isAdmin" style="user-select: none;">Acciones</th>
             </tr>
           </thead>
 
@@ -59,8 +86,8 @@
                 }}</td>
               <td>{{ cliente.persona.telefono }}</td>
               <td>{{ cliente.persona.correo }}</td>
-              <td>{{ cliente.fechaCreacion }}</td>
-              <td>{{ cliente.fechaActualizacion }}</td>
+              <td *ngIf="isAdmin">{{ cliente.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+              <td *ngIf="isAdmin">{{ cliente.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
               <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" (click)="editarCliente(cliente.idCliente)"></i>
                 <i (click)="notification(cliente.idCliente)" class="borrar fa-solid fa-trash"></i>

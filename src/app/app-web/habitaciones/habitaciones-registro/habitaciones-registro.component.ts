@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HabitacionesService } from '../../services/habitaciones/habitaciones.service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +20,9 @@ export class HabitacionesRegistroComponent {
   titulo = 'Agregar habitación';
   formHabitacion: FormGroup;
   id: any | null;
+  isLoading = false;
+
+  showSmallElements: { [key: string]: boolean } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -24,13 +33,13 @@ export class HabitacionesRegistroComponent {
   ) {
     this.formHabitacion = this.fb.group({
       habitacion: ['', Validators.required],
-      cupo: ['0', Validators.required],
-      precioPorNoche: ['0', Validators.required],
-      depositoInicialNoche: ['0', Validators.required],
-      precioPorSemana: ['0', Validators.required],
-      depositoInicialSemana: ['0', Validators.required],
-      precioPorMes: ['0', Validators.required],
-      depositoInicialMes: ['0', Validators.required],
+      cupo: ['', [Validators.required, this.cupoValidator]],
+      precioPorNoche: ['', [Validators.required, this.precioValidator]],
+      depositoInicialNoche: ['', [Validators.required, this.precioValidator]],
+      precioPorSemana: ['', [Validators.required, this.precioValidator]],
+      depositoInicialSemana: ['', [Validators.required, this.precioValidator]],
+      precioPorMes: ['', [Validators.required, this.precioValidator]],
+      depositoInicialMes: ['', [Validators.required, this.precioValidator]],
       disponibilidad: ['DISPONIBLE', Validators.required],
     });
 
@@ -44,11 +53,17 @@ export class HabitacionesRegistroComponent {
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar habitación';
-      this.habitacionesService
-        .buscarHabitacionId(this.id)
-        .subscribe((response) => {
+      this.isLoading = true;
+      this.habitacionesService.buscarHabitacionId(this.id).subscribe(
+        (response) => {
+          this.isLoading = false;
           this.formHabitacion.patchValue(response);
-        });
+        },
+        (error) => {
+          this.isLoading = false;
+          this.notiService.showError('ERROR al cargar habitación');
+        }
+      );
     }
   }
 
@@ -86,5 +101,26 @@ export class HabitacionesRegistroComponent {
         this.notiService.showError('ERROR al editar habitación');
       }
     );
+  }
+
+  cupoValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!Number.isInteger(value) || value < 0) {
+      return { invalidCupo: true };
+    }
+    return null;
+  }
+
+  precioValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const regex = /^\d+(\.\d{1,2})?$/;
+    if (value < 0 || !regex.test(value)) {
+      return { invalidPrecio: true };
+    }
+    return null;
+  }
+
+  toggleSmallElementsVisibility(elementId: string, show: boolean) {
+    this.showSmallElements[elementId] = show;
   }
 }

@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-7">
@@ -21,8 +33,18 @@
                     <div class="form-group">
                         <label for="productPrice"><i class="fa-solid fa-money-bill-wave"></i> Precio del Producto<span
                                 class="text-danger"> *</span></label>
-                        <input type="number" class="form-control" id="productPrice" formControlName="precioProducto"
-                            required>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" class="form-control" id="productPrice" formControlName="precioProducto"
+                                (focus)="toggleSmallElementsVisibility('price', true)"
+                                (blur)="toggleSmallElementsVisibility('price', false)">
+
+                        </div>
+                        <small id="price" class="form-text text-muted" [hidden]="!showSmallElements['price']">No se
+                            aceptan números ni símbolos
+                            raros</small>
                     </div>
                     <div class="buttons-container">
                         <button type="button" class="btn btn-danger"

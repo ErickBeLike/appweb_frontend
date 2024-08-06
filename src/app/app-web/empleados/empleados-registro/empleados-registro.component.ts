@@ -11,6 +11,7 @@ import { EmpleadosService } from '../../services/empleados/empleados.service';
 import { CargosService } from '../../services/cargos/cargos.service';
 import { ToastrService } from 'ngx-toastr';
 import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-empleados-registro',
@@ -26,6 +27,8 @@ export class EmpleadosRegistroComponent implements OnInit {
   cargos: any[] = [];
   sexos: string[] = ['HOMBRE', 'MUJER'];
   showSmallElements: { [key: string]: boolean } = {};
+
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -126,31 +129,39 @@ export class EmpleadosRegistroComponent implements OnInit {
   esEditar() {
     if (this.id !== null) {
       this.titulo = 'Editar Empleado';
-      this.empleadosService.buscarEmpleadoId(this.id).subscribe((response) => {
-        this.formEmpleado.patchValue({
-          nombre: response.persona.nombre,
-          apellidoPaterno: response.persona.apellidoPaterno,
-          apellidoMaterno: response.persona.apellidoMaterno,
-          correo: response.persona.correo,
-          telefono: response.persona.telefono,
-          direccionEmpleado: response.direccionEmpleado,
-          fechaNacimiento: response.fechaNacimiento,
-          sexo: response.sexo,
-          horarioEntradaHora: response.horarioEntrada.split(' ')[0], // Separar hora y AM/PM
-          horarioEntradaAMPM: response.horarioEntrada.split(' ')[1],
-          horarioSalidaHora: response.horarioSalida.split(' ')[0], // Separar hora y AM/PM
-          horarioSalidaAMPM: response.horarioSalida.split(' ')[1],
-        });
+      this.isLoading = true;
+      this.empleadosService.buscarEmpleadoId(this.id).subscribe(
+        (response) => {
+          this.isLoading = false;
+          this.formEmpleado.patchValue({
+            nombre: response.persona.nombre,
+            apellidoPaterno: response.persona.apellidoPaterno,
+            apellidoMaterno: response.persona.apellidoMaterno,
+            correo: response.persona.correo,
+            telefono: response.persona.telefono,
+            direccionEmpleado: response.direccionEmpleado,
+            fechaNacimiento: response.fechaNacimiento,
+            sexo: response.sexo,
+            horarioEntradaHora: response.horarioEntrada.split(' ')[0], // Separar hora y AM/PM
+            horarioEntradaAMPM: response.horarioEntrada.split(' ')[1],
+            horarioSalidaHora: response.horarioSalida.split(' ')[0], // Separar hora y AM/PM
+            horarioSalidaAMPM: response.horarioSalida.split(' ')[1],
+          });
 
-        // Cargar cargo
-        this.formEmpleado.get('idCargo')?.setValue(response.idCargo.idCargo);
+          // Cargar cargo
+          this.formEmpleado.get('idCargo')?.setValue(response.idCargo.idCargo);
 
-        // Marcar los días laborales seleccionados
-        const diasLaboralesControl = this.formEmpleado.controls;
-        response.diasLaborales.forEach((dia: string) => {
-          diasLaboralesControl[dia]?.setValue(true);
-        });
-      });
+          // Marcar los días laborales seleccionados
+          const diasLaboralesControl = this.formEmpleado.controls;
+          response.diasLaborales.forEach((dia: string) => {
+            diasLaboralesControl[dia]?.setValue(true);
+          });
+        },
+        (error) => {
+          this.isLoading = false;
+          this.notiService.showError('ERROR al cargar empleado');
+        }
+      );
     }
   }
 

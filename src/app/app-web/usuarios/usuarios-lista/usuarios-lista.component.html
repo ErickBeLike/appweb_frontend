@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
     <div class="container mt-4">
         <div class="mx-3">
@@ -9,7 +21,8 @@
                 <button class="btn btn-outline-custom btn-lg float-end"
                     routerLink="/app-web/usuarios/usuarios-registro">Agregar usuario <i
                         class="fa-solid fa-plus"></i></button>
-                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Accion</button>
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte
+                    <i class="fa-solid fa-file-pdf"></i></button>
 
                 <!-- Barra de búsqueda y filtro -->
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -23,7 +36,7 @@
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th (click)="ordenarUsuarios('idUsuario')" style="cursor: pointer">
+                            <th (click)="ordenarUsuarios('idUsuario')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idUsuario'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'idUsuario' && orden === 'asc'"></i>
@@ -31,7 +44,7 @@
                                     *ngIf="ordenActual === 'idUsuario' && orden === 'desc'"></i>
                                 ID
                             </th>
-                            <th (click)="ordenarUsuarios('rol')" style="cursor: pointer">
+                            <th (click)="ordenarUsuarios('rol')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'rol'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'rol' && orden === 'asc'"></i>
@@ -39,7 +52,7 @@
                                     *ngIf="ordenActual === 'rol' && orden === 'desc'"></i>
                                 Roles
                             </th>
-                            <th (click)="ordenarUsuarios('nombreUsuario')" style="cursor: pointer">
+                            <th (click)="ordenarUsuarios('nombreUsuario')" style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'nombreUsuario'"></i>
                                 <i class="coso fa-solid fa-sort-asc"
                                     *ngIf="ordenActual === 'nombreUsuario' && orden === 'asc'"></i>
@@ -48,9 +61,24 @@
                                 Nombre
                             </th>
                             <th>Contraseña</th>
-                            <th>Fecha de creación</th>
-                            <th>Fecha de actualización</th>
-                            <th>Acciones</th>
+                            <th (click)="ordenarUsuarios('fechaCreacion')" style="cursor: pointer; user-select: none">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                                Fecha de creación
+                            </th>
+                            <th (click)="ordenarUsuarios('fechaActualizacion')"
+                                style="cursor: pointer; user-select: none">
+                                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                                <i class="coso fa-solid fa-sort-asc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                                <i class="coso fa-solid fa-sort-desc"
+                                    *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                                Fecha de actualización
+                            </th>
+                            <th style="user-select: none;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,8 +111,8 @@
                                     </ng-container>
                                 </button>
                             </td>
-                            <td>{{ usuario.fechaCreacion }}</td>
-                            <td>{{ usuario.fechaActualizacion }}</td>
+                            <td>{{ usuario.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td>{{ usuario.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3"
                                     (click)="editarUsuario(usuario.idUsuario)"></i>

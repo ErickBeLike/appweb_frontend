@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</div>
+
 <div class="container" data-aos="fade-up">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -41,17 +53,60 @@
                             <label for="numberReservation"><i class="fa-solid fa-clock"></i> Tiempo de reservación<span
                                     class="text-danger"> *</span></label>
                             <input type="number" class="form-control" id="timeReservation"
-                                formControlName="tiempoReservacion" required>
+                                formControlName="tiempoReservacion" (focus)="toggleSmallElementsVisibility('tiempo', true)"
+                                (blur)="toggleSmallElementsVisibility('tiempo', false)" required>
+                                <small id="tiempo" class="form-text text-muted"
+                                    [hidden]="!showSmallElements['tiempo']">No se aceptan números negativos</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="roomId"><i class="fa-solid fa-hotel"></i> Habitación<span class="text-danger">
                                 *</span></label>
-                        <select class="form-control" id="roomId" formControlName="idHabitacion" required>
-                            <option value="" disabled selected>Seleccionar habitación...</option>
-                            <option *ngFor="let habitacion of habitaciones" [value]="habitacion.idHabitacion">{{
-                                habitacion.habitacion }} - {{ habitacion.disponibilidad }}</option>
-                        </select>
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn btn-success mt-1" (click)="openModal()">Seleccionar
+                                habitación</button>
+                        </div>
+                        <div *ngIf="selectedHabitacion" class="selected-room mt-2 ">
+                            <strong>DISPONIBILIDAD:</strong> {{ selectedHabitacion.disponibilidad }} <br>
+                            <strong>Habitación seleccionada:</strong> {{ selectedHabitacion.habitacion }}<br>
+                            <strong>Cupo:</strong> {{ selectedHabitacion.cupo }}<br>
+                            <table>
+                                <thead>
+                                    <th></th>
+                                    <th><strong>Precio</strong></th>
+                                    <th><strong>Depósito</strong></th>
+                                </thead>
+                                <tbody>
+                                    <td>
+                                        <ul class="mr-2" style="list-style: none; margin: 10px; padding: 0;">
+                                            <li>Noche:</li>
+                                            <li>Semana:</li>
+                                            <li>Mes:</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul style="list-style: none; margin: 10px; padding: 0;">
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.precioPorNoche }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.precioPorSemana }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.precioPorMes }}</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul style="list-style: none; margin: 10px; padding: 0;">
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.depositoInicialNoche }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.depositoInicialSemana }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                selectedHabitacion.depositoInicialMes }}</li>
+                                        </ul>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="buttons-container">
                         <button type="button" class="btn btn-danger"
@@ -60,6 +115,79 @@
                             [disabled]="formReservacion.invalid">Guardar</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="roomModal" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true"
+    [ngClass]="{'show': showModal}" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomModalLabel">Seleccionar habitación</h5>
+                <button type="button" class="btn btn-secondary close-btn" aria-label="Close" (click)="closeModal()">
+                    X
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngFor="let habitacion of habitaciones" class="room-item mb-2">
+                    <div class="room-name">
+                        <div>
+                            <span>{{ habitacion.habitacion }}</span>
+                        </div>
+                        <div>
+                            <span><strong>Cupo:</strong> {{ habitacion.cupo }}</span>
+                        </div>
+                        <div>
+                            <table>
+                                <thead>
+                                    <th></th>
+                                    <th><strong>Precio</strong></th>
+                                    <th><strong>Depósito</strong></th>
+                                </thead>
+                                <tbody>
+                                    <td>
+                                        <ul class="mr-2" style="list-style: none; margin: 10px; padding: 0;">
+                                            <li>Noche:</li>
+                                            <li>Semana:</li>
+                                            <li>Mes:</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul style="list-style: none; margin: 10px; padding: 0;">
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{ habitacion.precioPorNoche }}
+                                            </li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{ habitacion.precioPorSemana }}
+                                            </li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{ habitacion.precioPorMes }}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul style="list-style: none; margin: 10px; padding: 0;">
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                habitacion.depositoInicialNoche }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{
+                                                habitacion.depositoInicialSemana }}</li>
+                                            <li><i class="fa-solid fa-dollar-sign"></i> {{ habitacion.depositoInicialMes
+                                                }}</li>
+                                        </ul>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <span class="room-availability">{{ habitacion.disponibilidad }}</span>
+                    <button type="button" class="btn btn-success boton"
+                        (click)="selectHabitacion(habitacion)">Seleccionar</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
             </div>
         </div>
     </div>

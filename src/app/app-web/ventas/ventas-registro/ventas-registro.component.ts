@@ -26,6 +26,8 @@ export class VentasRegistroComponent implements OnInit {
   showModal: boolean = false;
   idVenta: any;
 
+  isLoading = false;
+
   constructor(
     private fb: FormBuilder,
     private ventasService: VentasService,
@@ -54,9 +56,11 @@ export class VentasRegistroComponent implements OnInit {
   }
 
   cargarVenta(idVenta: any): void {
+    this.isLoading = true;
     this.ventasService.buscarVentaId(idVenta).subscribe(
       (response: any) => {
         if (response) {
+          this.isLoading = false;
           this.formVenta.patchValue({});
 
           this.productosVenta = [];
@@ -82,7 +86,9 @@ export class VentasRegistroComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error al cargar los datos de la venta:', error);
+        //console.error('Error al cargar los datos de la venta:', error);
+        this.isLoading = false;
+        this.notiService.showError("ERROR al cargar venta")
       }
     );
   }

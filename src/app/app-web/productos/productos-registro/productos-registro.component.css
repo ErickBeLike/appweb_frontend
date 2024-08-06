@@ -77,3 +77,8 @@
   border-color: #f28502;
   transform: scale(1.05);
 }
+
+.input-group .form-text {
+  display: block;
+  margin-top: .25rem; /* Ajusta el margen según sea necesario */
+}

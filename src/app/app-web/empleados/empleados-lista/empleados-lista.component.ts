@@ -4,6 +4,11 @@ import { EmpleadosService } from '../../services/empleados/empleados.service';
 import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
 import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
+import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
+import { TokenService } from '../../services/authentication/token.service';
+
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-empleados-lista',
@@ -18,24 +23,37 @@ export class EmpleadosListaComponent implements OnInit {
   ordenActual: string = 'idEmpleado';
   orden: string = 'asc';
 
+  isLoading = false;
+
+  isLogged = false;
+  isAdmin = false;
+
   constructor(
     private empleadosService: EmpleadosService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private notiService: NotiServiceService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.obtenerTodosLosEmpleados();
+    this.isLogged = this.tokenService.isLogged();
+    this.isAdmin = this.tokenService.isAdmin();
   }
 
   obtenerTodosLosEmpleados() {
+    this.isLoading = true;
     this.empleadosService.obtenerTodosLosEmpleados().subscribe(
       (response: any[]) => {
+        this.isLoading = false;
         this.empleados = response;
         this.empleadosFiltrados = [...this.empleados];
       },
       (error) => {
-        console.error(error);
+        //console.error(error);
+        this.isLoading = false;
+        this.notiService.showError('ERROR al cargar los empleados');
       }
     );
   }
@@ -109,6 +127,17 @@ export class EmpleadosListaComponent implements OnInit {
       const valorA = this.obtenerValorParaOrden(a, columna);
       const valorB = this.obtenerValorParaOrden(b, columna);
 
+      // Manejar comparación de fechas de creación y actualización
+      if (columna === 'fechaCreacion' || columna === 'fechaActualizacion') {
+        const fechaA = new Date(valorA);
+        const fechaB = new Date(valorB);
+        return (
+          (fechaA.getTime() - fechaB.getTime()) *
+          (this.orden === 'asc' ? 1 : -1)
+        );
+      }
+
+      // Manejar comparación de valores generales
       if (valorA > valorB) {
         return this.orden === 'asc' ? 1 : -1;
       } else if (valorA < valorB) {
@@ -160,6 +189,96 @@ export class EmpleadosListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Aquí va tu lógica para generar el reporte en PDF, similar a como lo tienes en el componente de clientes
+    // Crear una nueva instancia de jsPDF con orientación horizontal
+    const doc = new jsPDF('landscape');
+
+    // Título del documento
+    doc.setFontSize(18);
+    doc.text('Reporte de Empleados', 14, 15);
+
+    // Obtener la fecha actual en formato dia-mes-año
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es 0-indexado
+    const anio = fechaActual.getFullYear();
+    const fechaFormato = `${dia}/${mes}/${anio}`;
+
+    // Añadir la fecha de generación del reporte
+    doc.setFontSize(12);
+    doc.text(`Generado el: ${fechaFormato}`, 14, 23);
+
+    // Definir las columnas
+    const columns = [
+      { header: 'ID', dataKey: 'idEmpleado' },
+      { header: 'Nombre Completo', dataKey: 'nombreCompleto' },
+      { header: 'Cargo', dataKey: 'nombreCargo' },
+      { header: 'Teléfono', dataKey: 'telefono' },
+      { header: 'Correo', dataKey: 'correo' },
+      { header: 'Fecha de Nacimiento', dataKey: 'fechaNacimiento' },
+      { header: 'Sexo', dataKey: 'sexo' },
+      { header: 'Dirección', dataKey: 'direccionEmpleado' },
+      ...(this.isAdmin
+        ? [
+            { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
+            { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
+          ]
+        : []),
+    ];
+
+    // Función para formatear fecha y hora
+    const formatFechaHora = (fecha: Date) => {
+      const opcionesFecha: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      };
+      const opcionesHora: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesFecha);
+      const horaFormateada = fecha.toLocaleTimeString('es-ES', opcionesHora);
+      return `${fechaFormateada} ${horaFormateada}`;
+    };
+
+    // Mapear los datos de los empleados
+    const rows = this.empleados.map((empleado) => ({
+      idEmpleado: empleado.idEmpleado,
+      nombreCompleto: `${empleado.persona.nombre} ${empleado.persona.apellidoPaterno} ${empleado.persona.apellidoMaterno}`,
+      nombreCargo: empleado.idCargo.nombreCargo,
+      telefono: empleado.persona.telefono,
+      correo: empleado.persona.correo,
+      fechaNacimiento: empleado.fechaNacimiento
+        ? new Date(empleado.fechaNacimiento).toLocaleDateString('es-ES')
+        : '',
+      sexo: empleado.sexo,
+      direccionEmpleado: empleado.direccionEmpleado,
+      ...(this.isAdmin
+        ? {
+            fechaCreacion: empleado.fechaCreacion
+              ? formatFechaHora(new Date(empleado.fechaCreacion))
+              : '',
+            fechaActualizacion: empleado.fechaActualizacion
+              ? formatFechaHora(new Date(empleado.fechaActualizacion))
+              : 'N/A',
+          }
+        : {}),
+    }));
+
+    // Añadir la tabla al documento PDF
+    (doc as any).autoTable({
+      columns: columns,
+      body: rows,
+      startY: 28,
+      margin: { left: 14, right: 14 },
+      theme: 'striped',
+    });
+
+    // Construir el nombre del archivo
+    const nombreArchivo = `registro_empleados_${dia}-${mes}-${anio}.pdf`;
+
+    // Guardar el archivo PDF
+    doc.save(nombreArchivo);
   }
 }

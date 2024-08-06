@@ -1,5 +1,17 @@
 <app-sidebar></app-sidebar>
 
+<!-- Spinner -->
+<div *ngIf="isLoading" class="spinner-overlay">
+  <div class="sk-chase">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+  </div>
+</div>
+
 <section class="ochenta" data-aos="fade-left">
   <div class="container mt-4">
     <div class="mx-3">
@@ -9,7 +21,8 @@
         <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin"
           routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i
             class="fa-solid fa-plus"></i></button>
-        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Acción</button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte <i
+            class="fa-solid fa-file-pdf"></i></button>
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -23,31 +36,31 @@
         <table class="table table-hover mt-4">
           <thead>
             <tr>
-              <th (click)="ordenarHabitaciones('idHabitacion')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('idHabitacion')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'idHabitacion'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'idHabitacion' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'idHabitacion' && orden === 'desc'"></i>
                 ID
               </th>
-              <th (click)="ordenarHabitaciones('habitacion')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('habitacion')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'habitacion'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'habitacion' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'habitacion' && orden === 'desc'"></i>
                 Habitación
               </th>
-              <th (click)="ordenarHabitaciones('cupo')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('cupo')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'cupo'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'cupo' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'cupo' && orden === 'desc'"></i>
                 Cupo
               </th>
-              <th (click)="ordenarHabitaciones('precioPorNoche')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('precioPorNoche')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'precioPorNoche'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'precioPorNoche' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'precioPorNoche' && orden === 'desc'"></i>
                 Precio
               </th>
-              <th (click)="ordenarHabitaciones('depositoInicialNoche')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('depositoInicialNoche')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'depositoInicialNoche'"></i>
                 <i class="coso fa-solid fa-sort-asc"
                   *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'asc'"></i>
@@ -55,15 +68,27 @@
                   *ngIf="ordenActual === 'depositoInicialNoche' && orden === 'desc'"></i>
                 Depósito
               </th>
-              <th (click)="ordenarHabitaciones('disponibilidad')" style="cursor: pointer">
+              <th (click)="ordenarHabitaciones('disponibilidad')" style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'disponibilidad'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'disponibilidad' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'disponibilidad' && orden === 'desc'"></i>
                 Disponibilidad
               </th>
-              <th *ngIf="isAdmin">Fecha de creación</th>
-              <th *ngIf="isAdmin">Fecha de actualización</th>
-              <th>Acciones</th>
+              <th (click)="ordenarHabitaciones('fechaCreacion')" style="cursor: pointer; user-select: none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
+                <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
+                Fecha de creación
+              </th>
+              <th (click)="ordenarHabitaciones('fechaActualizacion')" style="cursor: pointer; user-select: none">
+                <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
+                <i class="coso fa-solid fa-sort-asc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
+                <i class="coso fa-solid fa-sort-desc"
+                  *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
+                Fecha de actualización
+              </th>
+              <th style="user-select: none;">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -96,8 +121,8 @@
                   <option value="OCUPADA" [selected]="habitacion.disponibilidad === 'OCUPADA'">OCUPADA</option>
                 </select>
               </td>
-              <td *ngIf="isAdmin">{{ habitacion.fechaCreacion }}</td>
-              <td *ngIf="isAdmin">{{ habitacion.fechaActualizacion }}</td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
               <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
                   (click)="editarHabitacion(habitacion.idHabitacion)"></i>
