@@ -21,7 +21,8 @@
                 <button class="btn btn-outline-custom btn-lg float-end"
                     routerLink="/app-web/reservaciones/reservaciones-registro">Agregar reservación <i
                         class="fa-solid fa-plus"></i></button>
-                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte
+                <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()"
+                    *ngIf="isAdmin">Generar reporte
                     <i class="fa-solid fa-file-pdf"></i></button>
 
                 <!-- Barra de búsqueda y filtro -->

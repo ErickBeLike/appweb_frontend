@@ -21,8 +21,8 @@
         <button class="btn btn-outline-custom btn-lg float-end" *ngIf="isAdmin"
           routerLink='/app-web/habitaciones/habitaciones-registro'>Agregar habitación <i
             class="fa-solid fa-plus"></i></button>
-        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()">Generar reporte <i
-            class="fa-solid fa-file-pdf"></i></button>
+        <button class="btn btn-outline-custom btn-lg float-end me-3" (click)="generarReporte()" *ngIf="isAdmin">Generar
+          reporte <i class="fa-solid fa-file-pdf"></i></button>
 
         <!-- Barra de búsqueda y filtro -->
         <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -74,13 +74,15 @@
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'disponibilidad' && orden === 'desc'"></i>
                 Disponibilidad
               </th>
-              <th (click)="ordenarHabitaciones('fechaCreacion')" style="cursor: pointer; user-select: none">
+              <th *ngIf="isAdmin" (click)="ordenarHabitaciones('fechaCreacion')"
+                style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
                 <i class="coso fa-solid fa-sort-asc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'asc'"></i>
                 <i class="coso fa-solid fa-sort-desc" *ngIf="ordenActual === 'fechaCreacion' && orden === 'desc'"></i>
                 Fecha de creación
               </th>
-              <th (click)="ordenarHabitaciones('fechaActualizacion')" style="cursor: pointer; user-select: none">
+              <th *ngIf="isAdmin" (click)="ordenarHabitaciones('fechaActualizacion')"
+                style="cursor: pointer; user-select: none">
                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaActualizacion'"></i>
                 <i class="coso fa-solid fa-sort-asc"
                   *ngIf="ordenActual === 'fechaActualizacion' && orden === 'asc'"></i>
