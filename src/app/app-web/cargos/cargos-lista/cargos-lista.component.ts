@@ -4,11 +4,11 @@ import { CargosService } from '../../services/cargos/cargos.service';
 import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
 import { TokenService } from '../../services/authentication/token.service';
-import unidecode from 'unidecode'; 
-import moment from 'moment'; 
+import unidecode from 'unidecode';
+import moment from 'moment';
 
-import jsPDF from 'jspdf'; 
-import 'jspdf-autotable'; 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-cargos-lista',
@@ -66,8 +66,14 @@ export class CargosListaComponent implements OnInit {
     } else {
       this.cargosFiltrados = this.cargos.filter(
         (cargo) =>
-          this.contieneTextoNormalizado(cargo.nombreCargo.toLowerCase(), valorNormalizado) ||
-          this.contieneTextoNormalizado(cargo.descripcionCargo.toLowerCase(), valorNormalizado)
+          this.contieneTextoNormalizado(
+            cargo.nombreCargo.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            cargo.descripcionCargo.toLowerCase(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -109,7 +115,10 @@ export class CargosListaComponent implements OnInit {
 
   notification(idCargo: number) {
     this.notificationService
-      .showConfirmation('Confirmar Eliminación', '¿Estás seguro de que deseas eliminar este cargo?')
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este cargo?'
+      )
       .then((confirmed) => {
         if (confirmed) {
           this.eliminarCargo(idCargo);
@@ -121,11 +130,17 @@ export class CargosListaComponent implements OnInit {
     this.cargosService.eliminarCargo(idCargo).subscribe(
       () => {
         this.obtenerTodosLosCargos();
-        this.notificationService.showSuccess('Cargo eliminado exitosamente', '');
+        this.notificationService.showSuccess(
+          'Cargo eliminado exitosamente',
+          ''
+        );
       },
       (error) => {
         console.error(error);
-        this.notificationService.showError('ERROR al querer eliminar el cargo', '');
+        this.notificationService.showError(
+          'ERROR al querer eliminar el cargo',
+          ''
+        );
       }
     );
   }
@@ -135,8 +150,8 @@ export class CargosListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Crear una nueva instancia de jsPDF con orientación vertical
-    const doc = new jsPDF('portrait');
+    // Crear una nueva instancia de jsPDF con orientación horizontal
+    const doc = new jsPDF('landscape');
 
     // Título del documento
     doc.setFontSize(18);
@@ -155,76 +170,66 @@ export class CargosListaComponent implements OnInit {
 
     // Definir las columnas
     const columns = [
-        { header: 'ID', dataKey: 'idCargo' },
-        { header: 'Nombre', dataKey: 'nombreCargo' },
-        { header: 'Descripción', dataKey: 'descripcionCargo' },
-        ...(this.isAdmin
-            ? [
-                { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
-                { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
-            ]
-            : []),
+      { header: 'ID', dataKey: 'idCargo' },
+      { header: 'Nombre', dataKey: 'nombreCargo' },
+      { header: 'Descripción', dataKey: 'descripcionCargo' },
+      ...(this.isAdmin
+        ? [
+            { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
+            { header: 'Fecha de Actualización', dataKey: 'fechaActualizacion' },
+          ]
+        : []),
     ];
-
-    // Función para formatear fechas
-    const formatFecha = (fecha: Date) => {
-        const opciones: Intl.DateTimeFormatOptions = {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-        };
-        return fecha.toLocaleDateString('es-ES', opciones);
-    };
 
     // Función para formatear fechas y horas
     const formatFechaHora = (fecha: Date) => {
-        const opciones: Intl.DateTimeFormatOptions = {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-        };
-        return fecha.toLocaleString('es-ES', opciones);
+      const opciones: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+      return fecha.toLocaleString('es-ES', opciones);
     };
 
     // Mapear los datos de los cargos
     const rows = this.cargosFiltrados.map((cargo) => ({
-        idCargo: cargo.idCargo,
-        nombreCargo: cargo.nombreCargo,
-        descripcionCargo: cargo.descripcionCargo,
-        ...(this.isAdmin
-            ? {
-                fechaCreacion: cargo.fechaCreacion
-                    ? formatFechaHora(new Date(cargo.fechaCreacion))
-                    : 'N/A',
-                fechaActualizacion: cargo.fechaActualizacion
-                    ? formatFechaHora(new Date(cargo.fechaActualizacion))
-                    : 'N/A',
-            }
-            : {}),
+      idCargo: cargo.idCargo,
+      nombreCargo: cargo.nombreCargo,
+      descripcionCargo: cargo.descripcionCargo,
+      ...(this.isAdmin
+        ? {
+            fechaCreacion: cargo.fechaCreacion
+              ? formatFechaHora(new Date(cargo.fechaCreacion))
+              : 'N/A',
+            fechaActualizacion: cargo.fechaActualizacion
+              ? formatFechaHora(new Date(cargo.fechaActualizacion))
+              : 'N/A',
+          }
+        : {}),
     }));
 
     // Añadir la tabla al documento PDF
     (doc as any).autoTable({
-        columns: columns,
-        body: rows,
-        startY: 28,
-        margin: { left: 14, right: 14 },
-        theme: 'striped',
-        styles: {
-            cellPadding: 1,
-            fontSize: 10,
-            valign: 'top',  // Alinea el texto en la parte superior de la celda
+      columns: columns,
+      body: rows,
+      startY: 28,
+      margin: { left: 14, right: 14 },
+      theme: 'striped',
+      styles: {
+        cellPadding: 1,
+        fontSize: 10,
+        valign: 'top', // Alinea el texto en la parte superior de la celda
+      },
+      columnStyles: {
+        descripcionCargo: {
+          cellWidth: 'auto', // Ajusta automáticamente el ancho de la celda para contenido
+          fontSize: 8, // Ajusta el tamaño de la fuente para adaptarse al contenido
         },
-        columnStyles: {
-            descripcionCargo: {
-                cellWidth: 'auto',  // Ajusta automáticamente el ancho de la celda para contenido
-                fontSize: 8,  // Ajusta el tamaño de la fuente para adaptarse al contenido
-            },
-        },
+      },
     });
 
     // Construir el nombre del archivo
@@ -232,5 +237,5 @@ export class CargosListaComponent implements OnInit {
 
     // Guardar el archivo PDF
     doc.save(nombreArchivo);
-}
+  }
 }

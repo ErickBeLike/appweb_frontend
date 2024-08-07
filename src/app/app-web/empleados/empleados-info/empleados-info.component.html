@@ -29,12 +29,15 @@
         <div class="info-grid-row">
           <div class="info-group">
             <h3>ID de empleado:</h3>
-            <p>{{ empleado.idEmpleado }}</p>
+            <p>{{ empleado.idEmpleado || 'ID no disponible' }}</p>
           </div>
-          <div class="info-group">
+          <div *ngIf="empleado.persona" class="info-group">
             <h3>Nombre Completo:</h3>
-            <p>{{ empleado.persona.nombre }} {{ empleado.persona.apellidoPaterno }} {{ empleado.persona.apellidoMaterno
-              }}</p>
+            <p>
+              {{ empleado.persona.nombre || 'Nombre no disponible' }} 
+              {{ empleado.persona.apellidoPaterno || 'Apellido Paterno no disponible' }} 
+              {{ empleado.persona.apellidoMaterno || 'Apellido Materno no disponible' }}
+            </p>
           </div>
         </div>
 
@@ -42,11 +45,11 @@
         <div class="info-grid-row">
           <div class="info-group">
             <h3>Sexo:</h3>
-            <p>{{ empleado.sexo }}</p>
+            <p>{{ empleado.sexo || 'Sexo no disponible' }}</p>
           </div>
           <div class="info-group">
             <h3>Cargo:</h3>
-            <p>{{ empleado.idCargo.nombreCargo }}</p>
+            <p>{{ empleado.idCargo?.nombreCargo || 'Cargo no disponible' }}</p>
           </div>
         </div>
 
@@ -54,12 +57,12 @@
         <div class="info-grid-row">
           <div class="info-group">
             <h3>Contacto:</h3>
-            <p><i class="fa-solid fa-envelope"></i> {{ empleado.persona.correo }}</p>
-            <p><i class="fa-solid fa-phone"></i> {{ empleado.persona.telefono }}</p>
+            <p><i class="fa-solid fa-envelope"></i> {{ empleado.persona?.correo || 'Correo no disponible' }}</p>
+            <p><i class="fa-solid fa-phone"></i> {{ empleado.persona?.telefono || 'Teléfono no disponible' }}</p>
           </div>
           <div class="info-group">
             <h3>Dirección:</h3>
-            <p>{{ empleado.direccionEmpleado }}</p>
+            <p>{{ empleado.direccionEmpleado || 'Dirección no disponible' }}</p>
           </div>
         </div>
 
@@ -68,13 +71,13 @@
           <div class="info-group">
             <h3>Días Laborales:</h3>
             <ul>
-              <li *ngFor="let dia of empleado.diasLaborales">{{ dia }}</li>
+              <li *ngFor="let dia of empleado.diasLaborales">{{ dia || 'Día no disponible' }}</li>
             </ul>
           </div>
           <div class="info-group">
             <h3>Horario:</h3>
-            <p>Entrada: {{ empleado.horarioEntrada }}</p>
-            <p>Salida: {{ empleado.horarioSalida }}</p>
+            <p>Entrada: {{ empleado.horarioEntrada || 'Entrada no disponible' }}</p>
+            <p>Salida: {{ empleado.horarioSalida || 'Salida no disponible' }}</p>
           </div>
         </div>
       </div>
@@ -85,11 +88,13 @@
         <div class="info-grid-row">
           <div class="info-group">
             <h3>Fecha de Creación:</h3>
-            <p>{{ empleado.fechaCreacion | date }}</p>
+            <p *ngIf="empleado?.fechaCreacion">{{ empleado.fechaCreacion | date }}</p>
+            <p *ngIf="!empleado?.fechaCreacion">Fecha no disponible</p>
           </div>
           <div class="info-group">
             <h3>Fecha de Actualización:</h3>
-            <p>{{ empleado.fechaActualizacion | date }}</p>
+            <p *ngIf="empleado?.fechaActualizacion">{{ empleado.fechaActualizacion | date }}</p>
+            <p *ngIf="!empleado?.fechaActualizacion">Fecha no disponible</p>
           </div>
         </div>
       </div>

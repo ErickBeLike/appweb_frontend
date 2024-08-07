@@ -29,11 +29,10 @@
                         <label for="cargoName"><i class="fa-solid fa-toolbox"></i> Nombre del Cargo<span
                                 class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="cargoName" formControlName="nombreCargo"
-                            (input)="onInput($event)" (focus)="toggleSmallElementsVisibility('cargoNameHelp', true)"
+                            (focus)="toggleSmallElementsVisibility('cargoNameHelp', true)"
                             (blur)="toggleSmallElementsVisibility('cargoNameHelp', false)" required>
                         <small id="cargoNameHelp" class="form-text text-muted"
-                            [hidden]="!showSmallElements['cargoNameHelp']">No se aceptan números ni símbolos
-                            raros</small>
+                            [hidden]="!showSmallElements['cargoNameHelp']">Nombre del cargo, el qué es</small>
                     </div>
                     <div class="form-group">
                         <label for="cargoDescripcion"><i class="fa-solid fa-circle-info"></i> Descripción del Cargo<span
@@ -42,8 +41,8 @@
                             (focus)="toggleSmallElementsVisibility('cargoDescripcionHelp', true)"
                             (blur)="toggleSmallElementsVisibility('cargoDescripcionHelp', false)" required></textarea>
                         <small id="cargoDescripcionHelp" class="form-text text-muted"
-                            [hidden]="!showSmallElements['cargoDescripcionHelp']">No se aceptan números ni símbolos
-                            raros</small>
+                            [hidden]="!showSmallElements['cargoDescripcionHelp']">Descripción del cargo, el qué
+                            hará</small>
                     </div>
 
                     <div class="buttons-container">

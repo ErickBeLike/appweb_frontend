@@ -32,8 +32,8 @@
                             (input)="onInput($event)" (focus)="toggleSmallElementsVisibility('clientNameHelp', true)"
                             (blur)="toggleSmallElementsVisibility('clientNameHelp', false)" required>
                         <small id="clientNameHelp" class="form-text text-muted"
-                            [hidden]="!showSmallElements['clientNameHelp']">No se aceptan números ni símbolos
-                            raros</small>
+                            [hidden]="!showSmallElements['clientNameHelp']">No se aceptan números ni caracteres
+                            especiales</small>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -44,8 +44,8 @@
                                 (focus)="toggleSmallElementsVisibility('clientLastName1Help', true)"
                                 (blur)="toggleSmallElementsVisibility('clientLastName1Help', false)" required>
                             <small id="clientLastName1Help" class="form-text text-muted"
-                                [hidden]="!showSmallElements['clientLastName1Help']">No se aceptan números ni símbolos
-                                raros</small>
+                                [hidden]="!showSmallElements['clientLastName1Help']">No se aceptan números ni caracteres
+                                especiales</small>
                         </div>
                         <div class="col-md-6">
                             <label for="clientLastName2"><i class="fa-solid fa-user"></i> Apellido materno</label>
@@ -54,8 +54,8 @@
                                 (focus)="toggleSmallElementsVisibility('clientLastName2Help', true)"
                                 (blur)="toggleSmallElementsVisibility('clientLastName2Help', false)">
                             <small id="clientLastName2Help" class="form-text text-muted"
-                                [hidden]="!showSmallElements['clientLastName2Help']">No se aceptan números ni símbolos
-                                raros</small>
+                                [hidden]="!showSmallElements['clientLastName2Help']">No se aceptan números ni caracteres
+                                especiales</small>
                         </div>
                     </div>
                     <div class="form-group row">

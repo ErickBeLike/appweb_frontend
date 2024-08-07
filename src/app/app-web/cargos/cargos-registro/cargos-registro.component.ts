@@ -28,10 +28,7 @@ export class CargosRegistroComponent {
     private notiService: NotiServiceService
   ) {
     this.formCargo = this.fb.group({
-      nombreCargo: [
-        '',
-        [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)],
-      ],
+      nombreCargo: ['', [Validators.required]],
       descripcionCargo: ['', [Validators.required]],
     });
 
@@ -93,12 +90,6 @@ export class CargosRegistroComponent {
         this.notiService.showError('ERROR al editar cargo');
       }
     );
-  }
-
-  onInput(event: any) {
-    const inputValue = event.target.value;
-    const newValue = inputValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    this.formCargo.get('nombreCargo')?.setValue(newValue, { emitEvent: false });
   }
 
   toggleSmallElementsVisibility(smallId: string, show: boolean) {

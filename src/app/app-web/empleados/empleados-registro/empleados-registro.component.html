@@ -31,8 +31,8 @@
                             (input)="onInput($event)" (focus)="toggleSmallElementsVisibility('employeeNameHelp', true)"
                             (blur)="toggleSmallElementsVisibility('employeeNameHelp', false)" required>
                         <small id="employeeNameHelp" class="form-text text-muted"
-                            [hidden]="!showSmallElements['employeeNameHelp']">No se aceptan números ni símbolos
-                            raros</small>
+                            [hidden]="!showSmallElements['employeeNameHelp']">No se aceptan números ni caracteres
+                            especiales</small>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -43,8 +43,9 @@
                                 (focus)="toggleSmallElementsVisibility('employeeLastName1Help', true)"
                                 (blur)="toggleSmallElementsVisibility('employeeLastName1Help', false)" required>
                             <small id="employeeLastName1Help" class="form-text text-muted"
-                                [hidden]="!showSmallElements['employeeLastName1Help']">No se aceptan números ni símbolos
-                                raros</small>
+                                [hidden]="!showSmallElements['employeeLastName1Help']">No se aceptan números ni
+                                caracteres
+                                especiales</small>
                         </div>
                         <div class="col-md-6">
                             <label for="employeeLastName2"><i class="fa-solid fa-user"></i> Apellido Materno</label>
@@ -53,8 +54,9 @@
                                 (focus)="toggleSmallElementsVisibility('employeeLastName2Help', true)"
                                 (blur)="toggleSmallElementsVisibility('employeeLastName2Help', false)">
                             <small id="employeeLastName2Help" class="form-text text-muted"
-                                [hidden]="!showSmallElements['employeeLastName2Help']">No se aceptan números ni símbolos
-                                raros</small>
+                                [hidden]="!showSmallElements['employeeLastName2Help']">No se aceptan números ni
+                                caracteres
+                                especiales</small>
                         </div>
                     </div>
                     <div class="form-group row">

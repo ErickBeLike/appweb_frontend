@@ -62,8 +62,14 @@ export class ProductosListaComponent implements OnInit {
     } else {
       this.productosFiltrados = this.productos.filter(
         (producto) =>
-          this.contieneTextoNormalizado(producto.nombreProducto.toLowerCase(), valorNormalizado) ||
-          this.contieneTextoNormalizado(producto.precioProducto.toString(), valorNormalizado)
+          this.contieneTextoNormalizado(
+            producto.nombreProducto.toLowerCase(),
+            valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            producto.precioProducto.toString(),
+            valorNormalizado
+          )
       );
     }
   }
@@ -100,8 +106,12 @@ export class ProductosListaComponent implements OnInit {
   }
 
   notification(idProducto: number) {
-    this.notificationService.showConfirmation('Confirmar Eliminación', '¿Estás seguro de que deseas eliminar este producto?')
-      .then(confirmed => {
+    this.notificationService
+      .showConfirmation(
+        'Confirmar Eliminación',
+        '¿Estás seguro de que deseas eliminar este producto?'
+      )
+      .then((confirmed) => {
         if (confirmed) {
           this.eliminarProducto(idProducto);
         }
@@ -112,11 +122,17 @@ export class ProductosListaComponent implements OnInit {
     this.productosService.eliminarProducto(idProducto).subscribe(
       () => {
         this.obtenerTodosLosProductos();
-        this.notificationService.showSuccess('Producto eliminado exitosamente', '');
+        this.notificationService.showSuccess(
+          'Producto eliminado exitosamente',
+          ''
+        );
       },
       (error) => {
         console.error(error);
-        this.notificationService.showError('ERROR al querer eliminar el producto', '');
+        this.notificationService.showError(
+          'ERROR al querer eliminar el producto',
+          ''
+        );
       }
     );
   }
@@ -148,9 +164,7 @@ export class ProductosListaComponent implements OnInit {
     const columns = [
       { header: 'ID', dataKey: 'idProducto' },
       { header: 'Nombre', dataKey: 'nombreProducto' },
-      { header: 'Precio por Unidad', dataKey: 'precioPorUnidad' },
-      { header: 'Precio por Paquete', dataKey: 'precioPorPaquete' },
-      { header: 'Precio por Mayor', dataKey: 'precioPorMayor' },
+      { header: 'Precio', dataKey: 'precioProducto' },
       ...(this.isAdmin
         ? [
             { header: 'Fecha de Creación', dataKey: 'fechaCreacion' },
@@ -180,9 +194,10 @@ export class ProductosListaComponent implements OnInit {
     const rows = this.productosFiltrados.map((producto) => ({
       idProducto: producto.idProducto,
       nombreProducto: producto.nombreProducto,
-      precioPorUnidad: producto.precioPorUnidad != null ? producto.precioPorUnidad.toFixed(2) : 'N/A',
-      precioPorPaquete: producto.precioPorPaquete != null ? producto.precioPorPaquete.toFixed(2) : 'N/A',
-      precioPorMayor: producto.precioPorMayor != null ? producto.precioPorMayor.toFixed(2) : 'N/A',
+      precioProducto:
+        producto.precioProducto != null
+          ? producto.precioProducto.toFixed(2)
+          : 'N/A',
       ...(this.isAdmin
         ? {
             fechaCreacion: producto.fechaCreacion

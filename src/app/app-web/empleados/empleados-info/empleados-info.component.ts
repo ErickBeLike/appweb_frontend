@@ -9,7 +9,10 @@ import { NotiServiceService } from '../../services/notification/notyf/noti-servi
   styleUrls: ['./empleados-info.component.css']
 })
 export class EmpleadosInfoComponent implements OnInit {
-  empleado: any;
+  empleado: any = {
+    fechaCreacion: new Date(),
+    fechaActualizacion: new Date()
+  };
 
   isLoading = false;
 
