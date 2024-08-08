@@ -90,7 +90,7 @@
                   *ngIf="ordenActual === 'fechaActualizacion' && orden === 'desc'"></i>
                 Fecha de actualización
               </th>
-              <th style="user-select: none;">Acciones</th>
+              <th style="user-select: none;" *ngIf="isAdmin">Acciones</th>
             </tr>
           </thead>
           <tbody>
