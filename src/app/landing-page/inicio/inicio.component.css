@@ -1,3 +1,4 @@
+/* Ajustes generales */
 .body {
   margin: 0;
   padding: 0;
@@ -236,4 +237,62 @@
 .carousel-control-next-icon {
   background-color: #f28502;
   border-radius: 50%;
+}
+
+/* CSS para reordenar el contenido de la sección "hero" en pantallas pequeñas */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column-reverse; /* Cambia la dirección a columna invertida */
+    padding: 20px; /* Ajusta el padding para dispositivos pequeños */
+  }
+
+  .hero-text {
+    margin: 0;
+    text-align: center; /* Centra el texto en pantallas pequeñas */
+  }
+
+  .fixed-size {
+    height: 300px; /* Ajusta la altura de la imagen del carrusel en móviles */
+  }
+}
+
+/* CSS para hacer que los servicios sean responsivos */
+@media (max-width: 768px) {
+  .services-list {
+    flex-direction: column; /* Cambia la dirección de los recuadros a columna */
+    gap: 10px; /* Reduce el espacio entre los elementos */
+  }
+
+  .service {
+    flex: 1 1 auto; /* Permite que los recuadros ocupen el ancho disponible */
+    width: 100%; /* Asegura que ocupen todo el ancho en móviles */
+    min-height: 200px; /* Evita que se colapsen */
+    height: auto; /* Permite que la altura se ajuste al contenido */
+  }
+
+  .service .overlay {
+    height: auto; /* Permite que la altura del texto de overlay se ajuste al contenido */
+    padding: 10px;
+  }
+
+  .service h3 {
+    font-size: 1.2em; /* Ajusta el tamaño del texto en móviles */
+    text-align: center; /* Centra el texto en pantallas pequeñas */
+  }
+
+  .service p {
+    font-size: 0.9em;
+  }
+
+  .services h2,
+  .location h2,
+  .payment-methods h2 {
+    font-size: 1.8em; /* Reduce el tamaño de los títulos en pantallas pequeñas */
+    text-align: center; /* Asegura que estén centrados */
+  }
+
+  .hero-text h1 {
+    margin-top: 10px;
+    font-size: 2em; /* Reduce el tamaño del título en pantallas muy pequeñas */
+  }
 }

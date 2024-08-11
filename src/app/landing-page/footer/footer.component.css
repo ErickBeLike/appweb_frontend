@@ -2,21 +2,68 @@
 footer {
   background-color: #001d38 !important;
   color: #fffff0;
+  text-align: center; /* Centra el texto y el contenido del footer */
 }
 
 /* Estilos para las imágenes del footer */
 footer img {
-  width: 50%;
+  width: 50%; /* Ajusta el ancho de la imagen al 50% del contenedor */
+  max-width: 150px; /* Establece un ancho máximo */
+  height: auto; /* Mantiene la proporción de la imagen */
 }
 
 /* Estilos para los íconos del footer */
 footer i {
-  font-size: 24px;
+  font-size: 24px; /* Tamaño de fuente por defecto para íconos */
   color: #2fd7d1;
 }
 
 /* Estilos para los textos del footer */
-footer span {
-  font-size: 16px;
+footer span,
+footer a {
+  font-size: 16px; /* Tamaño de fuente del texto */
   color: #fffff0;
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  footer i {
+    font-size: 20px; /* Tamaño de íconos en pantallas pequeñas */
+  }
+
+  footer img {
+    width: 40%; /* Ajusta el ancho de la imagen en pantallas pequeñas */
+    max-width: 120px; /* Ajusta el ancho máximo de la imagen en pantallas pequeñas */
+  }
+
+  footer span,
+  footer a {
+    font-size: 16px; /* Mantiene el tamaño de fuente del texto */
+  }
+
+  .container {
+    padding: 2rem; /* Ajusta el padding del contenedor */
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 576px) {
+  footer i {
+    font-size: 18px; /* Tamaño de íconos en pantallas muy pequeñas */
+  }
+
+  footer img {
+    width: 30%; /* Ajusta el ancho de la imagen en pantallas muy pequeñas */
+    max-width: 100px; /* Ajusta el ancho máximo de la imagen en pantallas muy pequeñas */
+  }
+
+  footer span,
+  footer a {
+    font-size: 16px; /* Mantiene el tamaño de fuente del texto */
+  }
+
+  .container {
+    padding: 1rem; /* Ajusta el padding del contenedor en pantallas muy pequeñas */
+  }
 }

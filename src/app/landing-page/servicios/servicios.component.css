@@ -32,6 +32,29 @@
   transform: skewX(-30deg);
 }
 
+.hero-rooms {
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  background-color: #001d38; /* Fondo oscuro */
+  color: #fffff0; /* Texto claro */
+  padding: 40px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-rooms::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: skewX(-30deg);
+}
+
 .container {
   max-width: 1200px;
   margin: 20px auto;
@@ -360,3 +383,98 @@ h2::after {
   visibility: visible;
   opacity: 1;
 }
+
+/* Estilos específicos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 2em; 
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+
+  .hero-rooms {
+    margin: 0;
+  }
+
+  .rooms-carousel h2,
+  .restaurant h2,
+  .recreational-area h2 {
+    font-size: 1.5em; /* Reduce el tamaño de los títulos en pantallas pequeñas */
+    text-align: center; /* Asegura que estén centrados */
+  }
+
+  .rooms-carousel {
+    min-height: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el carrusel horizontalmente */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  }
+
+  .carousel-inner-rooms {
+    height: 715px;
+    width: 100%; /* Asegura que el contenedor de las imágenes ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding en el ancho total del contenedor */
+  }
+
+  .carousel-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido del carrusel */
+    text-align: center; /* Centra el texto */
+    padding: 0 15px; /* Añade un poco de padding para que el contenido no toque los bordes */
+    width: 100%; /* Asegura que el contenido ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding en el ancho total del contenedor */
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    margin-left: -1.5px;
+    box-sizing: border-box; /* Incluye el padding en el ancho total del elemento */
+  }
+
+  .carousel-text {
+    padding: 15px;
+  }
+
+  .services-list {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .service {
+    flex: 1 1 100%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .restaurant .overlay,
+  .recreational-area .overlay {
+    height: 60px;
+    padding: 10px;
+  }
+
+  .modal-body img {
+    min-width: 100%;
+  }
+
+  .restaurant .overlay,
+  .recreational-area .overlay {
+    height: 35%;
+  }
+
+  .restaurant .carousel-indicators,
+  .recreational-area .carousel-indicators {
+    margin-bottom: 0px;
+  }
+}
+
