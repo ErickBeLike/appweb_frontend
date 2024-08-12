@@ -35,6 +35,7 @@ export class ProductosRegistroComponent implements OnInit {
     this.formProducto = this.fb.group({
       nombreProducto: ['', Validators.required],
       precioProducto: ['', [Validators.required, this.precioValidator]],
+      stock: ['', [Validators.required, this.stockValidator]]
     });
 
     this.id = this.route.snapshot.paramMap.get('id');
@@ -103,6 +104,15 @@ export class ProductosRegistroComponent implements OnInit {
   precioValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     const regex = /^\d+(\.\d{1,2})?$/;
+    if (value < 0 || !regex.test(value)) {
+      return { invalidPrecio: true };
+    }
+    return null;
+  }
+
+  stockValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    const regex = /^\d+$/;
     if (value < 0 || !regex.test(value)) {
       return { invalidPrecio: true };
     }

@@ -8,9 +8,8 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { VentasService } from '../../services/ventas/ventas.service';
-import { EmpleadosService } from '../../services/empleados/empleados.service';
 import { ProductosService } from '../../services/productos/productos.service';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
 import { NotiServiceService } from '../../services/notification/notyf/noti-service.service';
 
 @Component({
@@ -25,7 +24,6 @@ export class VentasRegistroComponent implements OnInit {
   productosVenta: any[] = [];
   showModal: boolean = false;
   idVenta: any;
-
   isLoading = false;
 
   constructor(
@@ -34,7 +32,8 @@ export class VentasRegistroComponent implements OnInit {
     private productosService: ProductosService,
     private router: Router,
     private route: ActivatedRoute,
-    private notiService: NotiServiceService
+    private notiService: NotiServiceService,
+    private notificationService: NotificationService // Agregado para SweetAlert2
   ) {
     this.formVenta = this.fb.group({
       productos: this.fb.array([], Validators.required),
@@ -62,7 +61,6 @@ export class VentasRegistroComponent implements OnInit {
         if (response) {
           this.isLoading = false;
           this.formVenta.patchValue({});
-
           this.productosVenta = [];
 
           for (const detalle of response.detallesVenta) {
@@ -86,9 +84,8 @@ export class VentasRegistroComponent implements OnInit {
         }
       },
       (error) => {
-        //console.error('Error al cargar los datos de la venta:', error);
         this.isLoading = false;
-        this.notiService.showError("ERROR al cargar venta")
+        this.notiService.showError('ERROR al cargar venta');
       }
     );
   }
@@ -151,7 +148,13 @@ export class VentasRegistroComponent implements OnInit {
       },
       (error) => {
         console.error('Error al agregar la venta:', error);
-        this.notiService.showError('ERROR al agregar venta');
+        // Mostrar los errores de stock con NotificationService
+        if (error.error && error.error.message) {
+          const mensajeError = error.error.message;
+          this.notificationService.showError('Stock insuficiente', mensajeError);
+        } else {
+          this.notiService.showError('ERROR al agregar venta');
+        }
       }
     );
   }
@@ -164,7 +167,13 @@ export class VentasRegistroComponent implements OnInit {
       },
       (error) => {
         console.error('Error al editar la venta:', error);
-        this.notiService.showError('ERROR al editar venta');
+        // Mostrar los errores de stock con NotificationService
+        if (error.error && error.error.message) {
+          const mensajeError = error.error.message;
+          this.notificationService.showError('Stock insuficiente', mensajeError);
+        } else {
+          this.notiService.showError('ERROR al editar venta');
+        }
       }
     );
   }

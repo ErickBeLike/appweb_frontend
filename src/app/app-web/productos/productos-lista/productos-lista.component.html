@@ -61,6 +61,7 @@
                                     *ngIf="ordenActual === 'precioProducto' && orden === 'desc'"></i>
                                 Precio
                             </th>
+                            <th>Stock</th>
                             <th *ngIf="isAdmin" (click)="ordenarProductos('fechaCreacion')"
                                 style="cursor: pointer; user-select: none">
                                 <i class="coso fa-solid fa-sort" *ngIf="ordenActual !== 'fechaCreacion'"></i>
@@ -87,6 +88,7 @@
                             <td><strong>{{ producto.idProducto }}</strong></td>
                             <td>{{ producto.nombreProducto }}</td>
                             <td>$ {{ producto.precioProducto }}</td>
+                            <td>{{ producto.stock }}</td>
                             <td *ngIf="isAdmin">{{ producto.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td *ngIf="isAdmin">{{ producto.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                             <td>
