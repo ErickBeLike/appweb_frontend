@@ -88,12 +88,12 @@
         <div class="info-grid-row">
           <div class="info-group">
             <h3>Fecha de Creación:</h3>
-            <p *ngIf="empleado?.fechaCreacion">{{ empleado.fechaCreacion | date }}</p>
+            <p *ngIf="empleado?.fechaCreacion">{{ empleado.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</p>
             <p *ngIf="!empleado?.fechaCreacion">Fecha no disponible</p>
           </div>
           <div class="info-group">
             <h3>Fecha de Actualización:</h3>
-            <p *ngIf="empleado?.fechaActualizacion">{{ empleado.fechaActualizacion | date }}</p>
+            <p *ngIf="empleado?.fechaActualizacion">{{ empleado.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</p>
             <p *ngIf="!empleado?.fechaActualizacion">Fecha no disponible</p>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservacionesService } from '../../services/reservaciones/reservaciones.service';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import unidecode from 'unidecode';
 import moment from 'moment';
 import { NotificationService } from '../../services/notification/sweetalert2/notification.service';
@@ -9,7 +8,6 @@ import { NotiServiceService } from '../../services/notification/notyf/noti-servi
 import { TokenService } from '../../services/authentication/token.service';
 
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-reservaciones-lista',
@@ -208,6 +206,36 @@ export class ReservacionesListaComponent implements OnInit {
     );
   }
 
+  actualizarDeposito(idReservacion: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const depositoPagado = inputElement.checked;
+
+    // Actualizar el estado local (de manera temporal)
+    const reservacion = this.reservaciones.find(
+      (res) => res.idReservacion === idReservacion
+    );
+    if (reservacion) {
+      reservacion.depositoPagado = depositoPagado;
+    }
+
+    const depositoDTO = {
+      idDeposito: null,
+      monto: 0,
+      pagado: depositoPagado,
+    };
+
+    this.reservacionesService
+      .actualizarEstadoDeposito(idReservacion, depositoDTO)
+      .subscribe(
+        (response) => {
+          this.notiService.showSuccess('Depósito actualizado');
+        },
+        (error) => {
+          this.notiService.showError('ERROR al actualizar depósito');
+        }
+      );
+  }
+
   editarReservacion(idReservacion: number) {
     this.router.navigate([
       '/app-web/reservaciones/reservaciones-registro',
@@ -240,8 +268,9 @@ export class ReservacionesListaComponent implements OnInit {
       { header: 'Nombre Cliente', dataKey: 'nombreCliente' },
       { header: 'Habitación', dataKey: 'habitacion' },
       { header: 'Fecha Inicio', dataKey: 'fechaInicio' },
+      { header: 'Tipo / Tiempo', dataKey: 'tipoTiempo' },
       { header: 'Fecha Fin', dataKey: 'fechaFin' },
-      { header: 'Tipo Reservación', dataKey: 'tipoReservacion' },
+      { header: 'Total', dataKey: 'total' },
       { header: 'Pagos', dataKey: 'pagos' },
       ...(this.isAdmin
         ? [
@@ -270,38 +299,46 @@ export class ReservacionesListaComponent implements OnInit {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: false,
+        hour12: true,
       };
       return fecha.toLocaleString('es-ES', opciones);
     };
 
     // Mapear los datos de las reservaciones
-    const rows = this.reservacionesFiltradas.map((reservacion) => ({
-      idReservacion: reservacion.idReservacion,
-      nombreCliente: `${reservacion.idCliente.persona.nombre} ${reservacion.idCliente.persona.apellidoPaterno} ${reservacion.idCliente.persona.apellidoMaterno}`,
-      habitacion: reservacion.idHabitacion.habitacion,
-      fechaInicio: formatSoloFecha(new Date(reservacion.fechaInicio)), // Solo fecha
-      fechaFin: formatSoloFecha(new Date(reservacion.fechaFinal)), // Solo fecha
-      tipoReservacion: reservacion.tipoReservacion,
-      pagos: reservacion.pagos
-        .map(
-          (pago: any) =>
-            `Pago ${pago.numeroPago}: $${pago.monto} - ${
-              pago.pagado ? 'PAGADO' : 'NO PAGADO'
-            }`
-        )
-        .join('\n'), // Cambiar a salto de línea
-      ...(this.isAdmin
-        ? {
-            fechaCreacion: reservacion.fechaCreacion
-              ? formatFechaHora(new Date(reservacion.fechaCreacion))
-              : 'N/A',
-            fechaActualizacion: reservacion.fechaActualizacion
-              ? formatFechaHora(new Date(reservacion.fechaActualizacion))
-              : 'N/A',
-          }
-        : {}),
-    }));
+    const rows = this.reservacionesFiltradas.map((reservacion) => {
+      const tipoTiempo = `${reservacion.tiempoReservacion} ${reservacion.tipoReservacion}`;
+      return {
+        idReservacion: reservacion.idReservacion,
+        nombreCliente: `${reservacion.idCliente.persona.nombre} ${reservacion.idCliente.persona.apellidoPaterno} ${reservacion.idCliente.persona.apellidoMaterno}`,
+        habitacion: reservacion.idHabitacion.habitacion,
+        fechaInicio: formatSoloFecha(new Date(reservacion.fechaInicio)), // Solo fecha
+        fechaFin: formatSoloFecha(new Date(reservacion.fechaFinal)), // Solo fecha
+        tipoTiempo: tipoTiempo, // Combina tipo y tiempo
+        total: `Depósito: $${
+          reservacion.depositoInicial.pagado ? 'PAGADO' : 'NO PAGADO'
+        }\nReservación: $${reservacion.total}\nTotal: $${
+          reservacion.depositoReservacion
+        }`,
+        pagos: reservacion.pagos
+          .map(
+            (pago: any) =>
+              `Pago ${pago.numeroPago}: $${pago.monto} - ${
+                pago.pagado ? 'PAGADO' : 'NO PAGADO'
+              }`
+          )
+          .join('\n'), // Cambiar a salto de línea
+        ...(this.isAdmin
+          ? {
+              fechaCreacion: reservacion.fechaCreacion
+                ? formatFechaHora(new Date(reservacion.fechaCreacion))
+                : 'N/A',
+              fechaActualizacion: reservacion.fechaActualizacion
+                ? formatFechaHora(new Date(reservacion.fechaActualizacion))
+                : 'N/A',
+            }
+          : {}),
+      };
+    });
 
     // Añadir la tabla al documento PDF
     (doc as any).autoTable({
@@ -316,7 +353,15 @@ export class ReservacionesListaComponent implements OnInit {
         valign: 'top', // Alinea el texto en la parte superior de la celda
       },
       columnStyles: {
+        total: {
+          cellWidth: 'auto', // Ajusta automáticamente el ancho de la celda para contenido
+          fontSize: 8, // Ajusta el tamaño de la fuente para adaptarse al contenido
+        },
         pagos: {
+          cellWidth: 'auto', // Ajusta automáticamente el ancho de la celda para contenido
+          fontSize: 8, // Ajusta el tamaño de la fuente para adaptarse al contenido
+        },
+        tipoTiempo: {
           cellWidth: 'auto', // Ajusta automáticamente el ancho de la celda para contenido
           fontSize: 8, // Ajusta el tamaño de la fuente para adaptarse al contenido
         },

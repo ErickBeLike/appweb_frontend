@@ -89,8 +89,8 @@
                             <td>{{ producto.nombreProducto }}</td>
                             <td>$ {{ producto.precioProducto }}</td>
                             <td>{{ producto.stock }}</td>
-                            <td *ngIf="isAdmin">{{ producto.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                            <td *ngIf="isAdmin">{{ producto.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td *ngIf="isAdmin">{{ producto.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
                                     (click)="editarProducto(producto.idProducto)"></i>

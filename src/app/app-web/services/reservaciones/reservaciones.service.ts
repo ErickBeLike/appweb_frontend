@@ -33,4 +33,14 @@ export class ReservacionesService {
   actualizarEstadoPago(idPago: number, pago: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/pagos/${idPago}`, pago);
   }
+
+  actualizarEstadoDeposito(
+    idReservacion: number,
+    depositoDTO: any
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/${idReservacion}/depositos`,
+      depositoDTO
+    );
+  }
 }

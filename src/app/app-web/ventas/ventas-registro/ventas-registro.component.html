@@ -34,13 +34,15 @@
                         <div class="selected-products mt-3">
                             <div *ngFor="let producto of productosVenta; let i = index" class="selected-product mb-2">
                                 <div class="product-name nombre">{{ producto.nombreProducto }}</div>
+                                <div class="product-stock stock"><i class="fa-solid fa-boxes-stacked"></i> {{
+                                    producto.stock }}</div>
                                 <div class="product-name precio"><i class="fa-solid fa-dollar-sign"></i> {{
                                     producto.precioProducto }}</div>
                                 <div class="product-quantity">
                                     <label for="quantity-{{i}}"><i class="fa-solid fa-arrow-up-short-wide"></i>
                                         Cantidad</label>
                                     <input id="quantity-{{i}}" type="number" min="1" [formControl]="getControl(i)"
-                                        required class="form-control cantidad" style="width: 100px;">
+                                        required class="form-control cantidad" style="width: 70px;">
                                 </div>
                                 <button type="button" class="btn btn-danger boton" style="margin-left: 30px;"
                                     (click)="eliminarProducto(i)">Eliminar</button>
@@ -75,6 +77,8 @@
             <div class="modal-body">
                 <div *ngFor="let producto of productos" class="product-item mb-2">
                     <span class="product-name nombre">{{ producto.nombreProducto }}</span>
+                    <span class="product-stock stock"><i class="fa-solid fa-boxes-stacked"></i> {{ producto.stock
+                        }}</span>
                     <span class="product-price precio"><i class="fa-solid fa-dollar-sign"></i> {{
                         producto.precioProducto | number:'1.2-2' }}</span>
                     <button type="button" class="btn btn-primary boton"

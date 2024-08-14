@@ -147,14 +147,7 @@ export class VentasRegistroComponent implements OnInit {
         this.notiService.showSuccess('Venta agregada');
       },
       (error) => {
-        console.error('Error al agregar la venta:', error);
-        // Mostrar los errores de stock con NotificationService
-        if (error.error && error.error.message) {
-          const mensajeError = error.error.message;
-          this.notificationService.showError('Stock insuficiente', mensajeError);
-        } else {
-          this.notiService.showError('ERROR al agregar venta');
-        }
+        this.notiService.showError('ERROR al agregar venta');
       }
     );
   }
@@ -166,14 +159,7 @@ export class VentasRegistroComponent implements OnInit {
         this.notiService.showSuccess('Venta editada');
       },
       (error) => {
-        console.error('Error al editar la venta:', error);
-        // Mostrar los errores de stock con NotificationService
-        if (error.error && error.error.message) {
-          const mensajeError = error.error.message;
-          this.notificationService.showError('Stock insuficiente', mensajeError);
-        } else {
-          this.notiService.showError('ERROR al editar venta');
-        }
+        this.notiService.showError('ERROR al editar venta');
       }
     );
   }

@@ -98,8 +98,8 @@
                             </td>
                             <td>$ {{ venta.total }}</td>
                             <td>{{ venta.fechaVenta | date:'dd/MM/yyyy' }}</td>
-                            <td *ngIf="isAdmin">{{ venta.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                            <td *ngIf="isAdmin">{{ venta.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td *ngIf="isAdmin">{{ venta.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td *ngIf="isAdmin">{{ venta.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3"
                                     (click)="editarVenta(venta.idVenta)"></i>

@@ -90,8 +90,8 @@
                   <li><i class="fa-solid fa-phone"></i> {{ empleado.persona.telefono }}</li>
                 </ul>
               </td>
-              <td>{{ empleado.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-              <td>{{ empleado.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+              <td>{{ empleado.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
+              <td>{{ empleado.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
               <td>
                 <i class="ver fa-solid fa-circle-info me-3" (click)="verInformacion(empleado.idEmpleado)"
                   aria-label="Ver información completa"></i>

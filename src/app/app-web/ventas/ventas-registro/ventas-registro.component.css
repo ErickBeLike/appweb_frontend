@@ -124,10 +124,14 @@
   margin-left: 41.5%;
 }
 
+.modal-dialog {
+  max-width: 50%; /* Ajusta el ancho máximo del modal */
+  width: 50%; /* Ajusta el ancho del modal */
+  margin-left: 34%;
+}
+
 .modal-content {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
-  border-radius: 15px;
-  position: relative;
+  padding: 20px;
 }
 
 .modal-header {
@@ -178,6 +182,11 @@
 
 .nombre {
   flex: 2; /* Toma más espacio para el nombre del producto */
+  font-weight: bold;
+}
+
+.stock {
+  flex: 1;
   font-weight: bold;
 }
 

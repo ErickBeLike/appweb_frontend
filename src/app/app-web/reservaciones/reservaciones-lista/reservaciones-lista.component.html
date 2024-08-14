@@ -132,10 +132,19 @@
                             </td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
-                                    <li><strong>Depósito:</strong> $ {{ reservacion.depositoInicial }}</li>
-                                    <li><strong>Total:</strong> $ {{ reservacion.total }}</li>
+                                    <li>
+                                        <strong>Depósito:</strong>
+                                        <br>
+                                        <input type="checkbox" class="form-check-input"
+                                            [checked]="reservacion.depositoInicial.pagado"
+                                            (change)="actualizarDeposito(reservacion.idReservacion, $event)"> $ {{
+                                        reservacion.depositoInicial.monto }}
+                                    </li>
+                                    <li><strong>Reservación:</strong> $ {{ reservacion.total }}</li>
+                                    <li><strong>Total:</strong> $ {{ reservacion.depositoReservacion }}</li>
                                 </ul>
                             </td>
+
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
                                     <li *ngFor="let pago of generarPagos(reservacion)">
@@ -146,12 +155,10 @@
                                             <li>Fecha: {{ pago.fechaPago }}</li>
                                         </ul>
                                     </li>
-                                    <hr>
-                                    <strong>Total: </strong>$ {{ reservacion.total }}
                                 </ul>
                             </td>
-                            <td *ngIf="isAdmin">{{ reservacion.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                            <td *ngIf="isAdmin">{{ reservacion.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                            <td *ngIf="isAdmin">{{ reservacion.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td *ngIf="isAdmin">{{ reservacion.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
                             <td>
                                 <i class="editar fa-solid fa-pen-to-square me-3"
                                     (click)="editarReservacion(reservacion.idReservacion)"></i>

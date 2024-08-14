@@ -115,16 +115,21 @@
               <td style="position: relative;">
                 <span class="status-circle" [ngClass]="{
                   'green': habitacion.disponibilidad === 'DISPONIBLE',
-                  'red': habitacion.disponibilidad === 'OCUPADA'
+                  'red': habitacion.disponibilidad === 'OCUPADA',
+                  'yellow': habitacion.disponibilidad === 'SUCIA'
                 }"></span>
                 <select class="form-select custom-select" [(ngModel)]="habitacion.disponibilidad"
                   (change)="actualizarDisponibilidad(habitacion)">
                   <option value="DISPONIBLE" [selected]="habitacion.disponibilidad === 'DISPONIBLE'">DISPONIBLE</option>
                   <option value="OCUPADA" [selected]="habitacion.disponibilidad === 'OCUPADA'">OCUPADA</option>
+                  <option value="SUCIA" [selected]="habitacion.disponibilidad === 'SUCIA'">SUCIA</option>
                 </select>
+                <strong>Último cambio:</strong>
+                <br>
+                {{ habitacion.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}
               </td>
-              <td *ngIf="isAdmin">{{ habitacion.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-              <td *ngIf="isAdmin">{{ habitacion.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaCreacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
+              <td *ngIf="isAdmin">{{ habitacion.fechaActualizacion | date:'dd/MM/yyyy h:mm:ss a' }}</td>
               <td>
                 <i class="editar fa-solid fa-pen-to-square me-3" *ngIf="isAdmin"
                   (click)="editarHabitacion(habitacion.idHabitacion)"></i>
