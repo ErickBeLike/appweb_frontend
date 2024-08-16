@@ -74,3 +74,12 @@
   color: #f28502;
   transform: scale(1.05);
 }
+
+/* Colores para fondos de atrasos de fechas */
+.fondo-amarillo {
+  background-color: #ffff007f; /* Amarillo claro */
+}
+
+.fondo-rojo {
+  background-color: #ff00004f; /* Rojo claro */
+}

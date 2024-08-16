@@ -104,7 +104,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let reservacion of reservacionesFiltradas">
+                        <tr *ngFor="let reservacion of reservacionesFiltradas"
+                            [ngClass]="getFondoReservacion(reservacion.fechaFinal, reservacion.reservacionFinalizada)">
                             <td><strong>{{ reservacion.idReservacion }}</strong></td>
                             <td>{{ reservacion.idCliente.persona.nombre }} {{
                                 reservacion.idCliente.persona.apellidoPaterno }} {{
@@ -123,37 +124,63 @@
                                 </ul>
                             </td>
                             <td>
-                                <ul style="list-style: none; margin: 0; padding: 0;">
+                                <ul style="list-style: none; margin: 0; padding: 0;"
+                                    [ngClass]="getFondoReservacion(reservacion.fechaFinal, reservacion.reservacionFinalizada)">
                                     <li><strong>Entrada:</strong> {{ reservacion.fechaInicio | date:'dd/MM/yyyy' }}</li>
                                     <li><strong>Tiempo:</strong> {{ reservacion.tiempoReservacion }} {{
                                         reservacion.tipoReservacion }}</li>
                                     <li><strong>Salida:</strong> {{ reservacion.fechaFinal | date:'dd/MM/yyyy' }}</li>
+                                    <hr>
+                                    <li>
+                                        <strong>Reservación finalizada</strong>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="flexSwitchFinalizada{{reservacion.idReservacion}}"
+                                                [checked]="reservacion.reservacionFinalizada"
+                                                (change)="actualizarReservacionFinalizada(reservacion.idReservacion, $event)">
+                                            <label class="form-check-label"
+                                                for="flexSwitchFinalizada{{reservacion.idReservacion}}"></label>
+                                        </div>
+                                    </li>
                                 </ul>
                             </td>
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
-                                    <li>
+                                    <li [ngClass]="getFondoDeposito(reservacion.depositoInicial.pagado)">
                                         <strong>Depósito:</strong>
                                         <br>
-                                        <input type="checkbox" class="form-check-input"
-                                            [checked]="reservacion.depositoInicial.pagado"
-                                            (change)="actualizarDeposito(reservacion.idReservacion, $event)"> $ {{
-                                        reservacion.depositoInicial.monto }}
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="flexSwitchDeposito{{reservacion.idReservacion}}"
+                                                [checked]="reservacion.depositoInicial.pagado"
+                                                (change)="actualizarDeposito(reservacion.idReservacion, $event)">
+                                            <label class="form-check-label"
+                                                for="flexSwitchDeposito{{reservacion.idReservacion}}"></label>
+                                            $ {{ reservacion.depositoInicial.monto }}
+                                        </div>
                                     </li>
                                     <li><strong>Reservación:</strong> $ {{ reservacion.total }}</li>
                                     <li><strong>Total:</strong> $ {{ reservacion.depositoReservacion }}</li>
                                 </ul>
                             </td>
-
                             <td>
                                 <ul style="list-style: none; margin: 0; padding: 0;">
-                                    <li *ngFor="let pago of generarPagos(reservacion)">
-                                        <input type="checkbox" class="form-check-input" [checked]="pago.pagado"
-                                            (change)="actualizarPago(pago.idPago, pago.numero, pago.monto, $event, reservacion)">
-                                        <ul style="list-style: none; margin: 0; padding: 0;">
-                                            <li>Pago {{ pago.numeroPago }} : $ {{ pago.monto }}</li>
-                                            <li>Fecha: {{ pago.fechaPago }}</li>
-                                        </ul>
+                                    <li *ngFor="let pago of generarPagos(reservacion)"
+                                        class="d-flex align-items-center mb-2"
+                                        [ngClass]="getFondoPago(pago.fechaPago, pago.pagado)">
+                                        <div class="form-check form-switch me-2">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="flexSwitchPago{{pago.idPago}}" [checked]="pago.pagado"
+                                                (change)="actualizarPago(pago.idPago, pago.numero, pago.monto, $event, reservacion)">
+                                            <label class="form-check-label" for="flexSwitchPago{{pago.idPago}}"></label>
+                                        </div>
+                                        <div>
+                                            <ul style="list-style: none; margin: 0; padding: 0;">
+                                                <li>Pago {{ pago.numeroPago }} : $ {{ pago.monto }}</li>
+                                                <li>Fecha: {{ pago.fechaPago }}</li>
+                                            </ul>
+                                            <hr>
+                                        </div>
                                     </li>
                                 </ul>
                             </td>

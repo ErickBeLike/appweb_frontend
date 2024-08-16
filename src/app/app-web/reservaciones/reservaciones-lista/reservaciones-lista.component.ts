@@ -228,10 +228,32 @@ export class ReservacionesListaComponent implements OnInit {
       .actualizarEstadoDeposito(idReservacion, depositoDTO)
       .subscribe(
         (response) => {
+          this.obtenerTodasLasReservaciones();
           this.notiService.showSuccess('Depósito actualizado');
         },
         (error) => {
+          this.obtenerTodasLasReservaciones();
           this.notiService.showError('ERROR al actualizar depósito');
+        }
+      );
+  }
+
+  actualizarReservacionFinalizada(idReservacion: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const finalizada = inputElement.checked;
+
+    this.reservacionesService
+      .actualizarEstadoFinalizacion(idReservacion, finalizada)
+      .subscribe(
+        (response) => {
+          this.obtenerTodasLasReservaciones();
+          this.notiService.showSuccess('Estado de reservación actualizado');
+        },
+        (error) => {
+          this.obtenerTodasLasReservaciones();
+          this.notiService.showError(
+            'ERROR al actualizar el estado de la reservación'
+          );
         }
       );
   }
@@ -373,5 +395,43 @@ export class ReservacionesListaComponent implements OnInit {
 
     // Guardar el archivo PDF
     doc.save(nombreArchivo);
+  }
+
+  getFondoReservacion(
+    fechaFinal: string,
+    reservacionFinalizada: boolean
+  ): string {
+    const hoy = moment().startOf('day');
+    const fechaSalida = moment(fechaFinal, 'YYYY-MM-DD');
+
+    if (!reservacionFinalizada) {
+      if (fechaSalida.isSame(hoy, 'day')) {
+        return 'fondo-amarillo';
+      } else if (fechaSalida.isBefore(hoy, 'day')) {
+        return 'fondo-rojo';
+      }
+    }
+    return '';
+  }
+
+  getFondoPago(fechaPago: string, pagado: boolean): string {
+    const hoy = moment().startOf('day');
+    const fechaPagoMoment = moment(fechaPago, 'DD/MM/YYYY');
+
+    if (!pagado) {
+      if (fechaPagoMoment.isSame(hoy, 'day')) {
+        return 'fondo-amarillo';
+      } else if (fechaPagoMoment.isBefore(hoy, 'day')) {
+        return 'fondo-rojo';
+      }
+    }
+    return '';
+  }
+
+  getFondoDeposito(depositoPagado: boolean): string {
+    if (!depositoPagado) {
+      return 'fondo-rojo';
+    }
+    return '';
   }
 }

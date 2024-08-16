@@ -43,4 +43,13 @@ export class ReservacionesService {
       depositoDTO
     );
   }
+
+  actualizarEstadoFinalizacion(
+    idReservacion: number,
+    finalizada: boolean
+  ): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${idReservacion}/finalizar`, {
+      finalizada: finalizada,
+    });
+  }
 }
