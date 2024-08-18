@@ -13,6 +13,8 @@ export class SidebarComponent implements OnInit {
 
   isLogged = false;
   isAdmin = false;
+  
+  isSidebarMinimized = true; // Nueva propiedad para manejar el estado del sidebar
 
   constructor(
     private tokenService: TokenService,

@@ -1,11 +1,3 @@
-.ochenta {
-  width: 82%;
-  align-items: right;
-  align-content: right;
-  margin-left: 17%;
-  margin-top: 20px;
-}
-
 .status-circle {
   position: absolute;
   top: 30%;
@@ -31,14 +23,6 @@
 
 .custom-select {
   width: 150px;
-}
-
-.container {
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
-  border-radius: 10px;
 }
 
 /* Estilos para botones personalizados */

@@ -1,6 +1,7 @@
 .body {
   margin: 0;
   padding: 0;
+  padding-top: 65px !important;
   color: #333;
   background-color: #fffff0; /* Fondo general */
   background-image: url("/assets/images/landing-page/fondo.jpg");

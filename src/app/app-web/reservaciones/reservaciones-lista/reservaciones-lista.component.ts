@@ -17,6 +17,7 @@ import jsPDF from 'jspdf';
 export class ReservacionesListaComponent implements OnInit {
   reservaciones: any[] = [];
   reservacionesFiltradas: any[] = [];
+  reservacionesFiltradasPaginadas: any[] = [];
   reservacionAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   filtro: string = '';
@@ -27,6 +28,12 @@ export class ReservacionesListaComponent implements OnInit {
   isAdmin = false;
 
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private reservacionesService: ReservacionesService,
@@ -47,14 +54,63 @@ export class ReservacionesListaComponent implements OnInit {
     this.reservacionesService.obtenerTodasLasReservaciones().subscribe(
       (response) => {
         this.isLoading = false;
-        this.reservaciones = response;
+        this.reservaciones = response.reverse();
         this.reservacionesFiltradas = [...this.reservaciones];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar las reservaciones');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.reservacionesFiltradas.length
+    );
+    return `${start} - ${end} de ${this.reservacionesFiltradas.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.reservacionesFiltradas.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.reservacionesFiltradasPaginadas = this.reservacionesFiltradas.slice(
+      start,
+      end
+    );
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarReservacion(event: any): void {
@@ -78,6 +134,7 @@ export class ReservacionesListaComponent implements OnInit {
           )
       );
     }
+    this.updatePagination();
   }
 
   ordenarReservaciones(columna: string): void {
@@ -98,6 +155,7 @@ export class ReservacionesListaComponent implements OnInit {
         return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
       }
     });
+    this.updatePagination();
   }
 
   extraerValor(obj: any, path: string): any {
@@ -326,8 +384,10 @@ export class ReservacionesListaComponent implements OnInit {
       return fecha.toLocaleString('es-ES', opciones);
     };
 
+    const reservacionesOrdenados = [...this.reservaciones].reverse();
+
     // Mapear los datos de las reservaciones
-    const rows = this.reservacionesFiltradas.map((reservacion) => {
+    const rows = reservacionesOrdenados.map((reservacion) => {
       const tipoTiempo = `${reservacion.tiempoReservacion} ${reservacion.tipoReservacion}`;
       return {
         idReservacion: reservacion.idReservacion,

@@ -17,6 +17,7 @@ import 'jspdf-autotable';
 export class UsuariosListaComponent implements OnInit {
   usuarios: any[] = [];
   usuariosFiltrados: any[] = [];
+  usuariosFiltradosPaginados: any[] = [];
   contrasenasVisiblesPorFila: { [key: number]: boolean } = {};
   usuarioAEliminar: number | null = null;
   showDeleteModal: boolean = false;
@@ -26,6 +27,12 @@ export class UsuariosListaComponent implements OnInit {
   isLogged = false;
   isAdmin = false;
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private authService: AuthService,
@@ -46,14 +53,60 @@ export class UsuariosListaComponent implements OnInit {
     this.authService.obtenerTodosLosUsuarios().subscribe(
       (response) => {
         this.isLoading = false;
-        this.usuarios = response;
+        this.usuarios = response.reverse();
         this.usuariosFiltrados = [...this.usuarios];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar los usuarios');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.usuariosFiltrados.length
+    );
+    return `${start} - ${end} de ${this.usuariosFiltrados.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.usuariosFiltrados.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.usuariosFiltradosPaginados = this.usuariosFiltrados.slice(start, end);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarUsuario(event: Event) {
@@ -75,6 +128,7 @@ export class UsuariosListaComponent implements OnInit {
           )
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -105,6 +159,7 @@ export class UsuariosListaComponent implements OnInit {
       if (aValue > bValue) return 1 * factor;
       return 0;
     });
+    this.updatePagination();
   }
 
   obtenerValor(obj: any, campo: string) {
@@ -213,8 +268,10 @@ export class UsuariosListaComponent implements OnInit {
       }
     };
 
+    const usuariosOrdenados = [...this.usuarios].reverse();
+
     // Mapear los datos de los usuarios
-    const rows = this.usuarios.map((usuario) => ({
+    const rows = usuariosOrdenados.map((usuario) => ({
       idUsuario: usuario.idUsuario,
       nombreUsuario: usuario.nombreUsuario,
       roles: obtenerRolesComoCadena(usuario.roles),

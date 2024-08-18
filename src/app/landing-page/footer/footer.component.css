@@ -63,7 +63,7 @@ footer a {
     font-size: 16px; /* Mantiene el tamaño de fuente del texto */
   }
 
-  .container {
+  .container-foot {
     padding: 1rem; /* Ajusta el padding del contenedor en pantallas muy pequeñas */
   }
 }

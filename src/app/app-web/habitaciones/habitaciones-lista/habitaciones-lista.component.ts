@@ -18,11 +18,20 @@ import 'jspdf-autotable';
 export class HabitacionesListaComponent implements OnInit {
   habitaciones: any[] = [];
   habitacionesFiltradas: any[] = [];
+  habitacionesFiltradasPaginadas: any[] = [];
+
   ordenActual: string = 'idHabitacion';
   orden: string = 'asc';
+
   isLogged = false;
   isAdmin = false;
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private habitacionesService: HabitacionesService,
@@ -43,14 +52,63 @@ export class HabitacionesListaComponent implements OnInit {
     this.habitacionesService.obtenerTodasLasHabitaciones().subscribe(
       (response: any[]) => {
         this.isLoading = false;
-        this.habitaciones = response;
+        this.habitaciones = response.reverse();
         this.habitacionesFiltradas = [...this.habitaciones];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar las habitaciones');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.habitacionesFiltradas.length
+    );
+    return `${start} - ${end} de ${this.habitacionesFiltradas.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.habitacionesFiltradas.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.habitacionesFiltradasPaginadas = this.habitacionesFiltradas.slice(
+      start,
+      end
+    );
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarHabitacion(event: any) {
@@ -64,11 +122,24 @@ export class HabitacionesListaComponent implements OnInit {
         unidecode(habitacion.precioPorNoche.toString().toLowerCase()).includes(
           searchTerm
         ) ||
+        unidecode(habitacion.precioPorSemana.toString().toLowerCase()).includes(
+          searchTerm
+        ) ||
+        unidecode(habitacion.precioPorMes.toString().toLowerCase()).includes(
+          searchTerm
+        ) ||
         unidecode(
           habitacion.depositoInicialNoche.toString().toLowerCase()
         ).includes(searchTerm) ||
+        unidecode(
+          habitacion.depositoInicialSemana.toString().toLowerCase()
+        ).includes(searchTerm) ||
+        unidecode(
+          habitacion.depositoInicialMes.toString().toLowerCase()
+        ).includes(searchTerm) ||
         unidecode(habitacion.disponibilidad.toLowerCase()).includes(searchTerm)
     );
+    this.updatePagination();
   }
 
   ordenarHabitaciones(campo: string) {
@@ -93,6 +164,7 @@ export class HabitacionesListaComponent implements OnInit {
       if (campoA > campoB) return this.orden === 'asc' ? 1 : -1;
       return 0;
     });
+    this.updatePagination();
   }
 
   notification(idHabitacion: number) {
@@ -190,8 +262,10 @@ export class HabitacionesListaComponent implements OnInit {
       return `${fechaFormateada} ${horaFormateada}`;
     };
 
+    const habitacionesOrdenados = [...this.habitaciones].reverse();
+
     // Mapear los datos de las habitaciones
-    const rows = this.habitaciones.map((habitacion) => ({
+    const rows = habitacionesOrdenados.map((habitacion) => ({
       idHabitacion: habitacion.idHabitacion,
       habitacion: habitacion.habitacion,
       cupo: habitacion.cupo,

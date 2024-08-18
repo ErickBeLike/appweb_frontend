@@ -18,6 +18,7 @@ import 'jspdf-autotable';
 export class CargosListaComponent implements OnInit {
   cargos: any[] = [];
   cargosFiltrados: any[] = [];
+  cargosFiltradosPaginados: any[] = [];
   cargoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   ordenActual: string = 'idCargo';
@@ -25,8 +26,13 @@ export class CargosListaComponent implements OnInit {
 
   isLogged = false;
   isAdmin = false;
-
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private cargosService: CargosService,
@@ -47,14 +53,60 @@ export class CargosListaComponent implements OnInit {
     this.cargosService.obtenerTodosLosCargos().subscribe(
       (response: any[]) => {
         this.isLoading = false;
-        this.cargos = response;
+        this.cargos = response.reverse();
         this.cargosFiltrados = [...this.cargos];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar los cargos');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.cargosFiltrados.length
+    );
+    return `${start} - ${end} de ${this.cargosFiltrados.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.cargosFiltrados.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.cargosFiltradosPaginados = this.cargosFiltrados.slice(start, end);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarCargo(event: Event) {
@@ -76,6 +128,7 @@ export class CargosListaComponent implements OnInit {
           )
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -107,6 +160,7 @@ export class CargosListaComponent implements OnInit {
         return (aValue - bValue) * factor;
       }
     });
+    this.updatePagination();
   }
 
   obtenerValor(obj: any, campo: string) {
@@ -195,8 +249,10 @@ export class CargosListaComponent implements OnInit {
       return fecha.toLocaleString('es-ES', opciones);
     };
 
+    const cargosOrdenados = [...this.cargos].reverse();
+
     // Mapear los datos de los cargos
-    const rows = this.cargosFiltrados.map((cargo) => ({
+    const rows = cargosOrdenados.map((cargo) => ({
       idCargo: cargo.idCargo,
       nombreCargo: cargo.nombreCargo,
       descripcionCargo: cargo.descripcionCargo,

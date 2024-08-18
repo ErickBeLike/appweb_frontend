@@ -18,11 +18,19 @@ import autoTable from 'jspdf-autotable';
 export class ProductosListaComponent implements OnInit {
   productos: any[] = [];
   productosFiltrados: any[] = [];
+  productosFiltradosPaginados: any[] = [];
   ordenActual: string = 'idProducto';
   orden: string = 'asc';
+
   isLogged = false;
   isAdmin = false;
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private productosService: ProductosService,
@@ -43,14 +51,63 @@ export class ProductosListaComponent implements OnInit {
     this.productosService.obtenerTodosLosProductos().subscribe(
       (response: any[]) => {
         this.isLoading = false;
-        this.productos = response;
+        this.productos = response.reverse();
         this.productosFiltrados = [...this.productos];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar los productos');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.productosFiltrados.length
+    );
+    return `${start} - ${end} de ${this.productosFiltrados.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.productosFiltrados.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.productosFiltradosPaginados = this.productosFiltrados.slice(
+      start,
+      end
+    );
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarProducto(event: Event) {
@@ -69,9 +126,14 @@ export class ProductosListaComponent implements OnInit {
           this.contieneTextoNormalizado(
             producto.precioProducto.toString(),
             valorNormalizado
+          ) ||
+          this.contieneTextoNormalizado(
+            producto.stock.toString(),
+            valorNormalizado
           )
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -96,6 +158,7 @@ export class ProductosListaComponent implements OnInit {
       if (aValue > bValue) return 1 * factor;
       return 0;
     });
+    this.updatePagination();
   }
 
   obtenerValor(obj: any, campo: string) {
@@ -190,8 +253,10 @@ export class ProductosListaComponent implements OnInit {
       return `${fechaFormateada} ${horaFormateada}`;
     };
 
+    const productosOrdenados = [...this.productos].reverse();
+
     // Mapear los datos de los productos
-    const rows = this.productosFiltrados.map((producto) => ({
+    const rows = productosOrdenados.map((producto) => ({
       idProducto: producto.idProducto,
       nombreProducto: producto.nombreProducto,
       precioProducto:

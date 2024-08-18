@@ -18,6 +18,7 @@ import 'jspdf-autotable';
 export class EmpleadosListaComponent implements OnInit {
   empleados: any[] = [];
   empleadosFiltrados: any[] = [];
+  empleadosFiltradosPaginados: any[] = [];
   empleadoAEliminar: number | null = null;
   showDeleteModal: boolean = false;
   ordenActual: string = 'idEmpleado';
@@ -27,6 +28,12 @@ export class EmpleadosListaComponent implements OnInit {
 
   isLogged = false;
   isAdmin = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private empleadosService: EmpleadosService,
@@ -47,15 +54,63 @@ export class EmpleadosListaComponent implements OnInit {
     this.empleadosService.obtenerTodosLosEmpleados().subscribe(
       (response: any[]) => {
         this.isLoading = false;
-        this.empleados = response;
+        this.empleados = response.reverse();
         this.empleadosFiltrados = [...this.empleados];
+        this.updatePagination();
       },
       (error) => {
-        //console.error(error);
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar los empleados');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.empleadosFiltrados.length
+    );
+    return `${start} - ${end} de ${this.empleadosFiltrados.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.empleadosFiltrados.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.empleadosFiltradosPaginados = this.empleadosFiltrados.slice(
+      start,
+      end
+    );
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   verInformacion(idEmpleado: number) {
@@ -71,10 +126,6 @@ export class EmpleadosListaComponent implements OnInit {
     } else {
       this.empleadosFiltrados = this.empleados.filter(
         (empleado) =>
-          this.contieneTextoNormalizado(
-            empleado.idEmpleado.toString(),
-            valorNormalizado
-          ) ||
           this.contieneTextoNormalizado(
             empleado.persona.nombre.toLowerCase(),
             valorNormalizado
@@ -108,6 +159,7 @@ export class EmpleadosListaComponent implements OnInit {
           )
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -146,6 +198,7 @@ export class EmpleadosListaComponent implements OnInit {
         return 0;
       }
     });
+    this.updatePagination();
   }
 
   obtenerValorParaOrden(obj: any, campo: string) {
@@ -242,8 +295,11 @@ export class EmpleadosListaComponent implements OnInit {
       return `${fechaFormateada} ${horaFormateada}`;
     };
 
+    const empleadosOrdenados = [...this.empleados].reverse();
+
+
     // Mapear los datos de los empleados
-    const rows = this.empleados.map((empleado) => ({
+    const rows = empleadosOrdenados.map((empleado) => ({
       idEmpleado: empleado.idEmpleado,
       nombreCompleto: `${empleado.persona.nombre} ${empleado.persona.apellidoPaterno} ${empleado.persona.apellidoMaterno}`,
       nombreCargo: empleado.idCargo.nombreCargo,

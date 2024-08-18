@@ -67,6 +67,8 @@ export class VentasRegistroComponent implements OnInit {
             const producto = {
               idProducto: detalle.producto.idProducto,
               nombreProducto: detalle.producto.nombreProducto,
+              stock: detalle.producto.stock,
+              precioProducto: detalle.producto.precioUnitario,
               cantidad: detalle.cantidad,
             };
             this.productosVenta.push(producto);

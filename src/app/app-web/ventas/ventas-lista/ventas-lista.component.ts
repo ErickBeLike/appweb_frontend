@@ -18,12 +18,19 @@ import 'jspdf-autotable';
 export class VentasListaComponent implements OnInit {
   ventas: any[] = [];
   ventasFiltradas: any[] = [];
+  ventasFiltradasPaginadas: any[] = [];
   ordenActual: string = 'idVenta';
   orden: string = 'asc';
 
   isLogged = false;
   isAdmin = false;
   isLoading = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private ventasService: VentasService,
@@ -44,14 +51,60 @@ export class VentasListaComponent implements OnInit {
     this.ventasService.obtenerTodasLasVentas().subscribe(
       (response) => {
         this.isLoading = false;
-        this.ventas = response;
+        this.ventas = response.reverse();
         this.ventasFiltradas = [...this.ventas];
+        this.updatePagination();
       },
       (error) => {
         this.isLoading = false;
         this.notiService.showError('ERROR al cargar las ventas');
       }
     );
+  }
+
+  // Función para obtener el rango de información
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.ventasFiltradas.length
+    );
+    return `${start} - ${end} de ${this.ventasFiltradas.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.ventasFiltradas.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.ventasFiltradasPaginadas = this.ventasFiltradas.slice(start, end);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarVenta(event: Event) {
@@ -64,10 +117,6 @@ export class VentasListaComponent implements OnInit {
       this.ventasFiltradas = this.ventas.filter(
         (venta) =>
           this.contieneTextoNormalizado(
-            venta.idVenta.toString(),
-            valorNormalizado
-          ) ||
-          this.contieneTextoNormalizado(
             venta.total.toString(),
             valorNormalizado
           ) ||
@@ -75,13 +124,10 @@ export class VentasListaComponent implements OnInit {
             venta.fechaVenta.toLowerCase(),
             valorNormalizado
           ) ||
-          this.contieneTextoNormalizado(
-            venta.idEmpleado.persona.nombre.toLowerCase(),
-            valorNormalizado
-          ) ||
           this.contieneProducto(venta.detallesVenta, valorNormalizado)
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -127,6 +173,7 @@ export class VentasListaComponent implements OnInit {
         return (aValue - bValue) * factor;
       }
     });
+    this.updatePagination();
   }
 
   obtenerValor(venta: any, criterio: string): any {
@@ -196,7 +243,6 @@ export class VentasListaComponent implements OnInit {
     // Definir las columnas
     const columns = [
       { header: 'ID', dataKey: 'idVenta' },
-      { header: 'Empleado', dataKey: 'empleado' },
       { header: 'Fecha Venta', dataKey: 'fechaVenta' },
       { header: 'Total', dataKey: 'total' },
       { header: 'Detalles', dataKey: 'detallesVenta' },
@@ -232,13 +278,11 @@ export class VentasListaComponent implements OnInit {
       return fecha.toLocaleString('es-ES', opciones);
     };
 
+    const ventasOrdenadas = [...this.ventas].reverse();
+
     // Mapear los datos de las ventas
-    const rows = this.ventasFiltradas.map((venta) => ({
+    const rows = ventasOrdenadas.map((venta) => ({
       idVenta: venta.idVenta,
-      empleado:
-        venta.idEmpleado && venta.idEmpleado.persona
-          ? `${venta.idEmpleado.persona.nombre} ${venta.idEmpleado.persona.apellidoPaterno} ${venta.idEmpleado.persona.apellidoMaterno}`
-          : 'N/A',
       fechaVenta: formatFecha(new Date(venta.fechaVenta)),
       total: `$${venta.total}`,
       detallesVenta: venta.detallesVenta

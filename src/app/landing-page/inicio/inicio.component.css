@@ -1,6 +1,7 @@
 /* Ajustes generales */
 .body {
   margin: 0;
+  padding-top: 65px !important;
   padding: 0;
   color: #333;
   background-color: #fffff0; /* Fondo general */

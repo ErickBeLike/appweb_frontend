@@ -17,6 +17,7 @@ import 'jspdf-autotable';
 export class ClientesListaComponent implements OnInit {
   clientes: any[] = [];
   clientesFiltrados: any[] = [];
+  clientesFiltradosPaginados: any[] = [];
   clienteAEliminar: number | null = null;
   ordenActual: string = 'idCliente';
   orden: string = 'asc';
@@ -25,6 +26,12 @@ export class ClientesListaComponent implements OnInit {
 
   isLogged = false;
   isAdmin = false;
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  pageNumbers: number[] = [];
 
   constructor(
     private clientesService: ClientesService,
@@ -44,16 +51,60 @@ export class ClientesListaComponent implements OnInit {
     this.isLoading = true;
     this.clientesService.obtenerTodosLosClientes().subscribe(
       (response: any[]) => {
-        this.clientes = response;
-        this.clientesFiltrados = [...this.clientes];
         this.isLoading = false;
+        this.clientes = response.reverse();
+        this.clientesFiltrados = [...this.clientes];
+        this.updatePagination();
       },
       (error) => {
-        //console.error(error);
         this.notiService.showError('ERROR al cargar los clientes');
         this.isLoading = false;
       }
     );
+  }
+
+  getRangeInfo(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.clientesFiltrados.length
+    );
+    return `${start} - ${end} de ${this.clientesFiltrados.length}`;
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(
+      this.clientesFiltrados.length / this.itemsPerPage
+    );
+    this.pageNumbers = this.getVisiblePageNumbers();
+    this.paginar();
+  }
+
+  getVisiblePageNumbers(): number[] {
+    const maxPagesToShow = 5;
+    const startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
+    const endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    const visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      visiblePages.push(i);
+    }
+    return visiblePages;
+  }
+
+  paginar() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.clientesFiltradosPaginados = this.clientesFiltrados.slice(start, end);
+  }
+
+  changePage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagination();
   }
 
   buscarCliente(event: Event) {
@@ -87,6 +138,7 @@ export class ClientesListaComponent implements OnInit {
           )
       );
     }
+    this.updatePagination();
   }
 
   contieneTextoNormalizado(texto: string, valorNormalizado: string): boolean {
@@ -119,6 +171,7 @@ export class ClientesListaComponent implements OnInit {
       if (aValue > bValue) return 1 * factor;
       return 0;
     });
+    this.updatePagination();
   }
 
   obtenerValor(obj: any, campo: string) {
@@ -148,7 +201,6 @@ export class ClientesListaComponent implements OnInit {
         );
       },
       (error) => {
-        //console.error(error);
         this.notificationService.showError(
           'ERROR al querer eliminar al cliente',
           ''
@@ -162,25 +214,19 @@ export class ClientesListaComponent implements OnInit {
   }
 
   generarReporte() {
-    // Crear una nueva instancia de jsPDF con orientación horizontal
     const doc = new jsPDF('landscape');
-
-    // Título del documento
     doc.setFontSize(18);
     doc.text('Reporte de Clientes', 14, 15);
 
-    // Obtener la fecha actual en formato dia-mes-año
     const fechaActual = new Date();
     const dia = String(fechaActual.getDate()).padStart(2, '0');
-    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Mes es 0-indexado
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
     const anio = fechaActual.getFullYear();
     const fechaFormato = `${dia}/${mes}/${anio}`;
 
-    // Añadir la fecha de generación del reporte
     doc.setFontSize(12);
     doc.text(`Generado el: ${fechaFormato}`, 14, 23);
 
-    // Función para formatear fecha y hora
     const formatFechaHora = (fecha: Date) => {
       const opcionesFecha: Intl.DateTimeFormatOptions = {
         year: 'numeric',
@@ -197,7 +243,6 @@ export class ClientesListaComponent implements OnInit {
       return `${fechaFormateada} ${horaFormateada}`;
     };
 
-    // Definir las columnas
     const columns = [
       { header: 'ID', dataKey: 'idCliente' },
       { header: 'Nombre Completo', dataKey: 'nombreCompleto' },
@@ -211,8 +256,9 @@ export class ClientesListaComponent implements OnInit {
         : []),
     ];
 
-    // Mapear los datos de los clientes
-    const rows = this.clientes.map((cliente) => ({
+    const clientesOrdenados = [...this.clientes].reverse();
+
+    const rows = clientesOrdenados.map((cliente) => ({
       idCliente: cliente.idCliente,
       nombreCompleto: `${cliente.persona.nombre} ${cliente.persona.apellidoPaterno} ${cliente.persona.apellidoMaterno}`,
       telefono: cliente.persona.telefono,
@@ -229,7 +275,6 @@ export class ClientesListaComponent implements OnInit {
         : {}),
     }));
 
-    // Añadir la tabla al documento PDF
     (doc as any).autoTable({
       columns: columns,
       body: rows,
@@ -238,10 +283,7 @@ export class ClientesListaComponent implements OnInit {
       theme: 'striped',
     });
 
-    // Construir el nombre del archivo
     const nombreArchivo = `registro_clientes_${dia}-${mes}-${anio}.pdf`;
-
-    // Guardar el archivo PDF
     doc.save(nombreArchivo);
   }
 }

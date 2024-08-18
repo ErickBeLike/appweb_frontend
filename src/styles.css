@@ -1,50 +1,83 @@
-.toast-agregar {
-  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.753);
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: large;
-  font-weight: 500;
+.ochenta {
+  width: calc(96% - 60px);
+  margin-left: 6.5%;
+  transition: width 0.3s, margin-left 0.3s;
+  position: relative;
+  z-index: 1;
 }
 
-.toast-editar {
-  box-shadow: 0 4px 8px rgba(0, 0, 255, 0.753);
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: large;
-  font-weight: 500;
+.sidebar.minimized ~ .ochenta {
+  width: calc(96% - 60px);
+  margin-left: 0;
 }
 
-.toast-eliminar {
-  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753);
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background-color: #ffffff;
+.container {
+  max-width: 100%;
+  margin: 0px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.693);
   border-radius: 10px;
-  padding: 10px;
-  font-size: large;
-  font-weight: 500;
 }
 
-.toast-error {
-  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.753);
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
+.formulario {
+  padding-top: 50px;
+  width: 90%;
+  align-items: right;
+  align-content: right;
+  margin-left: 6.5%;
+  margin-bottom: 50px;
+}
+
+.form-container {
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.307);
+  border-radius: 15px;
+  padding: 20px;
   background-color: #ffffff;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: large;
-  font-weight: 500;
-  color: red;
+}
+
+/* Paginador*/
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.pagination {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+}
+
+.page-item {
+  cursor: pointer;
+}
+
+.page-link {
+  padding: 0.3rem 0.6rem;
+  font-size: 1.1rem;
+  border-radius: 0.25rem;
+  color: #001d38;
+  text-decoration: none;
+}
+
+.page-item.active .page-link {
+  background-color: #001d38;
+  color: white;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.range-info {
+  font-size: 1.1rem;
+  position: absolute;
+  right: 0;
 }
 
 body {
