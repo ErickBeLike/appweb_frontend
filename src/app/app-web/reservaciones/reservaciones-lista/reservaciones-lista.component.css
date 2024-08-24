@@ -62,8 +62,10 @@
 /* Colores para fondos de atrasos de fechas */
 .fondo-amarillo {
   background-color: #ffff007f; /* Amarillo claro */
+  border-radius: 5px;
 }
 
 .fondo-rojo {
   background-color: #ff00004f; /* Rojo claro */
+  border-radius: 5px;
 }

@@ -13,7 +13,7 @@ export class SidebarComponent implements OnInit {
 
   isLogged = false;
   isAdmin = false;
-  
+
   isSidebarMinimized = true; // Nueva propiedad para manejar el estado del sidebar
 
   constructor(
@@ -36,5 +36,9 @@ export class SidebarComponent implements OnInit {
   onLogOut(): void {
     this.tokenService.logOut();
     this.notiService.showSuccess('Has cerrado sesión');
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarMinimized = !this.isSidebarMinimized;
   }
 }
